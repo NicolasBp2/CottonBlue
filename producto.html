@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Producto - Cotton Blue Shop</title>
+
+    <meta name="description" content="Producto de Cotton Blue Shop.">
+
+    <meta property="og:title" content="Producto - Cotton Blue Shop">
+    <meta property="og:description" content="Descubre nuestros productos disponibles.">
+    <meta property="og:image" content="https://picsum.photos/1200/630">
+    <meta property="og:type" content="product">
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👕</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <a href="index.html" class="logo">
+            MARCA
+        </a>
+
+        <nav class="menu" id="menu-principal">
+
+            <div class="menu-item">
+
+                <a href="catalogo.html">Hombre</a>
+
+                <div class="mega-menu">
+
+                    <div class="mega-menu-columna">
+
+                        <h5>Ropa</h5>
+
+                        <a href="#">Camisetas</a>
+                        <a href="#">Pantalones</a>
+                        <a href="#">Chaquetas</a>
+                        <a href="#">Buzos</a>
+                        <a href="#">Shorts</a>
+
+                    </div>
+
+                    <div class="mega-menu-columna">
+
+                        <h5>Colecciones</h5>
+
+                        <a href="#">Nueva colección</a>
+                        <a href="#">Más vendidos</a>
+                        <a href="#">Ofertas</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="menu-item">
+
+                <a href="catalogo.html">Mujer</a>
+
+                <div class="mega-menu">
+
+                    <div class="mega-menu-columna">
+
+                        <h5>Ropa</h5>
+
+                        <a href="#">Camisetas</a>
+                        <a href="#">Pantalones</a>
+                        <a href="#">Chaquetas</a>
+                        <a href="#">Vestidos</a>
+                        <a href="#">Shorts</a>
+
+                    </div>
+
+                    <div class="mega-menu-columna">
+
+                        <h5>Colecciones</h5>
+
+                        <a href="#">Nueva colección</a>
+                        <a href="#">Más vendidos</a>
+                        <a href="#">Ofertas</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <a href="catalogo.html">Nueva colección</a>
+            <a href="catalogo.html">Ofertas</a>
+
+        </nav>
+
+        <div class="acciones">
+
+            <button onclick="toggleBuscador()">Buscar</button>
+
+            <a href="carrito.html" class="btn-carrito">
+                Carrito
+                <span class="carrito-contador" id="carrito-contador">0</span>
+            </a>
+
+        </div>
+
+        <button
+            class="menu-hamburguesa"
+            onclick="toggleMenuMovil()"
+            aria-label="Abrir menú">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+    </header>
+
+
+    <div class="buscador-barra" id="buscador-barra">
+
+        <input
+            type="text"
+            id="buscador-input"
+            placeholder="Buscar productos..."
+            oninput="filtrarBusqueda()">
+
+        <button onclick="toggleBuscador()">
+            Cerrar
+        </button>
+
+    </div>
+
+
+    <main>
+
+
+        <!-- ==============================
+             MIGAS DE PAN
+             ============================== -->
+
+        <div class="migas contenedor">
+
+            <a href="index.html">
+                Inicio
+            </a>
+
+            <span>/</span>
+
+            <a href="catalogo.html">
+                Catálogo
+            </a>
+
+            <span>/</span>
+
+            <span id="miga-producto">
+                Producto
+            </span>
+
+        </div>
+
+
+        <!-- ==============================
+             DETALLE DEL PRODUCTO
+             ============================== -->
+
+        <section
+            class="producto-detalle contenedor"
+            id="producto-detalle">
+
+            <!-- IMAGEN -->
+
+            <div
+                class="producto-detalle-imagen"
+                id="producto-imagen">
+            </div>
+
+
+            <!-- INFORMACIÓN -->
+
+            <div class="producto-detalle-info">
+
+                <h1 id="producto-nombre">
+                    Producto
+                </h1>
+
+
+                <p
+                    class="producto-detalle-precio"
+                    id="producto-precio">
+
+                    $0
+
+                </p>
+
+
+                <p
+                    class="producto-detalle-descripcion"
+                    id="producto-descripcion">
+
+                    Cargando información del producto...
+
+                </p>
+
+
+                <!-- ==============================
+                     COLORES
+                     ============================== -->
+
+                <div class="selector">
+
+                    <h4>
+                        Color
+                    </h4>
+
+                    <div
+                        class="opciones-color"
+                        id="producto-colores">
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                     TALLAS
+                     ============================== -->
+
+                <div class="selector">
+
+                    <h4>
+                        Talla
+                    </h4>
+
+                    <div
+                        class="opciones-talla"
+                        id="producto-tallas">
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                     BOTONES
+                     ============================== -->
+
+                <div class="producto-detalle-botones">
+
+                    <a
+                        href="#"
+                        class="hero-button producto-comprar">
+
+                        Agregar al carrito
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="ver-todo-boton producto-whatsapp">
+
+                        Consultar por WhatsApp
+
+                    </a>
+
+                </div>
+
+
+                <!-- ==============================
+                     INFORMACIÓN EXTRA
+                     ============================== -->
+
+                <div class="producto-detalle-extra">
+
+                    <p>
+                        Envío a todo el país
+                    </p>
+
+                    <p>
+                        Cambios y devoluciones dentro de 30 días
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AVISO AL AGREGAR -->
+
+        <div
+            class="aviso-carrito"
+            id="aviso-carrito">
+
+            Producto agregado al carrito
+
+        </div>
+
+
+    </main>
+
+
+    <footer class="footer-fondo">
+
+        <div class="footer contenedor">
+
+            <div class="footer-columna">
+
+                <h4>
+                    MARCA
+                </h4>
+
+                <p>
+                    Ropa para quienes buscan algo diferente.
+                </p>
+
+            </div>
+
+
+            <div class="footer-columna">
+
+                <h4>
+                    Ayuda
+                </h4>
+
+                <a href="#">
+                    Preguntas frecuentes
+                </a>
+
+                <a href="#">
+                    Envíos
+                </a>
+
+                <a href="#">
+                    Cambios y devoluciones
+                </a>
+
+            </div>
+
+
+            <div class="footer-columna">
+
+                <h4>
+                    Contacto
+                </h4>
+
+                               <!-- WHATSAPP -->
+
+                <a
+                    href="https://wa.me/573123346724"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    WhatsApp
+                </a>
+
+
+                <!-- INSTAGRAM -->
+
+                <a
+                    href="https://www.instagram.com/cottonblue268/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Instagram
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="js/main.js" defer></script>
+
+</body>
+
+</html>

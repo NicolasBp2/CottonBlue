@@ -1,0 +1,1482 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   CONTENEDOR CENTRAL
+   Limita el ancho máximo del contenido para que no
+   se estire demasiado en pantallas muy grandes.
+   ========================================================= */
+
+.contenedor {
+    /* Ancho máximo que puede ocupar el contenido */
+    max-width: 1400px;
+    /* Centra el bloque horizontalmente cuando
+       la pantalla es más ancha que el max-width */
+    margin: 0 auto;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #111;
+}
+.navbar {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    background-color: white;
+    border-bottom: 1px solid #e5e5e5;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    text-decoration: none;
+    color: #111;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.menu {
+    display: flex;
+    gap: 35px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #111;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+/* Cuando el mouse pasa sobre un enlace del menú */
+.menu a:hover {
+
+    color: #777;
+}
+
+.acciones {
+    display: flex;
+    gap: 20px;
+}
+
+.acciones button {
+    background: none;
+    border: none;
+    color: #111;
+    font-size: 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+/* Cuando el mouse pasa sobre "Buscar" o "Carrito" */
+.acciones button:hover {
+    color: #777;
+}
+
+/* =========================================================
+   BOTÓN CARRITO (ahora es un <a>, no un <button>, para
+   poder llevar a carrito.html) + su contador
+   ========================================================= */
+
+.btn-carrito {
+    text-decoration: none;
+    color: #111;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+}
+
+.btn-carrito:hover {
+    color: #777;
+}
+
+.carrito-contador {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background-color: #111;
+    color: white;
+    font-size: 11px;
+    line-height: 1;
+}
+
+/* =========================================================
+   MENÚ HAMBURGUESA (solo visible en celular, ver media query)
+   ========================================================= */
+
+.menu-hamburguesa {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 26px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-hamburguesa span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #111;
+}
+
+/* =========================================================
+   BARRA DE BÚSQUEDA (oculta por defecto, la abre el botón "Buscar")
+   ========================================================= */
+
+.buscador-barra {
+    display: none;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 50px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #eee;
+}
+
+.buscador-barra.buscador-visible {
+    display: flex;
+}
+
+.buscador-barra input {
+    flex: 1;
+    max-width: 400px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.buscador-barra button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #555;
+}
+
+.sin-resultados {
+    padding: 60px 0;
+    text-align: center;
+    color: #777;
+    grid-column: 1 / -1;
+}
+
+/* =========================================================
+   AVISO "PRODUCTO AGREGADO AL CARRITO"
+   ========================================================= */
+
+.aviso-carrito {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #111;
+    color: white;
+    padding: 14px 22px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 200;
+}
+
+.aviso-carrito.aviso-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero {
+    height: 650px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+   /* Imagen de fondo temporal (Lorem Picsum).*/
+    background-image: url('https://picsum.photos/1600/900');
+
+    /* Hace que la imagen cubra todo el espacio
+       sin deformarse, recortando lo que sobre */
+    background-size: cover;
+
+    /* Centra la imagen dentro del contenedor */
+    background-position: center;
+}
+
+.hero-content h1 {
+    font-size: 56px;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.hero-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #111;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    /* Espaciado de letras, mismo estilo del resto del sitio */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    /* Transición suave para el cambio de color */
+    transition: background-color 0.3s ease;
+}
+/* Cuando el mouse pasa sobre el botón */
+.hero-button:hover {
+    background-color: #333;
+}
+
+.productos {
+    padding: 80px 50px;
+}
+
+/* =========================================================
+   LAYOUT DEL CATÁLOGO (barra lateral + productos)
+   ========================================================= */
+
+.catalogo-seccion {
+
+    padding: 60px 0;
+}
+
+.catalogo-seccion h2 {
+
+    font-size: 28px;
+
+    font-weight: 500;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 40px;
+}
+
+
+.catalogo-layout {
+
+    /* Dos columnas: una angosta fija para filtros,
+       y una flexible para los productos */
+    display: grid;
+
+    grid-template-columns: 220px 1fr;
+
+    gap: 40px;
+}
+
+
+/* =========================================================
+   BARRA LATERAL DE FILTROS
+   ========================================================= */
+
+.filtros-lateral {
+    /* Acomoda los botones uno debajo del otro */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filtros-lateral h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+/* Reutilizamos .filtro pero ajustado para vertical */
+.filtros-lateral .filtro {
+    /* Alinea el texto a la izquierda,
+       en vez de centrado como estaría en una barra horizontal */
+    text-align: left;
+    background: none;
+    border: none;
+    /* Solo una línea inferior sutil, en vez de borde completo */
+    border-bottom: 1px solid #eee;
+    padding: 12px 0;
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: normal;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.filtros-lateral .filtro:hover {
+    color: #111;
+}
+
+.filtros-lateral .filtro-activo {
+    color: #111;
+    font-weight: 600;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.producto-imagen {
+    width: 100%;
+    height: 450px;
+
+    /* Color de respaldo, por si la imagen
+       tarda en cargar o falla */
+    background-color: #eeeeee;
+    margin-bottom: 15px;    /* Espacio entre imagen y nombre */
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+    /* Imagen temporal de relleno.
+       El número al final (400/500, 400/501...)
+       hace que cada producto tenga una foto distinta */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Le damos una imagen distinta a cada producto,
+   usando su posición dentro del grid */
+.productos-grid .producto:nth-child(1) .producto-imagen {
+    background-image: url('https://picsum.photos/id/10/400/500');
+}
+.productos-grid .producto:nth-child(2) .producto-imagen {
+    background-image: url('https://picsum.photos/id/20/400/500');
+}
+.productos-grid .producto:nth-child(3) .producto-imagen {
+    background-image: url('https://picsum.photos/id/30/400/500');
+}
+
+.producto-imagen:hover {
+    opacity: 0.3;
+}
+
+.producto h3 {
+    font-size: 13px;
+    font-weight: 500;
+
+    /* Mayúsculas, como el navbar y el footer */
+    text-transform: uppercase;
+    /* Espaciado sutil entre letras */
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.producto p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* =========================================================
+   DISEÑO RESPONSIVE
+   Estas reglas solo se aplican cuando la pantalla
+   es más angosta que el ancho indicado.
+   ========================================================= */
+
+/* Para tablets: pantallas de 900px de ancho o menos */
+@media (max-width: 900px) {
+    .productos-grid {
+        /* En vez de 3 columnas, usamos 2 */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+/* Para celulares: pantallas de 600px de ancho o menos */
+@media (max-width: 600px) {
+    .productos-grid {
+        /* En pantallas muy angostas, mejor 1 sola columna */
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .navbar {
+           padding: 0 20px;
+    }
+
+    /* El menú ya no se oculta sin más: ahora se abre/cierra
+       con el botón hamburguesa (ver js/main.js) */
+    .menu {
+        display: none;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background-color: white;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 10px 20px 20px;
+        z-index: 99;
+    }
+
+    .menu.menu-abierto {
+        display: flex;
+    }
+
+    .menu-item {
+        width: 100%;
+    }
+
+    .menu > a,
+    .menu-item > a {
+        display: block;
+        padding: 12px 0;
+        border-bottom: 1px solid #f2f2f2;
+    }
+
+    /* En celular no hay hover, así que el mega-menú se muestra
+       siempre abierto (estático) debajo de "Hombre"/"Mujer"
+       en vez de aparecer al pasar el mouse */
+    .mega-menu {
+        position: static;
+        display: flex;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        margin-top: 0;
+        padding: 0 0 10px 15px;
+        min-width: 0;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .menu-hamburguesa {
+        display: flex;
+    }
+
+    .hero-content h1 {
+        /* El título del Hero es muy grande para celular,
+           lo reducimos */
+        font-size: 36px;
+    }
+     .categorias {
+
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .categoria-imagen {
+        /* se reduce un poco la altura, ya que en
+           celular no hace falta que sea tan alta */
+        height: 350px;
+    }
+        /* La barra lateral y los productos pasan de estar
+       lado a lado, a estar uno encima del otro */
+    .catalogo-layout {
+
+        grid-template-columns: 1fr;
+    }
+
+    /* La barra lateral de filtros se convierte en
+       una fila horizontal con scroll, para ahorrar espacio */
+    .filtros-lateral {
+
+        flex-direction: row;
+
+        flex-wrap: wrap;
+
+        gap: 15px;
+
+        margin-bottom: 20px;
+    }
+
+    .filtros-lateral h4 {
+
+        /* Ocultamos el título "Categorías" en celular,
+           ya que el espacio horizontal es limitado */
+        display: none;
+    }
+
+    .filtros-lateral .filtro {
+
+        /* Quitamos la línea inferior en este modo horizontal */
+        border-bottom: none;
+
+        padding: 8px 0;
+    }
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer-fondo {
+
+    /* El fondo oscuro vive en un contenedor aparte,
+       que sí ocupa todo el ancho de la pantalla */
+    background-color: #111;
+}
+
+.footer {
+
+    /* Coloca las columnas una al lado de la otra */
+    display: flex;
+
+    /* Reparte el espacio disponible entre las columnas */
+    justify-content: space-between;
+
+    /* En pantallas angostas, las columnas pueden
+       pasar a la siguiente línea en vez de aplastarse */
+    flex-wrap: wrap;
+
+    /* Espacio entre columnas si se envuelven */
+    gap: 40px;
+
+    /* Espacio interno arriba/abajo y a los lados */
+    padding: 60px 50px;
+
+    /* Fondo oscuro para diferenciarlo del resto de la página */
+    background-color: #111;
+
+    /* Color de texto claro, para que se lea sobre el fondo oscuro */
+    color: #eee;
+}
+
+
+/* Cada columna individual del footer */
+
+.footer-columna {
+
+    /* Acomoda el título y los enlaces en vertical */
+    display: flex;
+
+    flex-direction: column;
+
+    /* Espacio entre el título y cada enlace */
+    gap: 12px;
+
+    /* Ancho mínimo para que no se aplasten demasiado */
+    min-width: 200px;
+}
+
+
+/* Título de cada columna (Ayuda, Contacto, etc.) */
+
+.footer-columna h4 {
+
+    font-size: 14px;
+
+    /* Espaciado de letras, mismo estilo que el navbar */
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 8px;
+}
+
+
+/* Texto descriptivo (solo aparece en la primera columna) */
+
+.footer-columna p {
+    font-size: 14px;
+
+    color: #aaa;
+}
+
+
+/* Enlaces dentro del footer */
+.footer-columna a {
+    text-decoration: none;
+    color: #ccc;
+    font-size: 14px;
+}
+
+
+/* Cuando el mouse pasa sobre un enlace del footer */
+.footer-columna a:hover {
+    color: white;
+}
+
+/* =========================================================
+   CATEGORÍAS
+   ========================================================= */
+
+.categorias {
+
+    /* Coloca las dos categorías lado a lado */
+    display: grid;
+
+    /* Dos columnas iguales */
+    grid-template-columns: repeat(2, 1fr);
+
+    /* Espacio entre ellas */
+    gap: 20px;
+
+    /* Espacio arriba y abajo de la sección */
+    padding: 60px 0;
+}
+/* El enlace que envuelve toda la categoría */
+.categoria {
+    text-decoration: none;
+    color: #111;
+    position: relative;
+    overflow: hidden;
+}
+/* La imagen de cada categoría */
+.categoria-imagen {
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    /* Transición suave para el efecto zoom al hover */
+    transition: transform 0.4s ease;
+}
+/* Imagen específica de cada categoría (temporales) */
+
+.categoria-hombre {
+
+    background-image: url('https://picsum.photos/id/40/800/1000');
+}
+.categoria-mujer {
+    background-image: url('https://picsum.photos/id/50/800/1000');
+}
+/* Efecto zoom sutil al pasar el mouse */
+.categoria:hover .categoria-imagen {
+    transform: scale(1.05);
+}
+/* Título de la categoría (Hombre / Mujer) */
+.categoria h3 {
+
+    /* Lo posicionamos encima de la imagen */
+    position: absolute;
+
+    bottom: 30px;
+}
+
+    /* =========================================================
+   ENLACE DE PRODUCTO
+   ========================================================= */
+
+.producto-link {
+    
+    /* Quitamos el subrayado y el color azul de link */
+    text-decoration: none;
+    color: inherit;
+    /* Hace que el enlace se comporte como un bloque,
+       ocupando el espacio de la imagen, el nombre y el precio */
+    display: block;
+}
+
+/* =========================================================
+   ETIQUETA DE PRODUCTO (Nuevo, Oferta, etc.)
+   ========================================================= */
+
+.etiqueta {
+
+    /* La saca del flujo normal del documento,
+       para poder ubicarla en una esquina exacta */
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    /* Fondo oscuro, texto blanco */
+    background-color: #111;
+
+    color: white;
+
+    /* Espacio interno pequeño */
+    padding: 6px 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================================
+   BOTÓN "VER TODO"
+   ========================================================= */
+
+.ver-todo {
+    text-align: center;
+    margin-top: 50px;
+}
+
+
+.ver-todo-boton {
+    display: inline-block;
+    padding: 15px 40px;
+    border: 1px solid #111;
+    color: #111;
+    text-decoration: none;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.ver-todo-boton:hover {
+
+    background-color: #111;
+
+    color: white;
+}
+
+
+/*STYLE CLASE PRODUCTO*/
+/* =========================================================
+   MIGAS DE PAN
+   ========================================================= */
+
+.migas {
+
+    padding: 25px 0;
+
+    font-size: 13px;
+
+    color: #777;
+}
+
+.migas a {
+
+    color: #777;
+
+    text-decoration: none;
+}
+
+.migas a:hover {
+
+    color: #111;
+}
+
+.migas span {
+
+    margin: 0 6px;
+}
+
+
+/* =========================================================
+   DETALLE DE PRODUCTO
+   ========================================================= */
+
+.producto-detalle {
+
+    /* Dos columnas: imagen grande a la izquierda,
+       info a la derecha */
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 60px;
+
+    padding-bottom: 80px;
+}
+
+
+.producto-detalle-imagen {
+
+    width: 100%;
+
+    height: 650px;
+
+    background-size: cover;
+
+    background-position: center;
+}
+
+
+.producto-detalle-info h1 {
+
+    font-size: 28px;
+
+    font-weight: 500;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 15px;
+}
+
+
+.producto-detalle-precio {
+
+    font-size: 22px;
+
+    color: #111;
+
+    margin-bottom: 25px;
+}
+
+
+.producto-detalle-descripcion {
+
+    font-size: 14px;
+
+    color: #555;
+
+    line-height: 1.6;
+
+    margin-bottom: 35px;
+}
+
+
+/* =========================================================
+   SELECTORES (color y talla)
+   ========================================================= */
+
+.selector {
+
+    margin-bottom: 30px;
+}
+
+
+.selector h4 {
+
+    font-size: 13px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+    margin-bottom: 12px;
+}
+
+
+/* Opciones de color: círculos de color */
+
+.opciones-color {
+
+    display: flex;
+
+    gap: 12px;
+}
+
+
+.color-opcion {
+
+    width: 32px;
+
+    height: 32px;
+
+    border-radius: 50%;
+
+    border: 1px solid #ddd;
+
+    cursor: pointer;
+
+    padding: 3px;
+
+    background-clip: content-box;
+
+    transition: border-color 0.3s ease;
+}
+
+
+.color-opcion:hover {
+
+    border-color: #999;
+}
+
+/* Los inputs radio quedan invisibles; el círculo visual
+   es el <label>. Así seleccionamos color sin JavaScript. */
+.color-input {
+
+    position: absolute;
+
+    opacity: 0;
+
+    width: 1px;
+
+    height: 1px;
+
+    pointer-events: none;
+}
+
+/* El color que está seleccionado actualmente */
+.color-input:checked + .color-opcion {
+
+    border-color: #111;
+
+    box-shadow: 0 0 0 2px #111;
+}
+
+
+.color-negro {
+    background-color: #111;
+}
+
+.color-blanco {
+    background-color: #fff;
+}
+
+.color-gris {
+    background-color: #999;
+}
+
+
+/* Opciones de talla: botones cuadrados */
+
+.opciones-talla {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.talla-opcion {
+
+    width: 45px;
+
+    height: 45px;
+
+    border: 1px solid #ccc;
+
+    background: none;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+
+.talla-opcion:hover {
+
+    border-color: #111;
+}
+
+
+/* El input radio queda invisible; el <label> es lo que se ve */
+.talla-input {
+
+    position: absolute;
+
+    opacity: 0;
+
+    width: 1px;
+
+    height: 1px;
+
+    pointer-events: none;
+}
+
+
+/* La talla que está seleccionada actualmente */
+
+.talla-input:checked + .talla-opcion {
+
+    background-color: #111;
+
+    border-color: #111;
+
+    color: white;
+}
+
+
+/* =========================================================
+   BOTONES DE ACCIÓN
+   ========================================================= */
+
+.producto-detalle-botones {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-bottom: 30px;
+}
+
+
+.producto-comprar,
+.producto-whatsapp {
+
+    text-align: center;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   INFO ADICIONAL
+   ========================================================= */
+
+.producto-detalle-extra {
+
+    border-top: 1px solid #eee;
+
+    padding-top: 20px;
+}
+
+
+.producto-detalle-extra p {
+
+    font-size: 13px;
+
+    color: #777;
+
+    margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .producto-detalle {
+
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+    .producto-detalle-imagen {
+
+        height: 450px;
+    }
+}
+
+/* =========================================================
+   CATEGORÍAS DESPLEGABLES (Hombre / Mujer con subcategorías)
+   ========================================================= */
+
+.filtro-grupo {
+
+    border-bottom: 1px solid #eee;
+}
+
+
+/* El texto "Hombre" / "Mujer" que se puede hacer clic */
+
+.filtro-grupo summary {
+
+    padding: 12px 0;
+
+    font-size: 14px;
+
+    color: #555;
+
+    cursor: pointer;
+
+    list-style: none;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    transition: color 0.3s ease;
+}
+
+
+.filtro-grupo summary::-webkit-details-marker {
+
+    display: none;
+}
+
+
+.filtro-grupo summary:hover {
+
+    color: #111;
+}
+
+
+/* Flecha personalizada, hecha con un pseudo-elemento */
+
+.filtro-grupo summary::after {
+
+    content: "+";
+
+    font-size: 16px;
+
+    color: #999;
+
+    transition: transform 0.3s ease;
+}
+
+
+/* Cuando el <details> está abierto, la flecha rota */
+
+.filtro-grupo[open] summary::after {
+
+    transform: rotate(45deg);
+}
+
+
+/* Contenedor de las subcategorías */
+
+.subfiltros {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    padding-left: 15px;
+
+    padding-bottom: 15px;
+}
+
+
+.filtro-sub {
+
+    background: none;
+
+    border: none;
+
+    text-align: left;
+
+    padding: 8px 0;
+
+    font-size: 13px;
+
+    color: #888;
+
+    cursor: pointer;
+
+    transition: color 0.3s ease;
+}
+
+
+.filtro-sub:hover {
+
+    color: #111;
+}
+
+.filtro-sub.filtro-activo {
+
+    color: #111;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   RESPONSIVE: categorías desplegables en celular
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .filtro-grupo {
+
+        border-bottom: none;
+
+        width: 100%;
+    }
+
+    .subfiltros {
+
+        padding-left: 10px;
+    }
+}
+
+/* =========================================================
+   MEGA-MENÚ DEL NAVBAR (Hombre / Mujer)
+   ========================================================= */
+
+.menu-item {
+
+    position: relative;
+}
+
+
+.mega-menu {
+
+    display: none;
+
+    position: absolute;
+
+    top: 100%;
+
+    left: 0;
+
+    margin-top: 20px;
+
+    background-color: white;
+
+    border: 1px solid #eee;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+    padding: 30px;
+
+    display: flex;
+
+    gap: 60px;
+
+    min-width: 320px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateY(10px);
+
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+
+
+.menu-item:hover .mega-menu {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+
+.mega-menu-columna {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    min-width: 140px;
+}
+
+
+.mega-menu-columna h5 {
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+    color: #999;
+
+    margin-bottom: 8px;
+}
+
+
+.mega-menu-columna a {
+
+    font-size: 14px;
+
+    color: #333;
+
+    text-decoration: none;
+
+    text-transform: none;
+
+    letter-spacing: normal;
+
+    transition: color 0.2s ease;
+}
+
+
+.mega-menu-columna a:hover {
+
+    color: #111;
+
+    padding-left: 4px;
+}
+
+
+/* =========================================================
+   RESPONSIVE: el mega-menú no aplica en celular,
+   ya que ahí el menú completo se oculta (display: none)
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .mega-menu {
+
+        display: none !important;
+    }
+}
+/* =========================================================
+   PÁGINA DEL CARRITO (carrito.html)
+   ========================================================= */
+
+.carrito-seccion {
+
+    padding: 60px 0;
+    min-height: 50vh;
+}
+
+.carrito-seccion h2 {
+
+    font-size: 28px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+}
+
+.carrito-vacio {
+
+    display: none;
+    text-align: center;
+    padding: 80px 0;
+    color: #777;
+}
+
+.carrito-vacio p {
+
+    margin-bottom: 20px;
+}
+
+.carrito-items {
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.carrito-item {
+
+    display: grid;
+    grid-template-columns: 100px 1fr auto auto;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.carrito-item-imagen {
+
+    width: 100px;
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+    background-color: #eee;
+}
+
+.carrito-item-info h3 {
+
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.carrito-item-info p {
+
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 4px;
+}
+
+.carrito-item-precio {
+
+    color: #111 !important;
+    font-weight: 500;
+}
+
+.carrito-item-cantidad {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.carrito-item-cantidad button {
+
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ccc;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.carrito-item-cantidad button:hover {
+
+    border-color: #111;
+}
+
+.carrito-item-eliminar {
+
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.carrito-item-eliminar:hover {
+
+    color: #b00020;
+}
+
+.carrito-resumen {
+
+    display: none;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.carrito-resumen-total {
+
+    font-size: 16px;
+}
+
+#carrito-total {
+
+    font-weight: 600;
+}
+
+.carrito-resumen button {
+
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+
+    .carrito-item {
+
+        grid-template-columns: 70px 1fr;
+        row-gap: 12px;
+    }
+
+    .carrito-item-cantidad {
+
+        grid-column: 2;
+    }
+
+    .carrito-item-eliminar {
+
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    .carrito-resumen {
+
+        flex-direction: column;
+        align-items: stretch;
+        text-align: right;
+        gap: 15px;
+    }
+}

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cotton Blue Shop</title>
+
+    <meta
+        name="description"
+        content="Cotton Blue Shop - Tienda online de ropa. Descubre nuestra nueva colección de camisetas, pantalones y chaquetas con envíos a todo el país."
+    >
+
+    <!-- Open Graph -->
+
+    <meta property="og:title" content="Cotton Blue Shop">
+
+    <meta
+        property="og:description"
+        content="Descubre nuestra nueva colección de ropa. Camisetas, pantalones y chaquetas con envíos a todo el país."
+    >
+
+    <meta
+        property="og:image"
+        content="https://picsum.photos/1200/630"
+    >
+
+    <meta property="og:type" content="website">
+
+
+    <!-- FAVICON -->
+
+    <link
+        rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👕</text></svg>"
+    >
+
+
+    <!-- FUENTE -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
+
+    <header class="navbar">
+
+
+        <!-- LOGO -->
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+            MARCA
+        </a>
+
+
+        <!-- MENÚ PRINCIPAL -->
+
+        <nav
+            class="menu"
+            id="menu-principal"
+        >
+
+
+            <!-- =================================================
+                 HOMBRE
+                 ================================================= -->
+
+            <div class="menu-item">
+
+                <a href="catalogo.html?filtro=hombre">
+                    Hombre
+                </a>
+
+
+                <div class="mega-menu">
+
+
+                    <div class="mega-menu-columna">
+
+                        <h5>
+                            Ropa
+                        </h5>
+
+
+                        <a href="catalogo.html?filtro=hombre-camisetas">
+                            Camisetas
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=hombre-pantalones">
+                            Pantalones
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=hombre-chaquetas">
+                            Chaquetas
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=hombre-buzos">
+                            Buzos
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=hombre-shorts">
+                            Shorts
+                        </a>
+
+                    </div>
+
+
+                    <div class="mega-menu-columna">
+
+                        <h5>
+                            Colecciones
+                        </h5>
+
+
+                        <a href="catalogo.html">
+                            Nueva colección
+                        </a>
+
+
+                        <a href="catalogo.html">
+                            Más vendidos
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=ofertas">
+                            Ofertas
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 MUJER
+                 ================================================= -->
+
+            <div class="menu-item">
+
+                <a href="catalogo.html?filtro=mujer">
+                    Mujer
+                </a>
+
+
+                <div class="mega-menu">
+
+
+                    <div class="mega-menu-columna">
+
+                        <h5>
+                            Ropa
+                        </h5>
+
+
+                        <a href="catalogo.html?filtro=mujer-camisetas">
+                            Camisetas
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=mujer-pantalones">
+                            Pantalones
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=mujer-chaquetas">
+                            Chaquetas
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=mujer-vestidos">
+                            Vestidos
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=mujer-shorts">
+                            Shorts
+                        </a>
+
+                    </div>
+
+
+                    <div class="mega-menu-columna">
+
+                        <h5>
+                            Colecciones
+                        </h5>
+
+
+                        <a href="catalogo.html">
+                            Nueva colección
+                        </a>
+
+
+                        <a href="catalogo.html">
+                            Más vendidos
+                        </a>
+
+
+                        <a href="catalogo.html?filtro=ofertas">
+                            Ofertas
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- LINKS PRINCIPALES -->
+
+            <a href="catalogo.html">
+                Nueva colección
+            </a>
+
+
+            <a href="catalogo.html?filtro=ofertas">
+                Ofertas
+            </a>
+
+
+        </nav>
+
+
+        <!-- =================================================
+             ACCIONES
+             ================================================= -->
+
+        <div class="acciones">
+
+
+            <button onclick="toggleBuscador()">
+                Buscar
+            </button>
+
+
+            <a
+                href="carrito.html"
+                class="btn-carrito"
+            >
+
+                Carrito
+
+                <span
+                    class="carrito-contador"
+                    id="carrito-contador"
+                >
+                    0
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- MENÚ HAMBURGUESA -->
+
+        <button
+            class="menu-hamburguesa"
+            onclick="toggleMenuMovil()"
+            aria-label="Abrir menú"
+        >
+
+            <span></span>
+
+            <span></span>
+
+            <span></span>
+
+        </button>
+
+
+    </header>
+
+
+    <!-- =====================================================
+         BUSCADOR
+         ===================================================== -->
+
+    <div
+        class="buscador-barra"
+        id="buscador-barra"
+    >
+
+
+        <input
+            type="text"
+            id="buscador-input"
+            placeholder="Buscar productos..."
+            oninput="filtrarBusqueda()"
+        >
+
+
+        <button onclick="toggleBuscador()">
+            Cerrar
+        </button>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+         ===================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             HERO
+             ================================================= -->
+
+        <section class="hero">
+
+
+            <div class="hero-content">
+
+
+                <h1>
+                    Nueva colección
+                </h1>
+
+
+                <p>
+                    Descubre nuestra nueva colección.
+                </p>
+
+
+                <a
+                    href="catalogo.html"
+                    class="hero-button"
+                >
+                    Comprar ahora
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================================
+             CATEGORÍAS PRINCIPALES
+             ================================================= -->
+
+        <section class="categorias contenedor">
+
+
+            <!-- HOMBRE -->
+
+            <a
+                href="catalogo.html?filtro=hombre"
+                class="categoria"
+            >
+
+                <div
+                    class="categoria-imagen categoria-hombre"
+                >
+                </div>
+
+
+                <h3>
+                    Hombre
+                </h3>
+
+            </a>
+
+
+            <!-- MUJER -->
+
+            <a
+                href="catalogo.html?filtro=mujer"
+                class="categoria"
+            >
+
+                <div
+                    class="categoria-imagen categoria-mujer"
+                >
+                </div>
+
+
+                <h3>
+                    Mujer
+                </h3>
+
+            </a>
+
+
+        </section>
+
+
+        <!-- =================================================
+             PRODUCTOS DESTACADOS
+
+             Los genera main.js automáticamente.
+             ================================================= -->
+
+        <section class="productos">
+
+
+            <h2>
+                Productos destacados
+            </h2>
+
+
+            <div
+                class="productos-grid contenedor"
+                id="productos-destacados"
+            >
+            </div>
+
+
+            <div class="ver-todo">
+
+
+                <a
+                    href="catalogo.html"
+                    class="ver-todo-boton"
+                >
+                    Ver todo el catálogo
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="footer-fondo">
+
+
+        <div class="footer contenedor">
+
+
+            <!-- MARCA -->
+
+            <div class="footer-columna">
+
+                <h4>
+                    MARCA
+                </h4>
+
+
+                <p>
+                    Ropa para quienes buscan algo diferente.
+                </p>
+
+            </div>
+
+
+            <!-- AYUDA -->
+
+            <div class="footer-columna">
+
+                <h4>
+                    Ayuda
+                </h4>
+
+
+                <a href="#">
+                    Preguntas frecuentes
+                </a>
+
+
+                <a href="#">
+                    Envíos
+                </a>
+
+
+                <a href="#">
+                    Cambios y devoluciones
+                </a>
+
+            </div>
+
+
+            <!-- CONTACTO -->
+
+            <div class="footer-columna">
+
+                <h4>
+                    Contacto
+                </h4>
+
+
+                <!-- WHATSAPP -->
+
+                <a
+                    href="https://wa.me/573123346724"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    WhatsApp
+                </a>
+
+
+                <!-- INSTAGRAM -->
+
+                <a
+                    href="https://www.instagram.com/cottonblue268/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Instagram
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        src="js/main.js"
+        defer
+    ></script>
+
+
+</body>
+
+</html>
