@@ -30,7 +30,7 @@
    1. CONFIGURACIÓN
    ========================================================= */
 
-const NUMERO_WHATSAPP = '573123346724';
+const NUMERO_WHATSAPP = '573126881081';
 
 const CLAVE_CARRITO = 'cottonCarrito';
 
@@ -849,6 +849,11 @@ async function generarCatalogo() {
                     ? 'true'
                     : 'false';
 
+articulo.dataset.destacado =
+    producto.destacado
+        ? 'true'
+        : 'false';                    
+
 
             articulo.innerHTML = `
 
@@ -1109,7 +1114,6 @@ function inicializarFiltros() {
 /* =========================================================
    APLICAR FILTRO
    ========================================================= */
-
 function aplicarFiltro(
     filtro
 ) {
@@ -1142,8 +1146,17 @@ function aplicarFiltro(
                 'true';
 
 
+            const esDestacado =
+                producto.dataset.destacado ===
+                'true';
+
+
             let mostrar = true;
 
+
+            /* =====================================================
+               TODOS
+               ===================================================== */
 
             if (
                 !filtro ||
@@ -1154,27 +1167,56 @@ function aplicarFiltro(
 
             }
 
+
+            /* =====================================================
+               HOMBRE
+               Incluye productos de hombre + unisex
+               ===================================================== */
+
             else if (
                 filtro === 'hombre'
             ) {
 
                 mostrar =
-                    categoria.startsWith(
-                        'hombre-'
-                    );
+                    categoria.startsWith('hombre-') ||
+                    categoria.startsWith('unisex-');
 
             }
+
+
+            /* =====================================================
+               MUJER
+               Incluye productos de mujer + unisex
+               ===================================================== */
 
             else if (
                 filtro === 'mujer'
             ) {
 
                 mostrar =
-                    categoria.startsWith(
-                        'mujer-'
-                    );
+                    categoria.startsWith('mujer-') ||
+                    categoria.startsWith('unisex-');
 
             }
+
+
+            /* =====================================================
+               UNISEX
+               ===================================================== */
+
+            else if (
+                filtro === 'unisex'
+            ) {
+
+                mostrar =
+                    categoria.startsWith('unisex-');
+
+            }
+
+
+            /* =====================================================
+               OFERTAS GENERALES
+               ===================================================== */
 
             else if (
                 filtro === 'ofertas'
@@ -1184,6 +1226,105 @@ function aplicarFiltro(
                     esOferta;
 
             }
+
+
+            /* =====================================================
+               DESTACADOS GENERALES
+               ===================================================== */
+
+            else if (
+                filtro === 'destacados'
+            ) {
+
+                mostrar =
+                    esDestacado;
+
+            }
+
+
+            /* =====================================================
+               DESTACADOS HOMBRE
+               Hombre + unisex
+               ===================================================== */
+
+            else if (
+                filtro === 'hombre-destacados'
+            ) {
+
+                mostrar =
+                    (
+                        categoria.startsWith('hombre-') ||
+                        categoria.startsWith('unisex-')
+                    ) &&
+                    esDestacado;
+
+            }
+
+
+            /* =====================================================
+               DESTACADOS MUJER
+               Mujer + unisex
+               ===================================================== */
+
+            else if (
+                filtro === 'mujer-destacados'
+            ) {
+
+                mostrar =
+                    (
+                        categoria.startsWith('mujer-') ||
+                        categoria.startsWith('unisex-')
+                    ) &&
+                    esDestacado;
+
+            }
+
+
+            /* =====================================================
+               OFERTAS HOMBRE
+               Hombre + unisex
+               ===================================================== */
+
+            else if (
+                filtro === 'hombre-ofertas'
+            ) {
+
+                mostrar =
+                    (
+                        categoria.startsWith('hombre-') ||
+                        categoria.startsWith('unisex-')
+                    ) &&
+                    esOferta;
+
+            }
+
+
+            /* =====================================================
+               OFERTAS MUJER
+               Mujer + unisex
+               ===================================================== */
+
+            else if (
+                filtro === 'mujer-ofertas'
+            ) {
+
+                mostrar =
+                    (
+                        categoria.startsWith('mujer-') ||
+                        categoria.startsWith('unisex-')
+                    ) &&
+                    esOferta;
+
+            }
+
+
+            /* =====================================================
+               SUBCATEGORÍAS
+               Ejemplo:
+               hombre-camisetas
+               mujer-chaquetas
+               unisex-buzos
+               ===================================================== */
 
             else {
 
@@ -1220,8 +1361,6 @@ function aplicarFiltro(
     );
 
 }
-
-
 /* =========================================================
    MARCAR FILTRO ACTIVO
    ========================================================= */

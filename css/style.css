@@ -4,24 +4,18 @@
     box-sizing: border-box;
 }
 
-/* =========================================================
-   CONTENEDOR CENTRAL
-   Limita el ancho máximo del contenido para que no
-   se estire demasiado en pantallas muy grandes.
-   ========================================================= */
+/* CONTENEDOR CENTRAL */
 
 .contenedor {
-    /* Ancho máximo que puede ocupar el contenido */
     max-width: 1400px;
-    /* Centra el bloque horizontalmente cuando
-       la pantalla es más ancha que el max-width */
     margin: 0 auto;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     color: #111;
 }
+
 .navbar {
     height: 80px;
     display: flex;
@@ -56,9 +50,7 @@ body {
     transition: color 0.3s ease;
 }
 
-/* Cuando el mouse pasa sobre un enlace del menú */
 .menu a:hover {
-
     color: #777;
 }
 
@@ -77,15 +69,12 @@ body {
     letter-spacing: 0.5px;
     transition: color 0.3s ease;
 }
-/* Cuando el mouse pasa sobre "Buscar" o "Carrito" */
+
 .acciones button:hover {
     color: #777;
 }
 
-/* =========================================================
-   BOTÓN CARRITO (ahora es un <a>, no un <button>, para
-   poder llevar a carrito.html) + su contador
-   ========================================================= */
+/* BOTÓN CARRITO */
 
 .btn-carrito {
     text-decoration: none;
@@ -117,9 +106,7 @@ body {
     line-height: 1;
 }
 
-/* =========================================================
-   MENÚ HAMBURGUESA (solo visible en celular, ver media query)
-   ========================================================= */
+/* MENÚ HAMBURGUESA */
 
 .menu-hamburguesa {
     display: none;
@@ -140,9 +127,7 @@ body {
     background-color: #111;
 }
 
-/* =========================================================
-   BARRA DE BÚSQUEDA (oculta por defecto, la abre el botón "Buscar")
-   ========================================================= */
+/* BARRA DE BÚSQUEDA */
 
 .buscador-barra {
     display: none;
@@ -162,7 +147,7 @@ body {
     max-width: 400px;
     padding: 10px 15px;
     border: 1px solid #ccc;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 14px;
 }
 
@@ -183,9 +168,7 @@ body {
     grid-column: 1 / -1;
 }
 
-/* =========================================================
-   AVISO "PRODUCTO AGREGADO AL CARRITO"
-   ========================================================= */
+/* AVISOS */
 
 .aviso-carrito {
     position: fixed;
@@ -215,25 +198,9 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-   /* Imagen de fondo temporal (Lorem Picsum).*/
-    background-image: url('https://picsum.photos/1600/900');
-
-    /* Hace que la imagen cubra todo el espacio
-       sin deformarse, recortando lo que sobre */
+    background-image: url("https://picsum.photos/1600/900");
     background-size: cover;
-
-    /* Centra la imagen dentro del contenedor */
     background-position: center;
-}
-
-.hero-content h1 {
-    font-size: 56px;
-    margin-bottom: 15px;
-}
-
-.hero-content p {
-    font-size: 18px;
-    margin-bottom: 30px;
 }
 
 .hero-button {
@@ -243,13 +210,11 @@ body {
     color: white;
     text-decoration: none;
     font-size: 14px;
-    /* Espaciado de letras, mismo estilo del resto del sitio */
     letter-spacing: 1px;
     text-transform: uppercase;
-    /* Transición suave para el cambio de color */
     transition: background-color 0.3s ease;
 }
-/* Cuando el mouse pasa sobre el botón */
+
 .hero-button:hover {
     background-color: #333;
 }
@@ -258,47 +223,29 @@ body {
     padding: 80px 50px;
 }
 
-/* =========================================================
-   LAYOUT DEL CATÁLOGO (barra lateral + productos)
-   ========================================================= */
+/* CATÁLOGO */
 
 .catalogo-seccion {
-
     padding: 60px 0;
 }
 
 .catalogo-seccion h2 {
-
     font-size: 28px;
-
     font-weight: 500;
-
     text-transform: uppercase;
-
     letter-spacing: 1px;
-
     margin-bottom: 40px;
 }
 
-
 .catalogo-layout {
-
-    /* Dos columnas: una angosta fija para filtros,
-       y una flexible para los productos */
     display: grid;
-
     grid-template-columns: 220px 1fr;
-
     gap: 40px;
 }
 
-
-/* =========================================================
-   BARRA LATERAL DE FILTROS
-   ========================================================= */
+/* BARRA LATERAL DE FILTROS */
 
 .filtros-lateral {
-    /* Acomoda los botones uno debajo del otro */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -311,14 +258,10 @@ body {
     margin-bottom: 15px;
 }
 
-/* Reutilizamos .filtro pero ajustado para vertical */
 .filtros-lateral .filtro {
-    /* Alinea el texto a la izquierda,
-       en vez de centrado como estaría en una barra horizontal */
     text-align: left;
     background: none;
     border: none;
-    /* Solo una línea inferior sutil, en vez de borde completo */
     border-bottom: 1px solid #eee;
     padding: 12px 0;
     font-size: 14px;
@@ -347,31 +290,25 @@ body {
 .producto-imagen {
     width: 100%;
     height: 450px;
-
-    /* Color de respaldo, por si la imagen
-       tarda en cargar o falla */
     background-color: #eeeeee;
-    margin-bottom: 15px;    /* Espacio entre imagen y nombre */
+    margin-bottom: 15px;
     transition: opacity 0.3s ease;
     cursor: pointer;
-    /* Imagen temporal de relleno.
-       El número al final (400/500, 400/501...)
-       hace que cada producto tenga una foto distinta */
     background-size: cover;
     background-position: center;
     position: relative;
 }
 
-/* Le damos una imagen distinta a cada producto,
-   usando su posición dentro del grid */
 .productos-grid .producto:nth-child(1) .producto-imagen {
-    background-image: url('https://picsum.photos/id/10/400/500');
+    background-image: url("https://picsum.photos/id/10/400/500");
 }
+
 .productos-grid .producto:nth-child(2) .producto-imagen {
-    background-image: url('https://picsum.photos/id/20/400/500');
+    background-image: url("https://picsum.photos/id/20/400/500");
 }
+
 .productos-grid .producto:nth-child(3) .producto-imagen {
-    background-image: url('https://picsum.photos/id/30/400/500');
+    background-image: url("https://picsum.photos/id/30/400/500");
 }
 
 .producto-imagen:hover {
@@ -381,10 +318,7 @@ body {
 .producto h3 {
     font-size: 13px;
     font-weight: 500;
-
-    /* Mayúsculas, como el navbar y el footer */
     text-transform: uppercase;
-    /* Espaciado sutil entre letras */
     letter-spacing: 0.5px;
     margin-bottom: 6px;
 }
@@ -394,31 +328,21 @@ body {
     color: #555;
 }
 
-/* =========================================================
-   DISEÑO RESPONSIVE
-   Estas reglas solo se aplican cuando la pantalla
-   es más angosta que el ancho indicado.
-   ========================================================= */
-
-/* Para tablets: pantallas de 900px de ancho o menos */
 @media (max-width: 900px) {
     .productos-grid {
-        /* En vez de 3 columnas, usamos 2 */
         grid-template-columns: repeat(2, 1fr);
     }
 }
-/* Para celulares: pantallas de 600px de ancho o menos */
+
 @media (max-width: 600px) {
     .productos-grid {
-        /* En pantallas muy angostas, mejor 1 sola columna */
         grid-template-columns: repeat(1, 1fr);
     }
+
     .navbar {
-           padding: 0 20px;
+        padding: 0 20px;
     }
 
-    /* El menú ya no se oculta sin más: ahora se abre/cierra
-       con el botón hamburguesa (ver js/main.js) */
     .menu {
         display: none;
         position: absolute;
@@ -448,9 +372,6 @@ body {
         border-bottom: 1px solid #f2f2f2;
     }
 
-    /* En celular no hay hover, así que el mega-menú se muestra
-       siempre abierto (estático) debajo de "Hombre"/"Mujer"
-       en vez de aparecer al pasar el mouse */
     .mega-menu {
         position: static;
         display: flex;
@@ -471,248 +392,148 @@ body {
     }
 
     .hero-content h1 {
-        /* El título del Hero es muy grande para celular,
-           lo reducimos */
         font-size: 36px;
     }
-     .categorias {
 
+    .categorias {
         grid-template-columns: repeat(1, 1fr);
     }
 
     .categoria-imagen {
-        /* se reduce un poco la altura, ya que en
-           celular no hace falta que sea tan alta */
         height: 350px;
     }
-        /* La barra lateral y los productos pasan de estar
-       lado a lado, a estar uno encima del otro */
-    .catalogo-layout {
 
+    .catalogo-layout {
         grid-template-columns: 1fr;
     }
 
-    /* La barra lateral de filtros se convierte en
-       una fila horizontal con scroll, para ahorrar espacio */
     .filtros-lateral {
-
         flex-direction: row;
-
         flex-wrap: wrap;
-
         gap: 15px;
-
         margin-bottom: 20px;
     }
 
     .filtros-lateral h4 {
-
-        /* Ocultamos el título "Categorías" en celular,
-           ya que el espacio horizontal es limitado */
         display: none;
     }
 
     .filtros-lateral .filtro {
-
-        /* Quitamos la línea inferior en este modo horizontal */
         border-bottom: none;
-
         padding: 8px 0;
     }
 }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
-.footer-fondo {
+/* FOOTER */
 
-    /* El fondo oscuro vive en un contenedor aparte,
-       que sí ocupa todo el ancho de la pantalla */
+.footer-fondo {
     background-color: #111;
 }
 
 .footer {
-
-    /* Coloca las columnas una al lado de la otra */
     display: flex;
-
-    /* Reparte el espacio disponible entre las columnas */
     justify-content: space-between;
-
-    /* En pantallas angostas, las columnas pueden
-       pasar a la siguiente línea en vez de aplastarse */
     flex-wrap: wrap;
-
-    /* Espacio entre columnas si se envuelven */
     gap: 40px;
-
-    /* Espacio interno arriba/abajo y a los lados */
     padding: 60px 50px;
-
-    /* Fondo oscuro para diferenciarlo del resto de la página */
     background-color: #111;
-
-    /* Color de texto claro, para que se lea sobre el fondo oscuro */
     color: #eee;
 }
 
-
-/* Cada columna individual del footer */
-
 .footer-columna {
-
-    /* Acomoda el título y los enlaces en vertical */
     display: flex;
-
     flex-direction: column;
-
-    /* Espacio entre el título y cada enlace */
     gap: 12px;
-
-    /* Ancho mínimo para que no se aplasten demasiado */
     min-width: 200px;
 }
 
-
-/* Título de cada columna (Ayuda, Contacto, etc.) */
-
 .footer-columna h4 {
-
     font-size: 14px;
-
-    /* Espaciado de letras, mismo estilo que el navbar */
     letter-spacing: 1px;
-
     text-transform: uppercase;
-
     margin-bottom: 8px;
 }
 
-
-/* Texto descriptivo (solo aparece en la primera columna) */
-
 .footer-columna p {
     font-size: 14px;
-
     color: #aaa;
 }
 
-
-/* Enlaces dentro del footer */
 .footer-columna a {
     text-decoration: none;
     color: #ccc;
     font-size: 14px;
 }
 
-
-/* Cuando el mouse pasa sobre un enlace del footer */
-.footer-columna a:hover {
-    color: white;
-}
-
-/* =========================================================
-   CATEGORÍAS
-   ========================================================= */
+/* CATEGORÍAS */
 
 .categorias {
-
-    /* Coloca las dos categorías lado a lado */
     display: grid;
-
-    /* Dos columnas iguales */
     grid-template-columns: repeat(2, 1fr);
-
-    /* Espacio entre ellas */
     gap: 20px;
-
-    /* Espacio arriba y abajo de la sección */
     padding: 60px 0;
 }
-/* El enlace que envuelve toda la categoría */
+
 .categoria {
     text-decoration: none;
     color: #111;
     position: relative;
     overflow: hidden;
 }
-/* La imagen de cada categoría */
+
 .categoria-imagen {
     width: 100%;
     height: 500px;
     background-size: cover;
     background-position: center;
-    /* Transición suave para el efecto zoom al hover */
     transition: transform 0.4s ease;
 }
-/* Imagen específica de cada categoría (temporales) */
 
 .categoria-hombre {
+    background-image: url("https://picsum.photos/id/40/800/1000");
+}
 
-    background-image: url('https://picsum.photos/id/40/800/1000');
-}
 .categoria-mujer {
-    background-image: url('https://picsum.photos/id/50/800/1000');
+    background-image: url("https://picsum.photos/id/50/800/1000");
 }
-/* Efecto zoom sutil al pasar el mouse */
+
 .categoria:hover .categoria-imagen {
     transform: scale(1.05);
 }
-/* Título de la categoría (Hombre / Mujer) */
+
 .categoria h3 {
-
-    /* Lo posicionamos encima de la imagen */
     position: absolute;
-
     bottom: 30px;
 }
 
-    /* =========================================================
-   ENLACE DE PRODUCTO
-   ========================================================= */
+/* ENLACE DE PRODUCTO */
 
 .producto-link {
-    
-    /* Quitamos el subrayado y el color azul de link */
     text-decoration: none;
     color: inherit;
-    /* Hace que el enlace se comporte como un bloque,
-       ocupando el espacio de la imagen, el nombre y el precio */
     display: block;
 }
 
-/* =========================================================
-   ETIQUETA DE PRODUCTO (Nuevo, Oferta, etc.)
-   ========================================================= */
+/* ETIQUETA DE PRODUCTO (Nuevo, Oferta, etc.) */
 
 .etiqueta {
-
-    /* La saca del flujo normal del documento,
-       para poder ubicarla en una esquina exacta */
     position: absolute;
     top: 15px;
     left: 15px;
-    /* Fondo oscuro, texto blanco */
     background-color: #111;
-
     color: white;
-
-    /* Espacio interno pequeño */
     padding: 6px 12px;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* =========================================================
-   BOTÓN "VER TODO"
-   ========================================================= */
+/* BOTÓN "VER TODO" */
 
 .ver-todo {
     text-align: center;
     margin-top: 50px;
 }
-
 
 .ver-todo-boton {
     display: inline-block;
@@ -726,192 +547,109 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.ver-todo-boton:hover {
-
-    background-color: #111;
-
-    color: white;
-}
-
-
-/*STYLE CLASE PRODUCTO*/
-/* =========================================================
-   MIGAS DE PAN
-   ========================================================= */
+/* MIGAS DE PAN */
 
 .migas {
-
     padding: 25px 0;
-
     font-size: 13px;
-
     color: #777;
 }
 
 .migas a {
-
     color: #777;
-
     text-decoration: none;
 }
 
 .migas a:hover {
-
     color: #111;
 }
 
 .migas span {
-
     margin: 0 6px;
 }
 
-
-/* =========================================================
-   DETALLE DE PRODUCTO
-   ========================================================= */
+/* DETALLE DE PRODUCTO */
 
 .producto-detalle {
-
-    /* Dos columnas: imagen grande a la izquierda,
-       info a la derecha */
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 60px;
-
     padding-bottom: 80px;
 }
 
-
 .producto-detalle-imagen {
-
     width: 100%;
-
     height: 650px;
-
     background-size: cover;
-
     background-position: center;
 }
 
-
 .producto-detalle-info h1 {
-
     font-size: 28px;
-
     font-weight: 500;
-
     text-transform: uppercase;
-
     letter-spacing: 1px;
-
     margin-bottom: 15px;
 }
 
-
 .producto-detalle-precio {
-
     font-size: 22px;
-
     color: #111;
-
     margin-bottom: 25px;
 }
 
-
 .producto-detalle-descripcion {
-
     font-size: 14px;
-
     color: #555;
-
     line-height: 1.6;
-
     margin-bottom: 35px;
 }
 
-
-/* =========================================================
-   SELECTORES (color y talla)
-   ========================================================= */
+/* SELECTORES (color y talla) */
 
 .selector {
-
     margin-bottom: 30px;
 }
 
-
 .selector h4 {
-
     font-size: 13px;
-
     text-transform: uppercase;
-
     letter-spacing: 0.5px;
-
     margin-bottom: 12px;
 }
 
-
-/* Opciones de color: círculos de color */
-
 .opciones-color {
-
     display: flex;
-
     gap: 12px;
 }
 
-
 .color-opcion {
-
     width: 32px;
-
     height: 32px;
-
     border-radius: 50%;
-
     border: 1px solid #ddd;
-
     cursor: pointer;
-
     padding: 3px;
-
     background-clip: content-box;
-
     transition: border-color 0.3s ease;
 }
 
-
 .color-opcion:hover {
-
     border-color: #999;
 }
 
-/* Los inputs radio quedan invisibles; el círculo visual
-   es el <label>. Así seleccionamos color sin JavaScript. */
 .color-input {
-
     position: absolute;
-
     opacity: 0;
-
     width: 1px;
-
     height: 1px;
-
     pointer-events: none;
 }
 
-/* El color que está seleccionado actualmente */
 .color-input:checked + .color-opcion {
-
     border-color: #111;
-
     box-shadow: 0 0 0 2px #111;
 }
-
 
 .color-negro {
     background-color: #111;
@@ -925,400 +663,223 @@ body {
     background-color: #999;
 }
 
-
-/* Opciones de talla: botones cuadrados */
-
 .opciones-talla {
-
     display: flex;
-
     gap: 10px;
 }
 
-
 .talla-opcion {
-
     width: 45px;
-
     height: 45px;
-
     border: 1px solid #ccc;
-
     background: none;
-
     font-size: 13px;
-
     cursor: pointer;
-
     transition: all 0.3s ease;
 }
 
-
 .talla-opcion:hover {
-
     border-color: #111;
 }
 
-
-/* El input radio queda invisible; el <label> es lo que se ve */
 .talla-input {
-
     position: absolute;
-
     opacity: 0;
-
     width: 1px;
-
     height: 1px;
-
     pointer-events: none;
 }
 
-
-/* La talla que está seleccionada actualmente */
-
 .talla-input:checked + .talla-opcion {
-
     background-color: #111;
-
     border-color: #111;
-
     color: white;
 }
 
-
-/* =========================================================
-   BOTONES DE ACCIÓN
-   ========================================================= */
+/* BOTONES DE ACCIÓN */
 
 .producto-detalle-botones {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 12px;
-
     margin-bottom: 30px;
 }
 
-
 .producto-comprar,
 .producto-whatsapp {
-
     text-align: center;
-
     width: 100%;
 }
 
-
-/* =========================================================
-   INFO ADICIONAL
-   ========================================================= */
+/* INFO ADICIONAL */
 
 .producto-detalle-extra {
-
     border-top: 1px solid #eee;
-
     padding-top: 20px;
 }
 
-
 .producto-detalle-extra p {
-
     font-size: 13px;
-
     color: #777;
-
     margin-bottom: 6px;
 }
 
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
 @media (max-width: 700px) {
-
     .producto-detalle {
-
         grid-template-columns: 1fr;
-
         gap: 30px;
     }
 
     .producto-detalle-imagen {
-
         height: 450px;
     }
 }
 
-/* =========================================================
-   CATEGORÍAS DESPLEGABLES (Hombre / Mujer con subcategorías)
-   ========================================================= */
+/* FILTROS DESPLEGABLES */
 
 .filtro-grupo {
-
     border-bottom: 1px solid #eee;
 }
 
-
-/* El texto "Hombre" / "Mujer" que se puede hacer clic */
-
 .filtro-grupo summary {
-
     padding: 12px 0;
-
     font-size: 14px;
-
     color: #555;
-
     cursor: pointer;
-
     list-style: none;
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     transition: color 0.3s ease;
 }
 
-
 .filtro-grupo summary::-webkit-details-marker {
-
     display: none;
 }
 
-
 .filtro-grupo summary:hover {
-
     color: #111;
 }
 
-
-/* Flecha personalizada, hecha con un pseudo-elemento */
-
 .filtro-grupo summary::after {
-
     content: "+";
-
     font-size: 16px;
-
     color: #999;
-
     transition: transform 0.3s ease;
 }
 
-
-/* Cuando el <details> está abierto, la flecha rota */
-
 .filtro-grupo[open] summary::after {
-
     transform: rotate(45deg);
 }
 
-
-/* Contenedor de las subcategorías */
-
 .subfiltros {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 2px;
-
     padding-left: 15px;
-
     padding-bottom: 15px;
 }
 
-
 .filtro-sub {
-
     background: none;
-
     border: none;
-
     text-align: left;
-
     padding: 8px 0;
-
     font-size: 13px;
-
     color: #888;
-
     cursor: pointer;
-
     transition: color 0.3s ease;
 }
 
-
 .filtro-sub:hover {
-
     color: #111;
 }
 
 .filtro-sub.filtro-activo {
-
     color: #111;
-
     font-weight: 600;
 }
 
-
-/* =========================================================
-   RESPONSIVE: categorías desplegables en celular
-   ========================================================= */
+/* FILTROS RESPONSIVE */
 
 @media (max-width: 600px) {
-
     .filtro-grupo {
-
         border-bottom: none;
-
         width: 100%;
     }
 
     .subfiltros {
-
         padding-left: 10px;
     }
 }
 
-/* =========================================================
-   MEGA-MENÚ DEL NAVBAR (Hombre / Mujer)
-   ========================================================= */
+/* MEGA-MENÚ */
 
 .menu-item {
-
     position: relative;
 }
 
-
 .mega-menu {
-
-    display: none;
-
     position: absolute;
-
     top: 100%;
-
     left: 0;
-
     margin-top: 20px;
-
     background-color: white;
-
     border: 1px solid #eee;
-
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
     padding: 30px;
-
     display: flex;
-
     gap: 60px;
-
     min-width: 320px;
-
     opacity: 0;
-
     visibility: hidden;
-
     transform: translateY(10px);
-
     transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
 }
 
-
 .menu-item:hover .mega-menu {
-
     opacity: 1;
-
     visibility: visible;
-
     transform: translateY(0);
 }
 
-
 .mega-menu-columna {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 10px;
-
     min-width: 140px;
 }
 
-
 .mega-menu-columna h5 {
-
     font-size: 12px;
-
     text-transform: uppercase;
-
     letter-spacing: 0.5px;
-
     color: #999;
-
     margin-bottom: 8px;
 }
 
-
 .mega-menu-columna a {
-
     font-size: 14px;
-
     color: #333;
-
     text-decoration: none;
-
     text-transform: none;
-
     letter-spacing: normal;
-
     transition: color 0.2s ease;
 }
 
-
 .mega-menu-columna a:hover {
-
     color: #111;
-
     padding-left: 4px;
 }
 
-
-/* =========================================================
-   RESPONSIVE: el mega-menú no aplica en celular,
-   ya que ahí el menú completo se oculta (display: none)
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .mega-menu {
-
-        display: none !important;
-    }
-}
-/* =========================================================
-   PÁGINA DEL CARRITO (carrito.html)
-   ========================================================= */
+/* CARRITO */
 
 .carrito-seccion {
-
     padding: 60px 0;
     min-height: 50vh;
 }
 
 .carrito-seccion h2 {
-
     font-size: 28px;
     font-weight: 500;
     text-transform: uppercase;
@@ -1327,7 +888,6 @@ body {
 }
 
 .carrito-vacio {
-
     display: none;
     text-align: center;
     padding: 80px 0;
@@ -1335,12 +895,10 @@ body {
 }
 
 .carrito-vacio p {
-
     margin-bottom: 20px;
 }
 
 .carrito-items {
-
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -1348,7 +906,6 @@ body {
 }
 
 .carrito-item {
-
     display: grid;
     grid-template-columns: 100px 1fr auto auto;
     align-items: center;
@@ -1358,7 +915,6 @@ body {
 }
 
 .carrito-item-imagen {
-
     width: 100px;
     height: 120px;
     background-size: cover;
@@ -1367,7 +923,6 @@ body {
 }
 
 .carrito-item-info h3 {
-
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1375,27 +930,23 @@ body {
 }
 
 .carrito-item-info p {
-
     font-size: 13px;
     color: #777;
     margin-bottom: 4px;
 }
 
 .carrito-item-precio {
-
     color: #111 !important;
     font-weight: 500;
 }
 
 .carrito-item-cantidad {
-
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
 .carrito-item-cantidad button {
-
     width: 28px;
     height: 28px;
     border: 1px solid #ccc;
@@ -1406,12 +957,10 @@ body {
 }
 
 .carrito-item-cantidad button:hover {
-
     border-color: #111;
 }
 
 .carrito-item-eliminar {
-
     background: none;
     border: none;
     color: #999;
@@ -1423,12 +972,10 @@ body {
 }
 
 .carrito-item-eliminar:hover {
-
     color: #b00020;
 }
 
 .carrito-resumen {
-
     display: none;
     justify-content: flex-end;
     align-items: center;
@@ -1438,51 +985,145 @@ body {
 }
 
 .carrito-resumen-total {
-
     font-size: 16px;
 }
 
 #carrito-total {
-
     font-weight: 600;
 }
 
 .carrito-resumen button {
-
     border: none;
     cursor: pointer;
 }
 
 @media (max-width: 600px) {
+    .carrito-seccion {
+        padding: 35px 0 45px;
+    }
+
+    .carrito-seccion.contenedor {
+        width: 100%;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .carrito-seccion h2 {
+        font-size: 22px;
+        margin-bottom: 30px;
+    }
+
+    .carrito-items {
+        gap: 0;
+        margin-bottom: 25px;
+    }
 
     .carrito-item {
+        display: grid;
+        grid-template-columns: 90px minmax(0, 1fr);
+        grid-template-areas: "imagen info"
+            "imagen cantidad"
+            "imagen eliminar";
+        align-items: start;
+        column-gap: 16px;
+        row-gap: 10px;
+        padding: 20px 0;
+        border-bottom: 1px solid #e8e8e8;
+    }
 
-        grid-template-columns: 70px 1fr;
-        row-gap: 12px;
+    .carrito-item-imagen {
+        grid-area: imagen;
+        width: 90px;
+        height: 115px;
+        border-radius: 2px;
+    }
+
+    .carrito-item-info {
+        grid-area: info;
+        min-width: 0;
+    }
+
+    .carrito-item-info h3 {
+        font-size: 13px;
+        line-height: 1.35;
+        margin-bottom: 6px;
+        white-space: normal;
+    }
+
+    .carrito-item-info p {
+        font-size: 12px;
+        line-height: 1.4;
+        margin-bottom: 4px;
+    }
+
+    .carrito-item-precio {
+        font-size: 13px !important;
+        margin-top: 5px;
+    }
+
+    .carrito-stock {
+        font-size: 11px;
     }
 
     .carrito-item-cantidad {
+        grid-area: cantidad;
+        gap: 8px;
+        margin-top: 2px;
+    }
 
-        grid-column: 2;
+    .carrito-item-cantidad button {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    .carrito-item-cantidad span {
+        min-width: 20px;
+        text-align: center;
+        font-size: 13px;
     }
 
     .carrito-item-eliminar {
-
-        grid-column: 2;
+        grid-area: eliminar;
         justify-self: start;
+        padding: 2px 0;
+        font-size: 10px;
     }
 
     .carrito-resumen {
-
         flex-direction: column;
         align-items: stretch;
-        text-align: right;
-        gap: 15px;
+        gap: 16px;
+        padding-top: 20px;
+        text-align: left;
+    }
+
+    .carrito-resumen-total {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    #carrito-total {
+        font-size: 15px;
+    }
+
+    #boton-finalizar-whatsapp {
+        width: 100%;
+        min-height: 48px;
+        padding: 14px 18px;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        text-align: center;
+    }
+
+    .carrito-vacio {
+        padding: 60px 15px;
     }
 }
-/* =========================================================
-   STOCK Y BOTONES DESHABILITADOS DEL CARRITO
-   ========================================================= */
+
+/* STOCK DEL CARRITO */
 
 .carrito-item-cantidad button:disabled {
     opacity: 0.35;
@@ -1494,6 +1135,7 @@ body {
     font-size: 12px;
     opacity: 0.65;
 }
+
 .notificacion-tienda {
     position: fixed;
     right: 24px;
@@ -1507,8 +1149,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
     pointer-events: none;
-    transition:
-        opacity 0.25s ease,
+    transition: opacity 0.25s ease,
         transform 0.25s ease;
 }
 
@@ -1517,98 +1158,69 @@ body {
     transform: translateY(0);
 }
 
-
-/* =========================================================
-   ADMIN LOGIN
-   ========================================================= */
+/* ADMIN LOGIN */
 
 .admin-login {
     min-height: 100vh;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 24px;
 }
-
 
 .admin-login-card {
     width: 100%;
     max-width: 420px;
-
     padding: 32px;
-
     border: 1px solid #ddd;
     border-radius: 12px;
-
     background: #fff;
 }
-
 
 .admin-login-card h1 {
     margin-bottom: 10px;
 }
-
 
 .admin-login-card > p {
     margin-bottom: 24px;
     opacity: 0.7;
 }
 
-
-.admin-campo {
+.admin-login-card .admin-campo {
     margin-bottom: 18px;
 }
 
-
-.admin-campo label {
+.admin-login-card .admin-campo label {
     display: block;
-
     margin-bottom: 7px;
-
     font-size: 14px;
 }
 
-
-.admin-campo input {
+.admin-login-card .admin-campo input {
     width: 100%;
-
     padding: 12px;
-
     border: 1px solid #ccc;
     border-radius: 7px;
-
     font: inherit;
 }
-
 
 .admin-login-boton {
     width: 100%;
-
     padding: 13px;
-
     border: none;
     border-radius: 7px;
-
     background: #111;
     color: #fff;
-
     cursor: pointer;
-
     font: inherit;
 }
 
-
 .admin-login-mensaje {
     margin-top: 15px;
-
     font-size: 14px;
 }
 
-/* =========================================================
-   PANEL ADMINISTRATIVO
-   ========================================================= */
+/* PANEL ADMINISTRATIVO */
 
 .admin-panel {
     max-width: 1200px;
@@ -1616,536 +1228,1339 @@ body {
     padding: 40px 24px;
 }
 
-
 .admin-panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     gap: 20px;
-
     margin-bottom: 50px;
-
     padding-bottom: 20px;
-
     border-bottom: 1px solid #ddd;
 }
-
 
 .admin-panel-header h1 {
     margin: 0;
 }
-
 
 .admin-panel-header p {
     margin-top: 5px;
     opacity: 0.6;
 }
 
-
 .admin-cerrar-sesion {
     padding: 10px 16px;
-
     border: 1px solid #111;
-
     background: transparent;
-
     cursor: pointer;
 }
-
 
 .admin-bienvenida {
     margin-bottom: 35px;
 }
 
-
 .admin-opciones {
     display: grid;
-
-    grid-template-columns:
-        repeat(
+    grid-template-columns: repeat(
             auto-fit,
             minmax(250px, 1fr)
         );
-
     gap: 20px;
 }
 
-
 .admin-opcion {
     padding: 25px;
-
     border: 1px solid #ddd;
-
     border-radius: 10px;
-
     background: #fff;
 }
-
 
 .admin-opcion h3 {
     margin-top: 0;
 }
 
-
 .admin-opcion button {
     margin-top: 15px;
-
     padding: 12px 18px;
-
     border: none;
-
     background: #111;
-
     color: #fff;
-
     cursor: pointer;
 }
-/* =========================================================
-   LISTA DE PRODUCTOS DEL ADMIN
-   ========================================================= */
+
+/* LISTA DE PRODUCTOS DEL ADMIN */
 
 .admin-bienvenida {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     gap: 20px;
 }
 
-
 .admin-boton-principal {
     padding: 12px 18px;
-
     border: none;
     border-radius: 7px;
-
     background: #111;
     color: #fff;
-
     cursor: pointer;
-
     font: inherit;
 }
 
-
 .admin-productos-contenedor {
     display: grid;
-
-    grid-template-columns:
-        repeat(
+    grid-template-columns: repeat(
             auto-fill,
             minmax(250px, 1fr)
         );
-
     gap: 24px;
 }
 
-
 .admin-producto-card {
     overflow: hidden;
-
     border: 1px solid #ddd;
-
     border-radius: 10px;
-
     background: #fff;
 }
-
 
 .admin-producto-imagen {
     width: 100%;
     aspect-ratio: 4 / 5;
-
     background-position: center;
     background-size: cover;
-
     background-color: #f2f2f2;
 }
-
 
 .admin-producto-info {
     padding: 18px;
 }
-
 
 .admin-producto-info h3 {
     margin-top: 0;
     margin-bottom: 8px;
 }
 
-
 .admin-producto-meta {
     display: flex;
     flex-wrap: wrap;
-
     gap: 8px;
-
     margin-top: 14px;
 }
 
-
 .admin-producto-meta span {
     padding: 5px 8px;
-
     border-radius: 6px;
-
     background: #f2f2f2;
-
     font-size: 12px;
 }
-
 
 .admin-producto-estados {
     display: flex;
     flex-wrap: wrap;
-
     gap: 8px;
-
     margin-top: 12px;
 }
 
-
 .admin-producto-estados span {
     padding: 5px 8px;
-
     border: 1px solid #ddd;
-
     border-radius: 6px;
-
     font-size: 12px;
 }
 
-
 .admin-editar-producto {
     width: 100%;
-
     margin-top: 18px;
-
     padding: 10px;
-
     border: 1px solid #111;
-
     background: transparent;
-
     cursor: pointer;
 }
 
-/* =========================================================
-   FORMULARIO ADMIN PRODUCTOS
-   ========================================================= */
+/* FORMULARIO DE PRODUCTOS */
 
 .admin-formulario-producto {
     margin-bottom: 40px;
-
     padding: 28px;
-
     border: 1px solid #ddd;
-
     border-radius: 12px;
-
     background: #fafafa;
 }
 
-
 .admin-formulario-header {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
     margin-bottom: 25px;
 }
-
 
 .admin-formulario-header h2 {
     margin: 0;
 }
 
-
 .admin-formulario-cerrar {
     border: none;
-
     background: transparent;
-
     font-size: 30px;
-
     cursor: pointer;
 }
 
-
 .admin-form-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(
+    grid-template-columns: repeat(
             2,
             minmax(0, 1fr)
         );
-
     gap: 20px;
 }
 
-
 .admin-campo {
     display: flex;
-
     flex-direction: column;
-
     gap: 7px;
 }
-
 
 .admin-campo label {
     font-size: 14px;
     font-weight: 600;
 }
 
-
 .admin-campo input,
 .admin-campo select,
 .admin-campo textarea {
     width: 100%;
-
     box-sizing: border-box;
-
     padding: 11px 12px;
-
     border: 1px solid #ccc;
-
     border-radius: 7px;
-
     background: #fff;
-
     font: inherit;
 }
-
 
 .admin-campo textarea {
     resize: vertical;
 }
 
-
 .admin-campo-ancho {
-    grid-column:
-        1 / -1;
+    grid-column: 1 / -1;
 }
-
 
 .admin-form-checks {
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 25px;
-
     margin-top: 25px;
 }
-
 
 .admin-form-checks label {
     display: flex;
-
     align-items: center;
-
     gap: 7px;
-
     cursor: pointer;
 }
-
 
 .admin-form-acciones {
     display: flex;
-
     justify-content: flex-end;
-
     gap: 12px;
-
     margin-top: 25px;
 }
 
-
 .admin-boton-secundario {
     padding: 12px 18px;
-
     border: 1px solid #111;
-
     border-radius: 7px;
-
     background: transparent;
-
     cursor: pointer;
-
     font: inherit;
 }
 
-
 .admin-producto-mensaje {
     min-height: 20px;
-
     margin-top: 18px;
-
     font-size: 14px;
 }
 
-
 @media (max-width: 700px) {
-
     .admin-form-grid {
         grid-template-columns: 1fr;
     }
 
-
     .admin-campo-ancho {
         grid-column: auto;
     }
-
 }
 
-/* =========================================================
-   VARIANTES DEL ADMIN
-   ========================================================= */
+/* VARIANTES */
 
 .admin-variantes-seccion {
     margin-top: 35px;
     padding-top: 30px;
-
     border-top: 1px solid #ddd;
 }
-
 
 .admin-variantes-header {
     margin-bottom: 22px;
 }
 
-
 .admin-variantes-header h3 {
     margin-bottom: 5px;
 }
-
 
 .admin-variantes-header p {
     margin: 0;
     opacity: 0.65;
 }
 
-
 .admin-variante-grid {
     display: grid;
-
-    grid-template-columns:
-        2fr 1fr 1fr 1fr;
-
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 16px;
 }
 
-
-.admin-variante-lista {
+.admin-variantes-lista {
     margin-top: 25px;
 }
 
-
 .admin-variante-fila {
     display: grid;
-
-    grid-template-columns:
-        2fr 1fr 1fr auto;
-
+    grid-template-columns: 2fr 1fr 1fr auto;
     align-items: center;
-
     gap: 15px;
-
     padding: 14px 0;
-
     border-bottom: 1px solid #ddd;
 }
 
-
 .admin-variante-color {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
 }
-
 
 .admin-color-muestra {
     width: 25px;
     height: 25px;
-
     border: 1px solid #ccc;
     border-radius: 50%;
 }
 
-
 .admin-variante-acciones {
     display: flex;
-
     gap: 8px;
 }
 
-
 .admin-variante-acciones button {
     padding: 7px 10px;
-
     border: 1px solid #111;
-
     background: transparent;
-
     cursor: pointer;
 }
 
-
 @media (max-width: 800px) {
-
     .admin-variante-grid {
-        grid-template-columns:
-            1fr 1fr;
+        grid-template-columns: 1fr 1fr;
     }
-
 
     .admin-variante-fila {
-        grid-template-columns:
-            1fr;
-
+        grid-template-columns: 1fr;
         gap: 8px;
     }
-
 }
-/* =========================================================
-   PREVIEW DE IMAGEN EN ADMIN
-   ========================================================= */
+
+/* PREVIEW DE IMAGEN */
 
 .admin-imagen-preview {
     margin-top: 12px;
-
     min-height: 160px;
-
     border: 1px dashed #ccc;
-
     border-radius: 8px;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     overflow: hidden;
-
     background: #fafafa;
-
     color: #777;
 }
 
-
 .admin-imagen-preview img {
     display: block;
-
     width: 100%;
     max-width: 280px;
-
     height: auto;
-
     object-fit: cover;
+}
+
+@media (max-width: 700px) {
+    .admin-panel {
+        padding: 24px 16px;
+    }
+
+    .admin-panel-header,
+    .admin-bienvenida {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-cerrar-sesion,
+    .admin-boton-principal {
+        width: 100%;
+    }
+
+    .admin-formulario-producto {
+        padding: 20px 16px;
+    }
+
+    .admin-form-acciones {
+        flex-direction: column-reverse;
+    }
+
+    .admin-form-acciones button {
+        width: 100%;
+    }
+}
+
+/*=========================================================
+   AJUSTE FINAL CARRITO - CELULAR
+   =========================================================*/
+
+@media (max-width: 600px) {
+    /* CONTENEDOR */
+
+    .carrito-seccion {
+        padding: 28px 18px 40px;
+    }
+
+    .carrito-seccion h2 {
+        font-size: 20px;
+        margin-bottom: 24px;
+        letter-spacing: 0.8px;
+    }
+
+    /* PRODUCTO */
+
+    .carrito-item {
+        grid-template-columns: 95px minmax(0, 1fr);
+        grid-template-areas: "imagen info"
+            "imagen cantidad"
+            "imagen eliminar";
+        column-gap: 14px;
+        row-gap: 8px;
+        padding: 18px 0;
+    }
+
+    /* IMAGEN */
+
+    .carrito-item-imagen {
+        grid-area: imagen;
+        width: 95px;
+        height: 120px;
+        border-radius: 2px;
+    }
+
+    /* INFORMACIÓN */
+
+    .carrito-item-info {
+        grid-area: info;
+        min-width: 0;
+    }
+
+    .carrito-item-info h3 {
+        font-size: 12px;
+        line-height: 1.35;
+        margin-bottom: 5px;
+    }
+
+    .carrito-item-info p {
+        font-size: 11px;
+        line-height: 1.45;
+        margin-bottom: 3px;
+    }
+
+    .carrito-item-precio {
+        font-size: 13px !important;
+        font-weight: 600;
+        margin-top: 5px;
+    }
+
+    .carrito-stock {
+        font-size: 10px !important;
+        margin-top: 5px;
+    }
+
+    /* CANTIDAD */
+
+    .carrito-item-cantidad {
+        grid-area: cantidad;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 3px;
+    }
+
+    .carrito-item-cantidad button {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .carrito-item-cantidad span {
+        min-width: 18px;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    /* ELIMINAR */
+
+    .carrito-item-eliminar {
+        grid-area: eliminar;
+        justify-self: start;
+        margin-top: 2px;
+        padding: 4px 0;
+        font-size: 9px;
+        letter-spacing: 0.6px;
+    }
+
+    /* TOTAL */
+
+    .carrito-resumen {
+        margin-top: 8px;
+        padding-top: 18px;
+        gap: 14px;
+    }
+
+    .carrito-resumen-total {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+    }
+
+    #carrito-total {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    /* BOTÓN WHATSAPP */
+
+    #boton-finalizar-whatsapp {
+        width: 100%;
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 14px;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.6px;
+        white-space: normal;
+        line-height: 1.3;
+    }
+}
+
+/*=========================================================
+   NAVBAR MOBILE - AJUSTE FINAL
+   =========================================================*/
+
+@media (max-width: 600px) {
+    .navbar {
+        height: 64px;
+        padding: 0 16px;
+    }
+
+    .logo {
+        font-size: 18px;
+        line-height: 1;
+    }
+
+    .acciones {
+        margin-left: auto;
+        gap: 12px;
+    }
+
+    .acciones button,
+    .btn-carrito {
+        font-size: 9px;
+        letter-spacing: 0.3px;
+    }
+
+    .carrito-contador {
+        min-width: 15px;
+        height: 15px;
+        font-size: 9px;
+        padding: 0 3px;
+    }
+
+    .menu-hamburguesa {
+        width: 22px;
+        height: 18px;
+        margin-left: 14px;
+    }
+
+    .menu-hamburguesa span {
+        height: 1.5px;
+    }
+
+    /* Título del carrito */
+
+    .carrito-seccion h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    /* Texto de cada producto un poco más legible */
+
+    .carrito-item-info h3 {
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .carrito-item-info p {
+        font-size: 10px;
+    }
+
+    .carrito-item-precio {
+        font-size: 12px !important;
+    }
+
+    .carrito-stock {
+        font-size: 9px !important;
+    }
+
+    /* Separación un poco mayor entre productos */
+
+    .carrito-item {
+        padding: 20px 0;
+    }
+
+    /* Botón final */
+
+    #boton-finalizar-whatsapp {
+        font-size: 10px;
+        min-height: 48px;
+    }
+}
+
+/*=========================================================
+   PRODUCTO - AJUSTE FINAL CELULAR
+   =========================================================*/
+
+@media (max-width: 600px) {
+    /* MIGAS DE PAN */
+
+    .migas {
+        padding: 12px 16px;
+        font-size: 11px;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+    /* CONTENEDOR GENERAL */
+
+    .producto-detalle {
+        display: block;
+        padding-bottom: 45px;
+    }
+
+    /*=====================================================
+       IMAGEN
+       =====================================================*/
+
+    .producto-detalle-imagen {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 5;
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 0;
+    }
+
+    /*=====================================================
+       INFORMACIÓN
+       =====================================================*/
+
+    .producto-detalle-info {
+        padding: 26px 18px 0;
+    }
+
+    .producto-detalle-info h1 {
+        font-size: 22px;
+        line-height: 1.25;
+        margin-bottom: 10px;
+        letter-spacing: 0.6px;
+    }
+
+    .producto-detalle-precio {
+        font-size: 20px;
+        margin-bottom: 22px;
+    }
+
+    .producto-detalle-descripcion {
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 28px;
+    }
+
+    /*=====================================================
+       SELECTORES
+       =====================================================*/
+
+    .selector {
+        margin-bottom: 24px;
+    }
+
+    .selector h4 {
+        font-size: 11px;
+        margin-bottom: 12px;
+        letter-spacing: 0.7px;
+    }
+
+    /* COLORES */
+
+    .opciones-color {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .color-opcion {
+        width: 34px;
+        height: 34px;
+    }
+
+    /* TALLAS */
+
+    .opciones-talla {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .talla-opcion {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    /*=====================================================
+       BOTONES
+       =====================================================*/
+
+    .producto-detalle-botones {
+        gap: 10px;
+        margin-top: 30px;
+        margin-bottom: 25px;
+    }
+
+    .producto-comprar,
+    .producto-whatsapp {
+        width: 100%;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 18px;
+        font-size: 11px;
+        letter-spacing: 0.8px;
+    }
+
+    /*=====================================================
+       INFORMACIÓN EXTRA
+       =====================================================*/
+
+    .producto-detalle-extra {
+        margin-top: 5px;
+        padding-top: 20px;
+    }
+
+    .producto-detalle-extra p {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 600px) {
+    .producto-detalle-descripcion {
+        margin-bottom: 22px;
+    }
+
+    .producto-comprar,
+    .producto-whatsapp {
+        min-height: 50px;
+        padding: 14px 18px;
+    }
+}
+
+/*=========================================================
+   CATÁLOGO - AJUSTE MÓVIL
+   =========================================================*/
+
+@media (max-width: 600px) {
+    /* CONTENEDOR DEL CATÁLOGO */
+
+    .catalogo-seccion {
+        padding: 25px 16px 45px;
+    }
+
+    .catalogo-seccion h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    /*=====================================================
+       FILTROS
+       =====================================================*/
+
+    .catalogo-layout {
+        display: block;
+    }
+
+    .filtros-lateral {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+        margin-bottom: 28px;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* TODOS / OFERTAS */
+
+    .filtros-lateral > .filtro {
+        width: 100%;
+        padding: 13px 0;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        font-size: 12px;
+    }
+
+    /* HOMBRE / MUJER */
+
+    .filtro-grupo {
+        width: 100%;
+        border-bottom: 1px solid #eee;
+    }
+
+    .filtro-grupo summary {
+        width: 100%;
+        padding: 14px 0;
+        font-size: 12px;
+        outline: none;
+    }
+
+    .filtro-grupo summary:focus {
+        outline: none;
+    }
+
+    /* SUBCATEGORÍAS */
+
+    .subfiltros {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 18px;
+        padding: 2px
+            0
+            14px;
+    }
+
+    .filtro-sub {
+        padding: 8px 0;
+        font-size: 11px;
+    }
+
+    /*=====================================================
+       PRODUCTOS
+       =====================================================*/
+
+    .productos-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px
+            12px;
+    }
+
+    .producto {
+        min-width: 0;
+    }
+
+    .producto-imagen {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 5;
+        margin-bottom: 10px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .producto h3 {
+        font-size: 10px;
+        line-height: 1.4;
+        margin-bottom: 5px;
+    }
+
+    .producto p {
+        font-size: 11px;
+    }
+
+    .etiqueta {
+        top: 8px;
+        left: 8px;
+        padding: 4px 7px;
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .filtros-lateral {
+        margin-bottom: 24px;
+    }
+
+    .productos-grid {
+        gap: 30px 12px;
+    }
+
+    .producto-imagen {
+        aspect-ratio: 4 / 5;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .producto h3 {
+        font-size: 11px;
+        line-height: 1.35;
+        min-height: 30px;
+    }
+
+    .producto p {
+        font-size: 12px;
+    }
+}
+
+/*=========================================================
+   COTTON BLUE SHOP — IDENTIDAD VISUAL BLANCO + AZUL
+   Ajustes de marca y navegación móvil
+   =========================================================*/
+
+:root {
+    --cb-azul: #079bd3;
+    --cb-azul-oscuro: #0878a5;
+    --cb-azul-claro: #eaf8fd;
+    --cb-blanco: #ffffff;
+    --cb-texto: #15313d;
+    --cb-borde: #d9edf5;
+}
+
+body {
+    background: var(--cb-blanco);
+    color: var(--cb-texto);
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.navbar {
+    border-bottom-color: var(--cb-borde);
+}
+
+.menu a:hover,
+.acciones button:hover,
+.btn-carrito:hover,
+.migas a:hover {
+    color: var(--cb-azul);
+}
+
+.carrito-contador,
+.etiqueta,
+.hero-button,
+.admin-login-boton,
+.admin-boton-principal {
+    background-color: var(--cb-azul);
+}
+
+.hero-button:hover,
+.admin-login-boton:hover,
+.admin-boton-principal:hover {
+    background-color: var(--cb-azul-oscuro);
+}
+
+.ver-todo-boton {
+    border-color: var(--cb-azul);
+    color: var(--cb-azul-oscuro);
+}
+
+.ver-todo-boton:hover {
+    background-color: var(--cb-azul);
+    border-color: var(--cb-azul);
+    color: #fff;
+}
+
+.filtro-activo,
+.filtro-sub.filtro-activo {
+    color: var(--cb-azul-oscuro) !important;
+}
+
+.filtro-grupo summary::after {
+    color: var(--cb-azul);
+}
+
+.color-input:checked + .color-opcion,
+.talla-input:checked + .talla-opcion {
+    border-color: var(--cb-azul);
+    box-shadow: 0 0 0 2px var(--cb-azul);
+}
+
+.talla-input:checked + .talla-opcion {
+    background: var(--cb-azul);
+    color: #fff;
+}
+
+.footer-fondo,
+.footer {
+    background-color: var(--cb-azul-oscuro);
+}
+
+.footer-logo {
+    width: 90px;
+    height: auto;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.footer-columna p,
+.footer-columna a {
+    color: #e9f8fd;
+}
+
+.footer-columna a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.notificacion-tienda,
+.aviso-carrito {
+    background: var(--cb-azul-oscuro);
+}
+
+.admin-login-card,
+.admin-formulario-producto,
+.admin-producto-card {
+    border-color: var(--cb-borde);
+}
+
+.admin-cerrar-sesion,
+.admin-editar-producto,
+.admin-boton-secundario,
+.admin-variante-acciones button {
+    border-color: var(--cb-azul-oscuro);
+    color: var(--cb-azul-oscuro);
+}
+
+/* Menú móvil: elimina el hueco entre navbar y desplegable. */
+
+@media (max-width: 600px) {
+    .navbar {
+        height: 64px;
+        padding: 0 16px;
+    }
+
+    .logo-imagen {
+        width: 62px;
+        height: 50px;
+    }
+
+    .menu {
+        top: 64px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        padding: 0 18px 10px;
+        background: #fff;
+        border-top: 1px solid var(--cb-borde);
+        border-bottom: 1px solid var(--cb-borde);
+        max-height: calc(100vh - 64px);
+        overflow-y: auto;
+        z-index: 999;
+    }
+
+    .menu > a,
+    .menu-item > a {
+        padding: 14px 0;
+        border-bottom: 1px solid #e8f3f7;
+        color: var(--cb-texto);
+    }
+
+    /*En móvil solo dejamos las 4 opciones principales.
+       Los submenús detallados siguen disponibles en catálogo.*/
+
+    .menu .mega-menu {
+        display: none !important;
+    }
+
+    .menu-hamburguesa span {
+        background-color: var(--cb-azul-oscuro);
+    }
+
+    .buscador-barra {
+        padding: 14px 16px;
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-imagen {
+    display: block;
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+}
+
+.footer-columna:first-child {
+    align-items: center;
+    text-align: center;
+}
+
+.footer-logo {
+    width: 90px;
+    height: auto;
+    margin-bottom: 16px;
+}
+
+/*=========================================================
+   HOME - HERO
+   =========================================================*/
+
+/* Capa para asegurar que el texto siempre se lea */
+
+.hero-content h1 {
+    color: #083b57;
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    color: #153949;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.hero-button {
+    background: #079bd3;
+    color: #fff;
+    border: none;
+    padding: 16px 34px;
+    font-weight: 600;
+}
+
+/* LOGO NAVBAR */
+
+.logo-imagen {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+@media (max-width: 600px) {
+    .hero {
+        min-height: 500px;
+        height: calc(100vh - 64px);
+    }
+
+    .hero-content {
+        width: calc(100% - 36px);
+    }
+
+    .hero-content h1 {
+        font-size: 38px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
+    }
+
+    .logo-imagen {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/*=========================================================
+   NUEVO HERO - COTTON BLUE
+   =========================================================*/
+
+.hero {
+    position: relative;
+    min-height: 560px;
+    height: calc(100vh - 80px);
+    max-height: 720px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+/* Capa suave sobre la fotografía */
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            90deg,
+            rgba(255,255,255,0.84) 0%,
+            rgba(255,255,255,0.60) 45%,
+            rgba(255,255,255,0.15) 100%
+        );
+    z-index: 0;
+}
+
+/* Contenido */
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    width: min(90%, 1200px);
+    margin: 0 auto;
+    text-align: left;
+}
+
+/* Texto pequeño de marca */
+
+.hero-marca {
+    display: block;
+    margin-bottom: 14px;
+    color: #079bd3;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+/* Título principal */
+
+.hero-content h1 {
+    max-width: 650px;
+    margin: 0 0 20px;
+    color: #073b57;
+    font-size: clamp(45px, 5vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+}
+
+/* Descripción */
+
+.hero-content p {
+    max-width: 540px;
+    margin: 0 0 32px;
+    color: #325767;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* Botón */
+
+.hero-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 32px;
+    background: #079bd3;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: background-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.hero-button:hover {
+    background: #087dab;
+    transform: translateY(-2px);
+}
+
+/*=========================================================
+   HERO MOBILE
+   =========================================================*/
+
+@media (max-width: 600px) {
+    .hero {
+        min-height: 540px;
+        height: calc(100vh - 64px);
+        background-position: center;
+    }
+
+    .hero::before {
+        background: rgba(255,255,255,0.70);
+    }
+
+    .hero-content {
+        width: calc(100% - 36px);
+        text-align: center;
+    }
+
+    .hero-marca {
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+
+    .hero-content h1 {
+        max-width: none;
+        font-size: 40px;
+    }
+
+    .hero-content p {
+        max-width: 430px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 14px;
+    }
+
+    .hero-button {
+        min-height: 50px;
+        padding: 0 28px;
+    }
+}
+
+/*=========================================================
+   CORRECCIÓN ALINEACIÓN NAVBAR
+   =========================================================*/
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.menu > a,
+.menu-item > a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    line-height: 1;
+    padding-top: 0;
+    padding-bottom: 0;
 }
