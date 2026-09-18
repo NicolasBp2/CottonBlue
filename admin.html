@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Panel administrativo - Cotton Blue Shop
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+
+<body>
+
+    <main class="admin-panel">
+
+        <header class="admin-panel-header">
+
+            <div>
+
+                <h1>
+                    Cotton Blue Shop
+                </h1>
+
+                <p>
+                    Panel administrativo
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                id="admin-cerrar-sesion"
+                class="admin-cerrar-sesion"
+            >
+                Cerrar sesión
+            </button>
+
+        </header>
+
+
+        <section class="admin-bienvenida">
+
+            <div>
+
+                <h2>
+                    Productos
+                </h2>
+
+                <p>
+                    Administra los productos disponibles en la tienda.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                id="admin-nuevo-producto"
+                class="admin-boton-principal"
+            >
+                + Nuevo producto
+            </button>
+
+        </section>
+
+
+        <!-- ================================================
+             FORMULARIO PRODUCTO
+             ================================================ -->
+
+        <section
+            id="admin-formulario-producto"
+            class="admin-formulario-producto"
+            hidden
+        >
+
+            <div class="admin-formulario-header">
+
+                <h2 id="admin-formulario-titulo">
+                    Nuevo producto
+                </h2>
+
+                <button
+                    type="button"
+                    id="admin-cerrar-formulario"
+                    class="admin-formulario-cerrar"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="admin-form-producto">
+
+                <input
+                    type="hidden"
+                    id="admin-producto-id"
+                >
+
+
+                <div class="admin-form-grid">
+
+                    <div class="admin-campo">
+
+                        <label for="admin-producto-nombre">
+                            Nombre
+                        </label>
+
+                        <input
+                            type="text"
+                            id="admin-producto-nombre"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-campo">
+
+                        <label for="admin-producto-slug">
+                            Slug
+                        </label>
+
+                        <input
+                            type="text"
+                            id="admin-producto-slug"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-campo">
+
+                        <label for="admin-producto-precio">
+                            Precio
+                        </label>
+
+                        <input
+                            type="number"
+                            id="admin-producto-precio"
+                            min="0"
+                            step="1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-campo">
+
+                        <label for="admin-producto-genero">
+                            Género
+                        </label>
+
+                        <select
+                            id="admin-producto-genero"
+                            required
+                        >
+
+                            <option value="">
+                                Seleccionar
+                            </option>
+
+                            <option value="hombre">
+                                Hombre
+                            </option>
+
+                            <option value="mujer">
+                                Mujer
+                            </option>
+
+                            <option value="unisex">
+                                Unisex
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="admin-campo">
+
+                        <label for="admin-producto-categoria">
+                            Categoría
+                        </label>
+
+                        <select
+                            id="admin-producto-categoria"
+                            required
+                        >
+
+                            <option value="">
+                                Seleccionar
+                            </option>
+
+                            <option value="camisetas">
+                                Camisetas
+                            </option>
+
+                            <option value="pantalones">
+                                Pantalones
+                            </option>
+
+                            <option value="chaquetas">
+                                Chaquetas
+                            </option>
+
+                            <option value="buzos">
+                                Buzos
+                            </option>
+
+                            <option value="shorts">
+                                Shorts
+                            </option>
+
+                            <option value="vestidos">
+                                Vestidos
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                   <div class="admin-campo admin-campo-ancho">
+
+    <label for="admin-producto-archivo">
+        Imagen del producto
+    </label>
+
+    <input
+        type="file"
+        id="admin-producto-archivo"
+        accept="image/*"
+    >
+
+    <input
+        type="hidden"
+        id="admin-producto-imagen"
+    >
+
+    <div
+        id="admin-imagen-preview"
+        class="admin-imagen-preview"
+    >
+        Sin imagen seleccionada
+    </div>
+
+</div>
+
+
+                    <div class="admin-campo admin-campo-ancho">
+
+                        <label for="admin-producto-descripcion">
+                            Descripción
+                        </label>
+
+                        <textarea
+                            id="admin-producto-descripcion"
+                            rows="5"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-form-checks">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="admin-producto-oferta"
+                        >
+
+                        Oferta
+
+                    </label>
+
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="admin-producto-destacado"
+                        >
+
+                        Destacado
+
+                    </label>
+
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="admin-producto-activo"
+                            checked
+                        >
+
+                        Activo
+
+                    </label>
+
+                </div>
+
+
+                <p
+                    id="admin-producto-mensaje"
+                    class="admin-producto-mensaje"
+                ></p>
+
+
+                <div class="admin-form-acciones">
+
+                    <button
+                        type="button"
+                        id="admin-cancelar-producto"
+                        class="admin-boton-secundario"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="admin-guardar-producto"
+                        class="admin-boton-principal"
+                    >
+                        Guardar producto
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <!-- ================================================
+                 VARIANTES
+                 ================================================ -->
+
+            <section
+                id="admin-variantes-seccion"
+                class="admin-variantes-seccion"
+                hidden
+            >
+
+                <div class="admin-variantes-header">
+
+                    <div>
+
+                        <h3>
+                            Tallas, colores y stock
+                        </h3>
+
+                        <p>
+                            Cada fila corresponde a una combinación específica.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    id="admin-form-variante"
+                    class="admin-form-variante"
+                >
+
+                    <input
+                        type="hidden"
+                        id="admin-variante-id"
+                    >
+
+
+                    <div class="admin-variante-grid">
+
+                        <div class="admin-campo">
+
+                            <label for="admin-variante-color">
+                                Color
+                            </label>
+
+                            <input
+                                type="text"
+                                id="admin-variante-color"
+                                placeholder="Ej. Negro"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="admin-campo">
+
+                            <label for="admin-variante-codigo">
+                                Código de color
+                            </label>
+
+                            <input
+                                type="color"
+                                id="admin-variante-codigo"
+                                value="#111111"
+                            >
+
+                        </div>
+
+
+                        <div class="admin-campo">
+
+                            <label for="admin-variante-talla">
+                                Talla
+                            </label>
+
+                            <input
+                                type="text"
+                                id="admin-variante-talla"
+                                placeholder="Ej. S"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="admin-campo">
+
+                            <label for="admin-variante-stock">
+                                Stock
+                            </label>
+
+                            <input
+                                type="number"
+                                id="admin-variante-stock"
+                                min="0"
+                                step="1"
+                                value="0"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-form-acciones">
+
+                        <button
+                            type="button"
+                            id="admin-cancelar-variante"
+                            class="admin-boton-secundario"
+                            hidden
+                        >
+                            Cancelar edición
+                        </button>
+
+                        <button
+                            type="submit"
+                            id="admin-guardar-variante"
+                            class="admin-boton-principal"
+                        >
+                            + Agregar variante
+                        </button>
+
+                    </div>
+
+
+                    <p
+                        id="admin-variante-mensaje"
+                        class="admin-producto-mensaje"
+                    ></p>
+
+                </form>
+
+
+                <div
+                    id="admin-variantes-lista"
+                    class="admin-variantes-lista"
+                >
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <section
+            id="admin-productos-contenedor"
+            class="admin-productos-contenedor"
+        >
+
+            <p>
+                Cargando productos...
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+    <script src="js/supabase.js"></script>
+
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>
