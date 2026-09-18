@@ -1480,3 +1480,39 @@ body {
         gap: 15px;
     }
 }
+/* =========================================================
+   STOCK Y BOTONES DESHABILITADOS DEL CARRITO
+   ========================================================= */
+
+.carrito-item-cantidad button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.carrito-stock {
+    margin-top: 6px;
+    font-size: 12px;
+    opacity: 0.65;
+}
+.notificacion-tienda {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    background: #111;
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.notificacion-tienda.notificacion-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

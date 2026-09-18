@@ -1,22 +1,28 @@
 /* =========================================================
    COTTON BLUE SHOP — main.js
+   =========================================================
+
+   FUNCIONES PRINCIPALES
 
    1. Configuración
-   2. Productos temporales
+   2. Productos locales de respaldo
    3. Menú móvil
    4. Buscador
-   5. Catálogo dinámico
+   5. Catálogo
    6. Productos destacados
-   7. Filtros + filtros desde URL
+   7. Filtros
    8. Carrito
-   9. Página dinámica de producto
-   10. Página del carrito
+   9. Producto individual
+   10. Variantes
+   11. WhatsApp
+   12. Página carrito
+   13. Inicialización
 
-   Los productos actuales son temporales.
+   IMPORTANTE:
 
-   Más adelante serán reemplazados por productos
-   obtenidos desde Supabase y administrados por
-   el cliente desde su panel.
+   Los productos locales todavía existen como respaldo.
+
+   La fuente principal de productos es Supabase.
    ========================================================= */
 
 
@@ -24,25 +30,23 @@
    1. CONFIGURACIÓN
    ========================================================= */
 
-const NUMERO_WHATSAPP =
-    '573123346724';
+const NUMERO_WHATSAPP = '573123346724';
+
+const CLAVE_CARRITO = 'cottonCarrito';
 
 
 /* =========================================================
-   2. PRODUCTOS TEMPORALES
+   2. PRODUCTOS LOCALES DE RESPALDO
    ========================================================= */
 
 const PRODUCTOS = [
 
     {
-        id:
-            'camiseta-oversize',
+        id: 'camiseta-oversize',
 
-        nombre:
-            'Camiseta Oversize',
+        nombre: 'Camiseta Oversize',
 
-        precio:
-            89900,
+        precio: 89900,
 
         descripcion:
             'Camiseta oversize de algodón 100%, corte relajado y tela suave.',
@@ -53,8 +57,7 @@ const PRODUCTOS = [
         categoria:
             'hombre-camisetas',
 
-        oferta:
-            false,
+        oferta: false,
 
         tallas: [
             'XS',
@@ -67,27 +70,18 @@ const PRODUCTOS = [
         colores: [
 
             {
-                nombre:
-                    'Negro',
-
-                codigo:
-                    '#111111'
+                nombre: 'Negro',
+                codigo: '#111111'
             },
 
             {
-                nombre:
-                    'Blanco',
-
-                codigo:
-                    '#ffffff'
+                nombre: 'Blanco',
+                codigo: '#ffffff'
             },
 
             {
-                nombre:
-                    'Gris',
-
-                codigo:
-                    '#888888'
+                nombre: 'Gris',
+                codigo: '#888888'
             }
 
         ]
@@ -95,14 +89,11 @@ const PRODUCTOS = [
 
 
     {
-        id:
-            'pantalon-cargo',
+        id: 'pantalon-cargo',
 
-        nombre:
-            'Pantalón Cargo',
+        nombre: 'Pantalón Cargo',
 
-        precio:
-            129900,
+        precio: 129900,
 
         descripcion:
             'Pantalón cargo de corte cómodo con bolsillos laterales.',
@@ -113,8 +104,7 @@ const PRODUCTOS = [
         categoria:
             'hombre-pantalones',
 
-        oferta:
-            false,
+        oferta: false,
 
         tallas: [
             'S',
@@ -126,19 +116,13 @@ const PRODUCTOS = [
         colores: [
 
             {
-                nombre:
-                    'Negro',
-
-                codigo:
-                    '#111111'
+                nombre: 'Negro',
+                codigo: '#111111'
             },
 
             {
-                nombre:
-                    'Beige',
-
-                codigo:
-                    '#c9b18c'
+                nombre: 'Beige',
+                codigo: '#c9b18c'
             }
 
         ]
@@ -146,14 +130,11 @@ const PRODUCTOS = [
 
 
     {
-        id:
-            'chaqueta-essential',
+        id: 'chaqueta-essential',
 
-        nombre:
-            'Chaqueta Essential',
+        nombre: 'Chaqueta Essential',
 
-        precio:
-            179900,
+        precio: 179900,
 
         descripcion:
             'Chaqueta de estilo urbano para diferentes ocasiones.',
@@ -164,8 +145,7 @@ const PRODUCTOS = [
         categoria:
             'hombre-chaquetas',
 
-        oferta:
-            false,
+        oferta: false,
 
         tallas: [
             'S',
@@ -177,19 +157,13 @@ const PRODUCTOS = [
         colores: [
 
             {
-                nombre:
-                    'Negro',
-
-                codigo:
-                    '#111111'
+                nombre: 'Negro',
+                codigo: '#111111'
             },
 
             {
-                nombre:
-                    'Gris',
-
-                codigo:
-                    '#777777'
+                nombre: 'Gris',
+                codigo: '#777777'
             }
 
         ]
@@ -197,14 +171,11 @@ const PRODUCTOS = [
 
 
     {
-        id:
-            'sudadera-classic',
+        id: 'sudadera-classic',
 
-        nombre:
-            'Sudadera Classic',
+        nombre: 'Sudadera Classic',
 
-        precio:
-            99900,
+        precio: 99900,
 
         descripcion:
             'Sudadera cómoda de estilo clásico.',
@@ -215,8 +186,7 @@ const PRODUCTOS = [
         categoria:
             'hombre-buzos',
 
-        oferta:
-            true,
+        oferta: true,
 
         tallas: [
             'S',
@@ -228,19 +198,13 @@ const PRODUCTOS = [
         colores: [
 
             {
-                nombre:
-                    'Negro',
-
-                codigo:
-                    '#111111'
+                nombre: 'Negro',
+                codigo: '#111111'
             },
 
             {
-                nombre:
-                    'Gris',
-
-                codigo:
-                    '#777777'
+                nombre: 'Gris',
+                codigo: '#777777'
             }
 
         ]
@@ -248,14 +212,11 @@ const PRODUCTOS = [
 
 
     {
-        id:
-            'short-deportivo',
+        id: 'short-deportivo',
 
-        nombre:
-            'Short Deportivo',
+        nombre: 'Short Deportivo',
 
-        precio:
-            69900,
+        precio: 69900,
 
         descripcion:
             'Short ligero y cómodo para uso deportivo o casual.',
@@ -266,8 +227,7 @@ const PRODUCTOS = [
         categoria:
             'hombre-shorts',
 
-        oferta:
-            true,
+        oferta: true,
 
         tallas: [
             'S',
@@ -279,19 +239,13 @@ const PRODUCTOS = [
         colores: [
 
             {
-                nombre:
-                    'Negro',
-
-                codigo:
-                    '#111111'
+                nombre: 'Negro',
+                codigo: '#111111'
             },
 
             {
-                nombre:
-                    'Azul',
-
-                codigo:
-                    '#294a7a'
+                nombre: 'Azul',
+                codigo: '#294a7a'
             }
 
         ]
@@ -299,14 +253,11 @@ const PRODUCTOS = [
 
 
     {
-        id:
-            'buzo-cerrado',
+        id: 'buzo-cerrado',
 
-        nombre:
-            'Buzo Cerrado',
+        nombre: 'Buzo Cerrado',
 
-        precio:
-            119900,
+        precio: 119900,
 
         descripcion:
             'Buzo cerrado de tela suave y diseño cómodo.',
@@ -317,8 +268,7 @@ const PRODUCTOS = [
         categoria:
             'mujer-chaquetas',
 
-        oferta:
-            false,
+        oferta: false,
 
         tallas: [
             'XS',
@@ -330,19 +280,13 @@ const PRODUCTOS = [
         colores: [
 
             {
-                nombre:
-                    'Negro',
-
-                codigo:
-                    '#111111'
+                nombre: 'Negro',
+                codigo: '#111111'
             },
 
             {
-                nombre:
-                    'Blanco',
-
-                codigo:
-                    '#ffffff'
+                nombre: 'Blanco',
+                codigo: '#ffffff'
             }
 
         ]
@@ -384,10 +328,12 @@ function toggleBuscador() {
             'buscador-barra'
         );
 
+
     const input =
         document.getElementById(
             'buscador-input'
         );
+
 
     if (!barra) return;
 
@@ -419,11 +365,6 @@ function toggleBuscador() {
 
         }
 
-
-        /*
-           Si estamos en catálogo,
-           vuelve a mostrar el filtro actual.
-        */
 
         if (
             document.getElementById(
@@ -461,30 +402,20 @@ function filtrarBusqueda() {
             .toLowerCase();
 
 
-    /*
-       Si estamos en INDEX no filtramos todavía.
-
-       El usuario escribe y al presionar ENTER
-       lo mandamos al catálogo.
-    */
-
     const catalogo =
         document.getElementById(
             'catalogo-productos'
         );
 
 
-    if (!catalogo) {
-
-        return;
-
-    }
-
-
     /*
-       Si estamos en catalogo.html,
-       filtramos los productos directamente.
+       Si estamos en index, no filtramos ahí.
+       El usuario puede presionar Enter y será
+       enviado al catálogo.
     */
+
+    if (!catalogo) return;
+
 
     buscarEnCatalogo(
         termino
@@ -497,7 +428,9 @@ function filtrarBusqueda() {
    BUSCAR DENTRO DEL CATÁLOGO
    ========================================================= */
 
-function buscarEnCatalogo(termino) {
+function buscarEnCatalogo(
+    termino
+) {
 
     const productos =
         document.querySelectorAll(
@@ -507,11 +440,14 @@ function buscarEnCatalogo(termino) {
 
     if (
         productos.length === 0
-    ) return;
+    ) {
+
+        return;
+
+    }
 
 
-    let visibles =
-        0;
+    let visibles = 0;
 
 
     productos.forEach(
@@ -544,19 +480,9 @@ function buscarEnCatalogo(termino) {
                     .toLowerCase();
 
 
-            /*
-               Busca tanto por nombre como por categoría.
-
-               Ejemplos:
-
-               camiseta
-               pantalon
-               hombre
-               chaqueta
-               short
-            */
-
             const coincide =
+                termino === '' ||
+
                 nombre.includes(
                     termino
                 ) ||
@@ -593,7 +519,7 @@ function buscarEnCatalogo(termino) {
 
 
 /* =========================================================
-   ENVIAR BÚSQUEDA AL CATÁLOGO
+   ENVIAR BÚSQUEDA
    ========================================================= */
 
 function enviarBusqueda() {
@@ -615,8 +541,8 @@ function enviarBusqueda() {
 
 
     /*
-       Si ya estamos en el catálogo,
-       simplemente buscamos.
+       Si estamos en catálogo,
+       buscamos directamente.
     */
 
     if (
@@ -625,13 +551,13 @@ function enviarBusqueda() {
         )
     ) {
 
-        buscarEnCatalogo(
-            termino.toLowerCase()
+        actualizarBusquedaURL(
+            termino
         );
 
 
-        actualizarBusquedaURL(
-            termino
+        buscarEnCatalogo(
+            termino.toLowerCase()
         );
 
 
@@ -641,11 +567,12 @@ function enviarBusqueda() {
 
 
     /*
-       Si estamos en index, producto o carrito,
-       enviamos al usuario al catálogo.
+       Desde index, producto o carrito
+       mandamos al catálogo.
     */
 
     window.location.href =
+
         `catalogo.html?buscar=${encodeURIComponent(
             termino
         )}`;
@@ -654,7 +581,7 @@ function enviarBusqueda() {
 
 
 /* =========================================================
-   DETECTAR ENTER EN EL BUSCADOR
+   INICIALIZAR BUSCADOR
    ========================================================= */
 
 function inicializarBuscador() {
@@ -686,15 +613,6 @@ function inicializarBuscador() {
     );
 
 
-    /*
-       Si llegamos al catálogo mediante:
-
-       catalogo.html?buscar=camiseta
-
-       rellenamos el buscador y mostramos
-       automáticamente los resultados.
-    */
-
     const catalogo =
         document.getElementById(
             'catalogo-productos'
@@ -724,16 +642,18 @@ function inicializarBuscador() {
 
 
     buscarEnCatalogo(
+
         busqueda
             .trim()
             .toLowerCase()
+
     );
 
 }
 
 
 /* =========================================================
-   ACTUALIZAR URL DE BÚSQUEDA
+   URL DEL BUSCADOR
    ========================================================= */
 
 function actualizarBusquedaURL(
@@ -762,12 +682,6 @@ function actualizarBusquedaURL(
         );
 
 
-        /*
-           Si hacemos una búsqueda textual,
-           quitamos el filtro anterior para evitar
-           conflictos.
-        */
-
         url.searchParams.delete(
             'filtro'
         );
@@ -794,7 +708,7 @@ function mostrarMensajeSinResultados(
 
     const grid =
         document.querySelector(
-            '.productos-grid'
+            '#catalogo-productos'
         );
 
 
@@ -849,11 +763,12 @@ function mostrarMensajeSinResultados(
 
 }
 
+
 /* =========================================================
-   5. GENERAR CATÁLOGO
+   5. CATÁLOGO DESDE SUPABASE
    ========================================================= */
 
-function generarCatalogo() {
+async function generarCatalogo() {
 
     const contenedor =
         document.getElementById(
@@ -864,13 +779,56 @@ function generarCatalogo() {
     if (!contenedor) return;
 
 
-    contenedor.innerHTML =
-        '';
+    contenedor.innerHTML = `
+
+        <p class="catalogo-cargando">
+            Cargando productos...
+        </p>
+
+    `;
 
 
-    PRODUCTOS.forEach(
+    let productos = null;
+
+
+    if (
+        typeof window.obtenerProductosSupabase ===
+        'function'
+    ) {
+
+        productos =
+            await window
+                .obtenerProductosSupabase();
+
+    }
+
+
+    /*
+       Si Supabase falla,
+       usamos productos locales.
+    */
+
+    if (
+        !productos ||
+        productos.length === 0
+    ) {
+
+        console.warn(
+            'Usando productos locales como respaldo.'
+        );
+
+
+        productos =
+            PRODUCTOS;
+
+    }
+
+
+    contenedor.innerHTML = '';
+
+
+    productos.forEach(
         producto => {
-
 
             const articulo =
                 document.createElement(
@@ -906,7 +864,13 @@ function generarCatalogo() {
 
                         ${
                             producto.oferta
-                                ? '<span class="etiqueta">Oferta</span>'
+
+                                ? `
+                                    <span class="etiqueta">
+                                        Oferta
+                                    </span>
+                                `
+
                                 : ''
                         }
 
@@ -924,7 +888,6 @@ function generarCatalogo() {
                         )}
                     </p>
 
-
                 </a>
 
             `;
@@ -937,6 +900,40 @@ function generarCatalogo() {
         }
     );
 
+
+    /*
+       Si existe búsqueda,
+       priorizamos búsqueda.
+    */
+
+    const parametros =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const busqueda =
+        parametros.get(
+            'buscar'
+        );
+
+
+    if (busqueda) {
+
+        buscarEnCatalogo(
+            busqueda
+                .trim()
+                .toLowerCase()
+        );
+
+    }
+
+    else {
+
+        aplicarFiltroDesdeURL();
+
+    }
+
 }
 
 
@@ -944,7 +941,7 @@ function generarCatalogo() {
    6. PRODUCTOS DESTACADOS
    ========================================================= */
 
-function generarProductosDestacados() {
+async function generarProductosDestacados() {
 
     const contenedor =
         document.getElementById(
@@ -955,29 +952,58 @@ function generarProductosDestacados() {
     if (!contenedor) return;
 
 
-    contenedor.innerHTML =
-        '';
+    contenedor.innerHTML = `
+
+        <p class="catalogo-cargando">
+            Cargando productos...
+        </p>
+
+    `;
+
+
+    let destacados = null;
+
+
+    if (
+        typeof window.obtenerProductosDestacadosSupabase ===
+        'function'
+    ) {
+
+        destacados =
+            await window
+                .obtenerProductosDestacadosSupabase();
+
+    }
 
 
     /*
-       TEMPORAL:
-
-       Los primeros 3 son destacados.
-
-       Más adelante el cliente podrá elegirlos
-       desde el panel administrativo.
+       Respaldo local.
     */
 
-    const destacados =
-        PRODUCTOS.slice(
-            0,
-            3
+    if (
+        !destacados ||
+        destacados.length === 0
+    ) {
+
+        console.warn(
+            'No se encontraron destacados en Supabase. Usando respaldo local.'
         );
 
 
-    destacados.forEach(
-        (producto, indice) => {
+        destacados =
+            PRODUCTOS.slice(
+                0,
+                3
+            );
 
+    }
+
+
+    contenedor.innerHTML = '';
+
+
+    destacados.forEach(
+        producto => {
 
             const articulo =
                 document.createElement(
@@ -1001,11 +1027,9 @@ function generarProductosDestacados() {
                         style="background-image: url('${producto.imagen}');"
                     >
 
-                        ${
-                            indice === 0
-                                ? '<span class="etiqueta">Nuevo</span>'
-                                : ''
-                        }
+                        <span class="etiqueta">
+                            Destacado
+                        </span>
 
                     </div>
 
@@ -1020,7 +1044,6 @@ function generarProductosDestacados() {
                             producto.precio
                         )}
                     </p>
-
 
                 </a>
 
@@ -1038,7 +1061,7 @@ function generarProductosDestacados() {
 
 
 /* =========================================================
-   7. FILTROS DEL CATÁLOGO
+   7. FILTROS
    ========================================================= */
 
 function inicializarFiltros() {
@@ -1052,33 +1075,30 @@ function inicializarFiltros() {
     botones.forEach(
         boton => {
 
-
             boton.addEventListener(
                 'click',
                 () => {
 
+                    const filtro =
+                        boton.dataset.filtro;
+
 
                     aplicarFiltro(
-                        boton.dataset.filtro
+                        filtro
                     );
 
 
                     marcarFiltroActivo(
-                        boton.dataset.filtro
+                        filtro
                     );
 
 
-                    /*
-                       Actualizamos la URL sin recargar.
-                    */
-
                     actualizarFiltroURL(
-                        boton.dataset.filtro
+                        filtro
                     );
 
                 }
             );
-
 
         }
     );
@@ -1090,7 +1110,9 @@ function inicializarFiltros() {
    APLICAR FILTRO
    ========================================================= */
 
-function aplicarFiltro(filtro) {
+function aplicarFiltro(
+    filtro
+) {
 
     const productos =
         document.querySelectorAll(
@@ -1110,9 +1132,9 @@ function aplicarFiltro(filtro) {
     productos.forEach(
         producto => {
 
-
             const categoria =
-                producto.dataset.categoria;
+                producto.dataset.categoria ||
+                '';
 
 
             const esOferta =
@@ -1120,24 +1142,17 @@ function aplicarFiltro(filtro) {
                 'true';
 
 
-            let mostrar =
-                true;
+            let mostrar = true;
 
-
-            /* TODOS */
 
             if (
                 !filtro ||
                 filtro === 'todos'
             ) {
 
-                mostrar =
-                    true;
+                mostrar = true;
 
             }
-
-
-            /* HOMBRE */
 
             else if (
                 filtro === 'hombre'
@@ -1150,9 +1165,6 @@ function aplicarFiltro(filtro) {
 
             }
 
-
-            /* MUJER */
-
             else if (
                 filtro === 'mujer'
             ) {
@@ -1164,9 +1176,6 @@ function aplicarFiltro(filtro) {
 
             }
 
-
-            /* OFERTAS */
-
             else if (
                 filtro === 'ofertas'
             ) {
@@ -1175,9 +1184,6 @@ function aplicarFiltro(filtro) {
                     esOferta;
 
             }
-
-
-            /* SUBCATEGORÍA */
 
             else {
 
@@ -1204,8 +1210,7 @@ function aplicarFiltro(filtro) {
 
     if (input) {
 
-        input.value =
-            '';
+        input.value = '';
 
     }
 
@@ -1221,7 +1226,9 @@ function aplicarFiltro(filtro) {
    MARCAR FILTRO ACTIVO
    ========================================================= */
 
-function marcarFiltroActivo(filtro) {
+function marcarFiltroActivo(
+    filtro
+) {
 
     const botones =
         document.querySelectorAll(
@@ -1258,15 +1265,22 @@ function marcarFiltroActivo(filtro) {
 
 
 /* =========================================================
-   ACTUALIZAR URL DEL FILTRO
+   ACTUALIZAR URL DE FILTRO
    ========================================================= */
 
-function actualizarFiltroURL(filtro) {
+function actualizarFiltroURL(
+    filtro
+) {
 
     const url =
         new URL(
             window.location.href
         );
+
+
+    url.searchParams.delete(
+        'buscar'
+    );
 
 
     if (
@@ -1300,7 +1314,7 @@ function actualizarFiltroURL(filtro) {
 
 
 /* =========================================================
-   LEER FILTRO DESDE LA URL
+   FILTRO DESDE URL
    ========================================================= */
 
 function aplicarFiltroDesdeURL() {
@@ -1310,10 +1324,6 @@ function aplicarFiltroDesdeURL() {
             'catalogo-productos'
         );
 
-
-    /*
-       Solo debe ejecutarse en catalogo.html.
-    */
 
     if (!contenedor) return;
 
@@ -1328,6 +1338,20 @@ function aplicarFiltroDesdeURL() {
         parametros.get(
             'filtro'
         );
+
+
+    const busqueda =
+        parametros.get(
+            'buscar'
+        );
+
+
+    /*
+       Si estamos buscando,
+       no aplicamos otro filtro.
+    */
+
+    if (busqueda) return;
 
 
     if (!filtro) {
@@ -1358,21 +1382,21 @@ function aplicarFiltroDesdeURL() {
 
 
     /*
-       Si el filtro pertenece a Hombre o Mujer,
-       abrimos automáticamente el <details>.
+       Abrir automáticamente
+       grupo Hombre o Mujer.
     */
+
+    const grupos =
+        document.querySelectorAll(
+            '.filtro-grupo'
+        );
+
 
     if (
         filtro.startsWith(
             'hombre-'
         )
     ) {
-
-        const grupos =
-            document.querySelectorAll(
-                '.filtro-grupo'
-            );
-
 
         if (grupos[0]) {
 
@@ -1389,12 +1413,6 @@ function aplicarFiltroDesdeURL() {
             'mujer-'
         )
     ) {
-
-        const grupos =
-            document.querySelectorAll(
-                '.filtro-grupo'
-            );
-
 
         if (grupos[1]) {
 
@@ -1414,17 +1432,33 @@ function aplicarFiltroDesdeURL() {
 
 function obtenerCarrito() {
 
-    return (
+    try {
 
-        JSON.parse(
+        return (
 
-            localStorage.getItem(
-                'cottonCarrito'
-            )
+            JSON.parse(
 
-        ) || []
+                localStorage.getItem(
+                    CLAVE_CARRITO
+                )
 
-    );
+            ) || []
+
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            'Error leyendo el carrito:',
+            error
+        );
+
+
+        return [];
+
+    }
 
 }
 
@@ -1433,11 +1467,13 @@ function obtenerCarrito() {
    GUARDAR CARRITO
    ========================================================= */
 
-function guardarCarrito(carrito) {
+function guardarCarrito(
+    carrito
+) {
 
     localStorage.setItem(
 
-        'cottonCarrito',
+        CLAVE_CARRITO,
 
         JSON.stringify(
             carrito
@@ -1452,7 +1488,7 @@ function guardarCarrito(carrito) {
 
 
 /* =========================================================
-   CONTADOR
+   CONTADOR DEL CARRITO
    ========================================================= */
 
 function actualizarContadorCarrito() {
@@ -1473,8 +1509,15 @@ function actualizarContadorCarrito() {
     const total =
         carrito.reduce(
 
-            (suma, item) =>
-                suma + item.cantidad,
+            (
+                suma,
+                item
+            ) =>
+
+                suma +
+                Number(
+                    item.cantidad || 0
+                ),
 
             0
 
@@ -1497,7 +1540,30 @@ function actualizarContadorCarrito() {
    AGREGAR AL CARRITO
    ========================================================= */
 
-function agregarAlCarrito(producto) {
+function agregarAlCarrito(
+    producto
+) {
+
+    /*
+       Si sabemos el stock y está agotado,
+       bloqueamos la acción.
+    */
+
+    if (
+        typeof producto.stock ===
+        'number' &&
+
+        producto.stock <= 0
+    ) {
+
+        mostrarNotificacion(
+            'Esta combinación está agotada.'
+        );
+
+        return;
+
+    }
+
 
     const carrito =
         obtenerCarrito();
@@ -1515,10 +1581,28 @@ function agregarAlCarrito(producto) {
 
                 item.color ===
                     producto.color
+
         );
 
 
     if (existente) {
+
+        if (
+            typeof producto.stock ===
+            'number' &&
+
+            existente.cantidad >=
+                producto.stock
+        ) {
+
+            mostrarNotificacion(
+                'Ya agregaste todas las unidades disponibles de esta variante.'
+            );
+
+            return;
+
+        }
+
 
         existente.cantidad++;
 
@@ -1549,22 +1633,48 @@ function agregarAlCarrito(producto) {
 
 
 /* =========================================================
-   AVISO
+   NOTIFICACIÓN GENERAL
    ========================================================= */
 
-function mostrarAvisoCarrito() {
+function mostrarNotificacion(
+    mensaje
+) {
 
-    const aviso =
+    let aviso =
         document.getElementById(
-            'aviso-carrito'
+            'notificacion-tienda'
         );
 
 
-    if (!aviso) return;
+    if (!aviso) {
+
+        aviso =
+            document.createElement(
+                'div'
+            );
+
+
+        aviso.id =
+            'notificacion-tienda';
+
+
+        aviso.className =
+            'notificacion-tienda';
+
+
+        document.body.appendChild(
+            aviso
+        );
+
+    }
+
+
+    aviso.textContent =
+        mensaje;
 
 
     aviso.classList.add(
-        'aviso-visible'
+        'notificacion-visible'
     );
 
 
@@ -1577,30 +1687,91 @@ function mostrarAvisoCarrito() {
         setTimeout(
             () => {
 
-
                 aviso.classList.remove(
-                    'aviso-visible'
+                    'notificacion-visible'
                 );
 
-
             },
-            2200
+            2800
         );
 
 }
 
 
 /* =========================================================
-   PRECIO
+   AVISO PRODUCTO AGREGADO
    ========================================================= */
 
-function formatearPrecio(numero) {
+function mostrarAvisoCarrito() {
+
+    const aviso =
+        document.getElementById(
+            'aviso-carrito'
+        );
+
+
+    /*
+       Si producto.html tiene su propio aviso,
+       usamos ese.
+    */
+
+    if (aviso) {
+
+        aviso.classList.add(
+            'aviso-visible'
+        );
+
+
+        clearTimeout(
+            aviso._temporizador
+        );
+
+
+        aviso._temporizador =
+            setTimeout(
+                () => {
+
+                    aviso.classList.remove(
+                        'aviso-visible'
+                    );
+
+                },
+                2200
+            );
+
+
+        return;
+
+    }
+
+
+    /*
+       Si no existe,
+       usamos toast general.
+    */
+
+    mostrarNotificacion(
+        'Producto agregado al carrito.'
+    );
+
+}
+
+
+/* =========================================================
+   FORMATEAR PRECIO
+   ========================================================= */
+
+function formatearPrecio(
+    numero
+) {
 
     return (
 
         '$' +
 
-        Number(numero)
+        Number(
+            numero || 0
+        )
             .toLocaleString(
                 'es-CO'
             )
@@ -1611,10 +1782,10 @@ function formatearPrecio(numero) {
 
 
 /* =========================================================
-   9. PÁGINA DINÁMICA DE PRODUCTO
+   9. PRODUCTO INDIVIDUAL
    ========================================================= */
 
-function inicializarProducto() {
+async function inicializarProducto() {
 
     const detalle =
         document.getElementById(
@@ -1631,82 +1802,109 @@ function inicializarProducto() {
         );
 
 
-    const id =
+    const slug =
         parametros.get(
             'id'
         );
 
 
-    const producto =
-        PRODUCTOS.find(
-            item =>
-                item.id === id
-        );
+    if (!slug) {
 
-
-    if (!producto) {
-
-
-        const nombre =
-            document.getElementById(
-                'producto-nombre'
-            );
-
-
-        const precio =
-            document.getElementById(
-                'producto-precio'
-            );
-
-
-        const descripcion =
-            document.getElementById(
-                'producto-descripcion'
-            );
-
-
-        const imagen =
-            document.getElementById(
-                'producto-imagen'
-            );
-
-
-        if (nombre) {
-
-            nombre.textContent =
-                'Producto no encontrado';
-
-        }
-
-
-        if (precio) {
-
-            precio.textContent =
-                '';
-
-        }
-
-
-        if (descripcion) {
-
-            descripcion.textContent =
-                'El producto que intentas abrir no existe o ya no está disponible.';
-
-        }
-
-
-        if (imagen) {
-
-            imagen.style.backgroundImage =
-                'none';
-
-        }
-
+        mostrarProductoNoEncontrado();
 
         return;
 
     }
 
+
+    let producto = null;
+
+
+    /* =====================================================
+       PRODUCTO DESDE SUPABASE
+       ===================================================== */
+
+    if (
+        typeof window.obtenerProductoPorSlugSupabase ===
+        'function'
+    ) {
+
+        producto =
+            await window
+                .obtenerProductoPorSlugSupabase(
+                    slug
+                );
+
+    }
+
+
+    /* =====================================================
+       RESPALDO LOCAL
+       ===================================================== */
+
+    if (!producto) {
+
+        console.warn(
+            'Producto no encontrado en Supabase. Usando respaldo local.'
+        );
+
+
+        producto =
+            PRODUCTOS.find(
+                item =>
+                    item.id === slug
+            );
+
+    }
+
+
+    if (!producto) {
+
+        mostrarProductoNoEncontrado();
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       OBTENER VARIANTES
+       ===================================================== */
+
+    let variantes = [];
+
+
+    if (
+        producto.idSupabase &&
+
+        typeof window.obtenerVariantesProductoSupabase ===
+        'function'
+    ) {
+
+        const resultado =
+            await window
+                .obtenerVariantesProductoSupabase(
+                    producto.idSupabase
+                );
+
+
+        if (
+            Array.isArray(
+                resultado
+            )
+        ) {
+
+            variantes =
+                resultado;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       INFORMACIÓN GENERAL
+       ===================================================== */
 
     detalle.dataset.productoId =
         producto.id;
@@ -1724,8 +1922,6 @@ function inicializarProducto() {
         producto.imagen;
 
 
-    /* NOMBRE */
-
     const nombre =
         document.getElementById(
             'producto-nombre'
@@ -1740,8 +1936,6 @@ function inicializarProducto() {
     }
 
 
-    /* MIGA */
-
     const miga =
         document.getElementById(
             'miga-producto'
@@ -1755,8 +1949,6 @@ function inicializarProducto() {
 
     }
 
-
-    /* PRECIO */
 
     const precio =
         document.getElementById(
@@ -1774,8 +1966,6 @@ function inicializarProducto() {
     }
 
 
-    /* DESCRIPCIÓN */
-
     const descripcion =
         document.getElementById(
             'producto-descripcion'
@@ -1785,12 +1975,11 @@ function inicializarProducto() {
     if (descripcion) {
 
         descripcion.textContent =
-            producto.descripcion;
+            producto.descripcion ||
+            '';
 
     }
 
-
-    /* IMAGEN */
 
     const imagen =
         document.getElementById(
@@ -1811,188 +2000,23 @@ function inicializarProducto() {
 
 
     /* =====================================================
-       COLORES
+       OPCIONES DE PRODUCTO
        ===================================================== */
 
-    const contenedorColores =
-        document.getElementById(
-            'producto-colores'
-        );
+    if (
+        variantes.length > 0
+    ) {
 
-
-    if (contenedorColores) {
-
-
-        contenedorColores.innerHTML =
-            '';
-
-
-        producto.colores.forEach(
-            (color, indice) => {
-
-
-                const input =
-                    document.createElement(
-                        'input'
-                    );
-
-
-                input.type =
-                    'radio';
-
-
-                input.name =
-                    'color';
-
-
-                input.id =
-                    `color-${indice}`;
-
-
-                input.className =
-                    'color-input';
-
-
-                input.value =
-                    color.nombre;
-
-
-                if (
-                    indice === 0
-                ) {
-
-                    input.checked =
-                        true;
-
-                }
-
-
-                const label =
-                    document.createElement(
-                        'label'
-                    );
-
-
-                label.htmlFor =
-                    input.id;
-
-
-                label.className =
-                    'color-opcion';
-
-
-                label.setAttribute(
-                    'aria-label',
-                    color.nombre
-                );
-
-
-                label.style.backgroundColor =
-                    color.codigo;
-
-
-                contenedorColores.appendChild(
-                    input
-                );
-
-
-                contenedorColores.appendChild(
-                    label
-                );
-
-
-            }
+        generarOpcionesVariantes(
+            variantes
         );
 
     }
 
+    else {
 
-    /* =====================================================
-       TALLAS
-       ===================================================== */
-
-    const contenedorTallas =
-        document.getElementById(
-            'producto-tallas'
-        );
-
-
-    if (contenedorTallas) {
-
-
-        contenedorTallas.innerHTML =
-            '';
-
-
-        producto.tallas.forEach(
-            (talla, indice) => {
-
-
-                const input =
-                    document.createElement(
-                        'input'
-                    );
-
-
-                input.type =
-                    'radio';
-
-
-                input.name =
-                    'talla';
-
-
-                input.id =
-                    `talla-${indice}`;
-
-
-                input.className =
-                    'talla-input';
-
-
-                input.value =
-                    talla;
-
-
-                if (
-                    indice === 0
-                ) {
-
-                    input.checked =
-                        true;
-
-                }
-
-
-                const label =
-                    document.createElement(
-                        'label'
-                    );
-
-
-                label.htmlFor =
-                    input.id;
-
-
-                label.className =
-                    'talla-opcion';
-
-
-                label.textContent =
-                    talla;
-
-
-                contenedorTallas.appendChild(
-                    input
-                );
-
-
-                contenedorTallas.appendChild(
-                    label
-                );
-
-
-            }
+        generarOpcionesLocalesProducto(
+            slug
         );
 
     }
@@ -2010,11 +2034,9 @@ function inicializarProducto() {
 
     if (botonComprar) {
 
-
         botonComprar.addEventListener(
             'click',
             evento => {
-
 
                 evento.preventDefault();
 
@@ -2031,6 +2053,63 @@ function inicializarProducto() {
                     );
 
 
+                if (
+                    variantes.length > 0 &&
+                    (!talla || !color)
+                ) {
+
+                    mostrarNotificacion(
+                        'Selecciona un color y una talla disponibles.'
+                    );
+
+                    return;
+
+                }
+
+
+                let stock = null;
+
+
+                if (
+                    variantes.length > 0
+                ) {
+
+                    const variante =
+                        variantes.find(
+                            item =>
+
+                                item.talla ===
+                                    talla.value &&
+
+                                item.color_nombre ===
+                                    color.value
+                        );
+
+
+                    if (
+                        !variante ||
+                        Number(
+                            variante.stock
+                        ) <= 0
+                    ) {
+
+                        mostrarNotificacion(
+                            'Esta combinación está agotada.'
+                        );
+
+                        return;
+
+                    }
+
+
+                    stock =
+                        Number(
+                            variante.stock
+                        );
+
+                }
+
+
                 agregarAlCarrito({
 
                     id:
@@ -2040,7 +2119,9 @@ function inicializarProducto() {
                         producto.nombre,
 
                     precio:
-                        producto.precio,
+                        Number(
+                            producto.precio
+                        ),
 
                     imagen:
                         producto.imagen,
@@ -2053,10 +2134,12 @@ function inicializarProducto() {
                     color:
                         color
                             ? color.value
-                            : ''
+                            : '',
+
+                    stock:
+                        stock
 
                 });
-
 
             }
         );
@@ -2065,7 +2148,7 @@ function inicializarProducto() {
 
 
     /* =====================================================
-       WHATSAPP DEL PRODUCTO
+       CONSULTAR POR WHATSAPP
        ===================================================== */
 
     const botonWhatsapp =
@@ -2076,11 +2159,9 @@ function inicializarProducto() {
 
     if (botonWhatsapp) {
 
-
         botonWhatsapp.addEventListener(
             'click',
             evento => {
-
 
                 evento.preventDefault();
 
@@ -2099,25 +2180,26 @@ function inicializarProducto() {
 
                 const mensaje =
 
-                    `Hola, quiero consultar por ${producto.nombre}. ` +
+                    `Hola, quiero consultar por ${producto.nombre}.\n\n` +
+
+                    `Precio: ${formatearPrecio(producto.precio)}\n` +
 
                     `Talla: ${
                         talla
                             ? talla.value
                             : 'Sin seleccionar'
-                    }. ` +
+                    }\n` +
 
                     `Color: ${
                         color
                             ? color.value
                             : 'Sin seleccionar'
-                    }.`;
+                    }`;
 
 
                 abrirWhatsapp(
                     mensaje
                 );
-
 
             }
         );
@@ -2128,10 +2210,731 @@ function inicializarProducto() {
 
 
 /* =========================================================
-   ABRIR WHATSAPP
+   10. VARIANTES — COLORES Y TALLAS
    ========================================================= */
 
-function abrirWhatsapp(mensaje) {
+function generarOpcionesVariantes(
+    variantes
+) {
+
+    const contenedorColores =
+        document.getElementById(
+            'producto-colores'
+        );
+
+
+    const contenedorTallas =
+        document.getElementById(
+            'producto-tallas'
+        );
+
+
+    if (
+        !contenedorColores ||
+        !contenedorTallas
+    ) {
+
+        return;
+
+    }
+
+
+    contenedorColores.innerHTML = '';
+
+    contenedorTallas.innerHTML = '';
+
+
+    /* =====================================================
+       COLORES ÚNICOS
+       ===================================================== */
+
+    const coloresMap =
+        new Map();
+
+
+    variantes.forEach(
+        variante => {
+
+            const nombreColor =
+                variante.color_nombre;
+
+
+            if (!nombreColor) return;
+
+
+            if (
+                !coloresMap.has(
+                    nombreColor
+                )
+            ) {
+
+                coloresMap.set(
+
+                    nombreColor,
+
+                    {
+                        nombre:
+                            nombreColor,
+
+                        codigo:
+                            variante.color_codigo ||
+                            '#cccccc'
+                    }
+
+                );
+
+            }
+
+        }
+    );
+
+
+    const colores =
+        Array.from(
+            coloresMap.values()
+        );
+
+
+    /* =====================================================
+       GENERAR COLORES
+       ===================================================== */
+
+    colores.forEach(
+        (
+            color,
+            indice
+        ) => {
+
+            const variantesColor =
+                variantes.filter(
+                    item =>
+                        item.color_nombre ===
+                        color.nombre
+                );
+
+
+            const stockTotal =
+                variantesColor.reduce(
+                    (
+                        suma,
+                        item
+                    ) =>
+
+                        suma +
+                        Number(
+                            item.stock || 0
+                        ),
+
+                    0
+                );
+
+
+            const input =
+                document.createElement(
+                    'input'
+                );
+
+
+            input.type =
+                'radio';
+
+
+            input.name =
+                'color';
+
+
+            input.id =
+                `color-${indice}`;
+
+
+            input.className =
+                'color-input';
+
+
+            input.value =
+                color.nombre;
+
+
+            if (
+                stockTotal <= 0
+            ) {
+
+                input.disabled =
+                    true;
+
+            }
+
+
+            const label =
+                document.createElement(
+                    'label'
+                );
+
+
+            label.htmlFor =
+                input.id;
+
+
+            label.className =
+                'color-opcion';
+
+
+            label.style.backgroundColor =
+                color.codigo;
+
+
+            label.title =
+                stockTotal > 0
+
+                    ? color.nombre
+
+                    : `${color.nombre} - Agotado`;
+
+
+            label.setAttribute(
+                'aria-label',
+                label.title
+            );
+
+
+            if (
+                stockTotal <= 0
+            ) {
+
+                label.style.opacity =
+                    '0.35';
+
+
+                label.style.cursor =
+                    'not-allowed';
+
+            }
+
+
+            input.addEventListener(
+                'change',
+                () => {
+
+                    generarTallasPorColor(
+                        variantes,
+                        color.nombre
+                    );
+
+                }
+            );
+
+
+            contenedorColores.appendChild(
+                input
+            );
+
+
+            contenedorColores.appendChild(
+                label
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       PRIMER COLOR DISPONIBLE
+       ===================================================== */
+
+    const primerColorDisponible =
+        contenedorColores.querySelector(
+            'input[name="color"]:not(:disabled)'
+        );
+
+
+    if (primerColorDisponible) {
+
+        primerColorDisponible.checked =
+            true;
+
+
+        generarTallasPorColor(
+
+            variantes,
+
+            primerColorDisponible.value
+
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   TALLAS SEGÚN COLOR
+   ========================================================= */
+
+function generarTallasPorColor(
+    variantes,
+    colorSeleccionado
+) {
+
+    const contenedorTallas =
+        document.getElementById(
+            'producto-tallas'
+        );
+
+
+    if (!contenedorTallas) return;
+
+
+    contenedorTallas.innerHTML = '';
+
+
+    const variantesColor =
+        variantes.filter(
+            item =>
+                item.color_nombre ===
+                colorSeleccionado
+        );
+
+
+    variantesColor.forEach(
+        (
+            variante,
+            indice
+        ) => {
+
+            const stock =
+                Number(
+                    variante.stock || 0
+                );
+
+
+            const input =
+                document.createElement(
+                    'input'
+                );
+
+
+            input.type =
+                'radio';
+
+
+            input.name =
+                'talla';
+
+
+            input.id =
+                `talla-${indice}`;
+
+
+            input.className =
+                'talla-input';
+
+
+            input.value =
+                variante.talla;
+
+
+            if (
+                stock <= 0
+            ) {
+
+                input.disabled =
+                    true;
+
+            }
+
+
+            const label =
+                document.createElement(
+                    'label'
+                );
+
+
+            label.htmlFor =
+                input.id;
+
+
+            label.className =
+                'talla-opcion';
+
+
+            label.textContent =
+                variante.talla;
+
+
+            label.title =
+                stock > 0
+
+                    ? `Stock disponible: ${stock}`
+
+                    : 'Agotado';
+
+
+            if (
+                stock <= 0
+            ) {
+
+                label.style.opacity =
+                    '0.35';
+
+
+                label.style.textDecoration =
+                    'line-through';
+
+
+                label.style.cursor =
+                    'not-allowed';
+
+            }
+
+
+            contenedorTallas.appendChild(
+                input
+            );
+
+
+            contenedorTallas.appendChild(
+                label
+            );
+
+        }
+    );
+
+
+    const primeraTallaDisponible =
+        contenedorTallas.querySelector(
+            'input[name="talla"]:not(:disabled)'
+        );
+
+
+    if (primeraTallaDisponible) {
+
+        primeraTallaDisponible.checked =
+            true;
+
+    }
+
+}
+
+
+/* =========================================================
+   OPCIONES LOCALES DE RESPALDO
+   ========================================================= */
+
+function generarOpcionesLocalesProducto(
+    slug
+) {
+
+    const productoLocal =
+        PRODUCTOS.find(
+            item =>
+                item.id === slug
+        );
+
+
+    const contenedorColores =
+        document.getElementById(
+            'producto-colores'
+        );
+
+
+    const contenedorTallas =
+        document.getElementById(
+            'producto-tallas'
+        );
+
+
+    if (
+        !contenedorColores ||
+        !contenedorTallas
+    ) {
+
+        return;
+
+    }
+
+
+    contenedorColores.innerHTML = '';
+
+    contenedorTallas.innerHTML = '';
+
+
+    if (!productoLocal) {
+
+        contenedorColores.innerHTML =
+            '<p>Sin colores disponibles.</p>';
+
+
+        contenedorTallas.innerHTML =
+            '<p>Sin tallas disponibles.</p>';
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       COLORES LOCALES
+       ===================================================== */
+
+    productoLocal.colores.forEach(
+        (
+            color,
+            indice
+        ) => {
+
+            const input =
+                document.createElement(
+                    'input'
+                );
+
+
+            input.type =
+                'radio';
+
+
+            input.name =
+                'color';
+
+
+            input.id =
+                `color-${indice}`;
+
+
+            input.className =
+                'color-input';
+
+
+            input.value =
+                color.nombre;
+
+
+            if (
+                indice === 0
+            ) {
+
+                input.checked =
+                    true;
+
+            }
+
+
+            const label =
+                document.createElement(
+                    'label'
+                );
+
+
+            label.htmlFor =
+                input.id;
+
+
+            label.className =
+                'color-opcion';
+
+
+            label.style.backgroundColor =
+                color.codigo;
+
+
+            label.title =
+                color.nombre;
+
+
+            label.setAttribute(
+                'aria-label',
+                color.nombre
+            );
+
+
+            contenedorColores.appendChild(
+                input
+            );
+
+
+            contenedorColores.appendChild(
+                label
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       TALLAS LOCALES
+       ===================================================== */
+
+    productoLocal.tallas.forEach(
+        (
+            talla,
+            indice
+        ) => {
+
+            const input =
+                document.createElement(
+                    'input'
+                );
+
+
+            input.type =
+                'radio';
+
+
+            input.name =
+                'talla';
+
+
+            input.id =
+                `talla-${indice}`;
+
+
+            input.className =
+                'talla-input';
+
+
+            input.value =
+                talla;
+
+
+            if (
+                indice === 0
+            ) {
+
+                input.checked =
+                    true;
+
+            }
+
+
+            const label =
+                document.createElement(
+                    'label'
+                );
+
+
+            label.htmlFor =
+                input.id;
+
+
+            label.className =
+                'talla-opcion';
+
+
+            label.textContent =
+                talla;
+
+
+            contenedorTallas.appendChild(
+                input
+            );
+
+
+            contenedorTallas.appendChild(
+                label
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   PRODUCTO NO ENCONTRADO
+   ========================================================= */
+
+function mostrarProductoNoEncontrado() {
+
+    const nombre =
+        document.getElementById(
+            'producto-nombre'
+        );
+
+
+    const precio =
+        document.getElementById(
+            'producto-precio'
+        );
+
+
+    const descripcion =
+        document.getElementById(
+            'producto-descripcion'
+        );
+
+
+    const imagen =
+        document.getElementById(
+            'producto-imagen'
+        );
+
+
+    const colores =
+        document.getElementById(
+            'producto-colores'
+        );
+
+
+    const tallas =
+        document.getElementById(
+            'producto-tallas'
+        );
+
+
+    if (nombre) {
+
+        nombre.textContent =
+            'Producto no encontrado';
+
+    }
+
+
+    if (precio) {
+
+        precio.textContent = '';
+
+    }
+
+
+    if (descripcion) {
+
+        descripcion.textContent =
+            'El producto que intentas abrir no existe o ya no está disponible.';
+
+    }
+
+
+    if (imagen) {
+
+        imagen.style.backgroundImage =
+            'none';
+
+    }
+
+
+    if (colores) {
+
+        colores.innerHTML = '';
+
+    }
+
+
+    if (tallas) {
+
+        tallas.innerHTML = '';
+
+    }
+
+}
+
+
+/* =========================================================
+   11. WHATSAPP
+   ========================================================= */
+
+function abrirWhatsapp(
+    mensaje
+) {
 
     const url =
 
@@ -2151,7 +2954,7 @@ function abrirWhatsapp(mensaje) {
 
 
 /* =========================================================
-   10. CARRITO.HTML
+   12. PÁGINA DEL CARRITO
    ========================================================= */
 
 function renderizarCarrito() {
@@ -2181,14 +2984,16 @@ function renderizarCarrito() {
         obtenerCarrito();
 
 
-    contenedor.innerHTML =
-        '';
+    contenedor.innerHTML = '';
 
+
+    /* =====================================================
+       CARRITO VACÍO
+       ===================================================== */
 
     if (
         carrito.length === 0
     ) {
-
 
         if (vacio) {
 
@@ -2227,18 +3032,43 @@ function renderizarCarrito() {
     }
 
 
-    let total =
-        0;
+    let total = 0;
 
+
+    /* =====================================================
+       PRODUCTOS
+       ===================================================== */
 
     carrito.forEach(
-        (item, indice) => {
+        (
+            item,
+            indice
+        ) => {
+
+            const precio =
+                Number(
+                    item.precio || 0
+                );
+
+
+            const cantidad =
+                Number(
+                    item.cantidad || 0
+                );
 
 
             total +=
+                precio *
+                cantidad;
 
-                item.precio *
-                item.cantidad;
+
+            const llegoAlMaximo =
+
+                typeof item.stock ===
+                    'number' &&
+
+                cantidad >=
+                    item.stock;
 
 
             const fila =
@@ -2277,11 +3107,29 @@ function renderizarCarrito() {
                     <p class="carrito-item-precio">
 
                         ${formatearPrecio(
-                            item.precio
+                            precio
                         )}
 
                     </p>
 
+
+                    ${
+                        typeof item.stock ===
+                            'number'
+
+                            ? `
+
+                                <p class="carrito-stock">
+
+                                    Stock disponible:
+                                    ${item.stock}
+
+                                </p>
+
+                            `
+
+                            : ''
+                    }
 
                 </div>
 
@@ -2292,19 +3140,27 @@ function renderizarCarrito() {
                     <button
                         type="button"
                         class="boton-menos"
+                        aria-label="Restar una unidad"
                     >
                         -
                     </button>
 
 
                     <span>
-                        ${item.cantidad}
+                        ${cantidad}
                     </span>
 
 
                     <button
                         type="button"
                         class="boton-mas"
+                        aria-label="Agregar una unidad"
+
+                        ${
+                            llegoAlMaximo
+                                ? 'disabled'
+                                : ''
+                        }
                     >
                         +
                     </button>
@@ -2323,70 +3179,97 @@ function renderizarCarrito() {
             `;
 
 
-            fila
-                .querySelector(
+            /* =================================================
+               BOTÓN MENOS
+               ================================================= */
+
+            const botonMenos =
+                fila.querySelector(
                     '.boton-menos'
-                )
-                .addEventListener(
+                );
+
+
+            if (botonMenos) {
+
+                botonMenos.addEventListener(
                     'click',
                     () => {
-
 
                         cambiarCantidad(
                             indice,
                             -1
                         );
 
-
                     }
                 );
 
+            }
 
-            fila
-                .querySelector(
+
+            /* =================================================
+               BOTÓN MÁS
+               ================================================= */
+
+            const botonMas =
+                fila.querySelector(
                     '.boton-mas'
-                )
-                .addEventListener(
+                );
+
+
+            if (botonMas) {
+
+                botonMas.addEventListener(
                     'click',
                     () => {
-
 
                         cambiarCantidad(
                             indice,
                             1
                         );
 
-
                     }
                 );
 
+            }
 
-            fila
-                .querySelector(
+
+            /* =================================================
+               BOTÓN ELIMINAR
+               ================================================= */
+
+            const botonEliminar =
+                fila.querySelector(
                     '.carrito-item-eliminar'
-                )
-                .addEventListener(
+                );
+
+
+            if (botonEliminar) {
+
+                botonEliminar.addEventListener(
                     'click',
                     () => {
-
 
                         eliminarDelCarrito(
                             indice
                         );
 
-
                     }
                 );
+
+            }
 
 
             contenedor.appendChild(
                 fila
             );
 
-
         }
     );
 
+
+    /* =====================================================
+       TOTAL
+       ===================================================== */
 
     const totalElemento =
         document.getElementById(
@@ -2412,26 +3295,61 @@ function renderizarCarrito() {
 
 function cambiarCantidad(
     indice,
-    cantidad
+    cambio
 ) {
 
     const carrito =
         obtenerCarrito();
 
 
-    if (!carrito[indice]) {
+    const item =
+        carrito[indice];
 
-        return;
+
+    if (!item) return;
+
+
+    /*
+       SUBIR CANTIDAD
+    */
+
+    if (
+        cambio > 0
+    ) {
+
+        if (
+            typeof item.stock ===
+                'number' &&
+
+            item.cantidad >=
+                item.stock
+        ) {
+
+            mostrarNotificacion(
+
+                `Solo hay ${item.stock} unidad(es) disponibles de esta variante.`
+
+            );
+
+
+            return;
+
+        }
 
     }
 
 
-    carrito[indice].cantidad +=
-        cantidad;
+    item.cantidad +=
+        cambio;
 
+
+    /*
+       Si llega a cero,
+       eliminamos el producto.
+    */
 
     if (
-        carrito[indice].cantidad <= 0
+        item.cantidad <= 0
     ) {
 
         carrito.splice(
@@ -2453,13 +3371,24 @@ function cambiarCantidad(
 
 
 /* =========================================================
-   ELIMINAR
+   ELIMINAR DEL CARRITO
    ========================================================= */
 
-function eliminarDelCarrito(indice) {
+function eliminarDelCarrito(
+    indice
+) {
 
     const carrito =
         obtenerCarrito();
+
+
+    if (
+        !carrito[indice]
+    ) {
+
+        return;
+
+    }
 
 
     carrito.splice(
@@ -2475,11 +3404,16 @@ function eliminarDelCarrito(indice) {
 
     renderizarCarrito();
 
+
+    mostrarNotificacion(
+        'Producto eliminado del carrito.'
+    );
+
 }
 
 
 /* =========================================================
-   FINALIZAR PEDIDO
+   FINALIZAR PEDIDO POR WHATSAPP
    ========================================================= */
 
 function finalizarPedidoPorWhatsapp() {
@@ -2490,11 +3424,18 @@ function finalizarPedidoPorWhatsapp() {
 
     if (
         carrito.length === 0
-    ) return;
+    ) {
+
+        mostrarNotificacion(
+            'Tu carrito está vacío.'
+        );
+
+        return;
+
+    }
 
 
-    let total =
-        0;
+    let total = 0;
 
 
     let mensaje =
@@ -2504,11 +3445,15 @@ function finalizarPedidoPorWhatsapp() {
     carrito.forEach(
         item => {
 
-
             const subtotal =
 
-                item.precio *
-                item.cantidad;
+                Number(
+                    item.precio
+                ) *
+
+                Number(
+                    item.cantidad
+                );
 
 
             total +=
@@ -2529,7 +3474,6 @@ function finalizarPedidoPorWhatsapp() {
                     subtotal
                 )}\n\n`;
 
-
         }
     );
 
@@ -2549,52 +3493,52 @@ function finalizarPedidoPorWhatsapp() {
 
 
 /* =========================================================
-   INICIALIZACIÓN
+   13. INICIALIZACIÓN GENERAL
    ========================================================= */
 
 document.addEventListener(
     'DOMContentLoaded',
-    () => {
+    async () => {
+
+        /* CONTADOR */
 
         actualizarContadorCarrito();
 
 
-        /* Generamos catálogo */
+        /* CATÁLOGO */
 
-        generarCatalogo();
-
-
-        /* Generamos destacados del index */
-
-        generarProductosDestacados();
+        await generarCatalogo();
 
 
-        /* Activamos filtros */
+        /* DESTACADOS */
+
+        await generarProductosDestacados();
+
+
+        /* FILTROS */
 
         inicializarFiltros();
 
 
-        /* Aplicamos filtro desde URL */
-
         aplicarFiltroDesdeURL();
 
 
-        /* Activamos el buscador */
+        /* BUSCADOR */
 
         inicializarBuscador();
 
 
-        /* Página individual */
+        /* PRODUCTO */
 
-        inicializarProducto();
+        await inicializarProducto();
 
 
-        /* Carrito */
+        /* CARRITO */
 
         renderizarCarrito();
 
 
-        /* Finalizar pedido */
+        /* FINALIZAR PEDIDO */
 
         const botonFinalizar =
             document.getElementById(
