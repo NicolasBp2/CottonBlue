@@ -263,3 +263,59 @@ window.obtenerProductoPorSlugSupabase =
 
 window.obtenerVariantesProductoSupabase =
     obtenerVariantesProductoSupabase;
+
+    async function obtenerCategoriasSupabase() {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                'categorias'
+            )
+
+            .select(
+                'id, nombre, slug, activo, orden'
+            )
+
+            .eq(
+                'activo',
+                true
+            )
+
+            .order(
+                'orden',
+                {
+                    ascending: true
+                }
+            )
+
+            .order(
+                'nombre',
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            'Error cargando categorías:',
+            error
+        );
+
+        return [];
+
+    }
+
+
+    return data || [];
+
+}
+
+
+window.obtenerCategoriasSupabase =
+    obtenerCategoriasSupabase;

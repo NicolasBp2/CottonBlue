@@ -1326,12 +1326,62 @@ function aplicarFiltro(
                unisex-buzos
                ===================================================== */
 
-            else {
+          else if (
+    filtro.startsWith(
+        'hombre-'
+    )
+) {
 
-                mostrar =
-                    categoria === filtro;
+    const slugCategoria =
+        filtro.replace(
+            'hombre-',
+            ''
+        );
 
-            }
+
+    mostrar =
+        categoria ===
+        `hombre-${slugCategoria}` ||
+
+        categoria ===
+        `unisex-${slugCategoria}`;
+
+}
+
+
+else if (
+    filtro.startsWith(
+        'mujer-'
+    )
+) {
+
+    const slugCategoria =
+        filtro.replace(
+            'mujer-',
+            ''
+        );
+
+
+    mostrar =
+        categoria ===
+        `mujer-${slugCategoria}` ||
+
+        categoria ===
+        `unisex-${slugCategoria}`;
+
+}
+
+
+else if (
+    filtro.startsWith(
+        'unisex-'
+    )
+) {
+
+    mostrar =
+        categoria === filtro;
+
+}
 
 
             producto.style.display =
@@ -3555,7 +3605,7 @@ function eliminarDelCarrito(
    FINALIZAR PEDIDO POR WHATSAPP
    ========================================================= */
 
-function finalizarPedidoPorWhatsapp() {
+async function finalizarPedidoPorWhatsapp() {
 
     const carrito =
         obtenerCarrito();
@@ -3574,7 +3624,163 @@ function finalizarPedidoPorWhatsapp() {
     }
 
 
-    let total = 0;
+    /* =====================================================
+       VALIDAR STOCK ACTUAL EN SUPABASE
+       ===================================================== */
+
+    if (
+        typeof window.obtenerProductoPorSlugSupabase ===
+            'function' &&
+
+        typeof window.obtenerVariantesProductoSupabase ===
+            'function'
+    ) {
+
+        for (
+            const item of carrito
+        ) {
+
+            const productoActual =
+                await window
+                    .obtenerProductoPorSlugSupabase(
+                        item.id
+                    );
+
+
+            if (!productoActual) {
+
+                mostrarNotificacion(
+                    `${item.nombre} ya no está disponible.`
+                );
+
+                return;
+
+            }
+
+
+            const variantes =
+                await window
+                    .obtenerVariantesProductoSupabase(
+                        productoActual.idSupabase
+                    );
+
+
+            const varianteActual =
+                variantes.find(
+                    variante =>
+
+                        String(
+                            variante.talla
+                        )
+                            .trim()
+                            .toUpperCase() ===
+
+                        String(
+                            item.talla
+                        )
+                            .trim()
+                            .toUpperCase() &&
+
+
+                        String(
+                            variante.color_nombre
+                        )
+                            .trim()
+                            .toLowerCase() ===
+
+                        String(
+                            item.color
+                        )
+                            .trim()
+                            .toLowerCase()
+                );
+
+
+            if (!varianteActual) {
+
+                mostrarNotificacion(
+                    `${item.nombre} - ${item.color} / ${item.talla} ya no está disponible.`
+                );
+
+                return;
+
+            }
+
+
+            const stockActual =
+                Number(
+                    varianteActual.stock || 0
+                );
+
+
+            if (
+                stockActual <= 0
+            ) {
+
+                mostrarNotificacion(
+                    `${item.nombre} - ${item.color} / ${item.talla} está agotado.`
+                );
+
+                return;
+
+            }
+
+
+            if (
+                Number(
+                    item.cantidad
+                ) >
+                stockActual
+            ) {
+
+                item.stock =
+                    stockActual;
+
+
+                guardarCarrito(
+                    carrito
+                );
+
+
+                renderizarCarrito();
+
+
+                mostrarNotificacion(
+                    `Solo quedan ${stockActual} unidad(es) de ${item.nombre} - ${item.color} / ${item.talla}.`
+                );
+
+                return;
+
+            }
+
+
+            /*
+               Actualizamos también el stock guardado
+               en el carrito con el valor más reciente.
+            */
+
+            item.stock =
+                stockActual;
+
+        }
+
+
+        guardarCarrito(
+            carrito
+        );
+
+
+        renderizarCarrito();
+
+    }
+
+
+    /* =====================================================
+       GENERAR MENSAJE
+       ===================================================== */
+
+    let total =
+        0;
 
 
     let mensaje =
@@ -3630,7 +3836,6 @@ function finalizarPedidoPorWhatsapp() {
 
 }
 
-
 /* =========================================================
    13. INICIALIZACIÓN GENERAL
    ========================================================= */
@@ -3653,14 +3858,8 @@ document.addEventListener(
 
         await generarProductosDestacados();
 
-
-        /* FILTROS */
-
-        inicializarFiltros();
-
-
-        aplicarFiltroDesdeURL();
-
+await generarFiltrosCategorias();
+await generarCategoriasNavbar();
 
         /* BUSCADOR */
 
@@ -3696,3 +3895,277 @@ document.addEventListener(
 
     }
 );
+async function generarFiltrosCategorias() {
+
+    if (
+        typeof window.obtenerCategoriasSupabase !==
+        'function'
+    ) {
+
+        return;
+
+    }
+
+
+    const categorias =
+        await window.obtenerCategoriasSupabase();
+
+
+    if (
+        !categorias ||
+        categorias.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const hombre =
+        document.getElementById(
+            'subfiltros-hombre'
+        );
+
+
+    const mujer =
+        document.getElementById(
+            'subfiltros-mujer'
+        );
+
+
+    const unisex =
+        document.getElementById(
+            'subfiltros-unisex'
+        );
+
+
+    if (hombre) {
+
+        hombre.innerHTML = '';
+
+    }
+
+
+    if (mujer) {
+
+        mujer.innerHTML = '';
+
+    }
+
+
+    if (unisex) {
+
+        unisex.innerHTML = '';
+
+    }
+
+
+    categorias.forEach(
+        categoria => {
+
+            if (hombre) {
+
+                const boton =
+                    document.createElement(
+                        'button'
+                    );
+
+
+                boton.type =
+                    'button';
+
+
+                boton.className =
+                    'filtro-sub';
+
+
+                boton.dataset.filtro =
+                    `hombre-${categoria.slug}`;
+
+
+                boton.textContent =
+                    categoria.nombre;
+
+
+                hombre.appendChild(
+                    boton
+                );
+
+            }
+
+
+            if (mujer) {
+
+                const boton =
+                    document.createElement(
+                        'button'
+                    );
+
+
+                boton.type =
+                    'button';
+
+
+                boton.className =
+                    'filtro-sub';
+
+
+                boton.dataset.filtro =
+                    `mujer-${categoria.slug}`;
+
+
+                boton.textContent =
+                    categoria.nombre;
+
+
+                mujer.appendChild(
+                    boton
+                );
+
+            }
+
+
+            if (unisex) {
+
+                const boton =
+                    document.createElement(
+                        'button'
+                    );
+
+
+                boton.type =
+                    'button';
+
+
+                boton.className =
+                    'filtro-sub';
+
+
+                boton.dataset.filtro =
+                    `unisex-${categoria.slug}`;
+
+
+                boton.textContent =
+                    categoria.nombre;
+
+
+                unisex.appendChild(
+                    boton
+                );
+
+            }
+
+        }
+    );
+
+
+    inicializarFiltros();
+
+}
+async function generarCategoriasNavbar() {
+
+    if (
+        typeof window.obtenerCategoriasSupabase !==
+        'function'
+    ) {
+
+        return;
+
+    }
+
+
+    const categorias =
+        await window.obtenerCategoriasSupabase();
+
+
+    if (
+        !categorias ||
+        categorias.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+        Solo mostramos las primeras 5
+        según el orden de Supabase.
+    */
+
+    const categoriasNavbar =
+        categorias.slice(
+            0,
+            5
+        );
+
+
+    const contenedorHombre =
+        document.getElementById(
+            'navbar-categorias-hombre'
+        );
+
+
+    const contenedorMujer =
+        document.getElementById(
+            'navbar-categorias-mujer'
+        );
+
+
+    categoriasNavbar.forEach(
+        categoria => {
+
+
+            /* HOMBRE */
+
+            if (contenedorHombre) {
+
+                const enlace =
+                    document.createElement(
+                        'a'
+                    );
+
+
+                enlace.href =
+                    `catalogo.html?filtro=hombre-${categoria.slug}`;
+
+
+                enlace.textContent =
+                    categoria.nombre;
+
+
+                contenedorHombre.appendChild(
+                    enlace
+                );
+
+            }
+
+
+            /* MUJER */
+
+            if (contenedorMujer) {
+
+                const enlace =
+                    document.createElement(
+                        'a'
+                    );
+
+
+                enlace.href =
+                    `catalogo.html?filtro=mujer-${categoria.slug}`;
+
+
+                enlace.textContent =
+                    categoria.nombre;
+
+
+                contenedorMujer.appendChild(
+                    enlace
+                );
+
+            }
+
+        }
+    );
+
+}

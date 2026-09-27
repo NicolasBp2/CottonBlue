@@ -2,16 +2,18 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Catálogo - Cotton Blue Shop</title>
 
     <meta
         name="description"
-        content="Explora todo el catálogo de Cotton Blue Shop. Camisetas, pantalones, chaquetas y más."
+        content="Explora el catálogo de Cotton Blue Shop y encuentra los productos disponibles por género, categoría, destacados y ofertas."
     >
 
     <meta
@@ -21,12 +23,7 @@
 
     <meta
         property="og:description"
-        content="Explora todo el catálogo de Cotton Blue Shop. Camisetas, pantalones, chaquetas y más."
-    >
-
-    <meta
-        property="og:image"
-        content="https://picsum.photos/1200/630"
+        content="Explora el catálogo de Cotton Blue Shop y descubre los productos disponibles."
     >
 
     <meta
@@ -35,10 +32,10 @@
     >
 
     <link
-    rel="icon"
-    type="image/svg+xml"
-    href="img/logo.svg"
->
+        rel="icon"
+        type="image/svg+xml"
+        href="img/logo.svg"
+    >
 
     <link
         rel="preconnect"
@@ -60,12 +57,10 @@
         rel="stylesheet"
         href="css/style.css"
     >
-
 </head>
 
 
 <body>
-
 
     <!-- =====================================================
          NAVBAR
@@ -73,12 +68,16 @@
 
     <header class="navbar">
 
-
         <a
             href="index.html"
             class="logo"
+            aria-label="Cotton Blue Shop"
         >
-            <img src="img/logo.svg" alt="Cotton Blue Shop" class="logo-imagen">
+            <img
+                src="img/logo.svg"
+                alt="Cotton Blue Shop"
+                class="logo-imagen"
+            >
         </a>
 
 
@@ -86,7 +85,6 @@
             class="menu"
             id="menu-principal"
         >
-
 
             <!-- HOMBRE -->
 
@@ -96,41 +94,13 @@
                     Hombre
                 </a>
 
-
                 <div class="mega-menu">
 
-
-                    <div class="mega-menu-columna">
-
-                        <h5>
-                            Ropa
-                        </h5>
-
-
-                        <a href="catalogo.html?filtro=hombre-camisetas">
-                            Camisetas
-                        </a>
-
-
-                        <a href="catalogo.html?filtro=hombre-pantalones">
-                            Pantalones
-                        </a>
-
-
-                        <a href="catalogo.html?filtro=hombre-chaquetas">
-                            Chaquetas
-                        </a>
-
-
-                        <a href="catalogo.html?filtro=hombre-buzos">
-                            Buzos
-                        </a>
-
-
-                        <a href="catalogo.html?filtro=hombre-shorts">
-                            Shorts
-                        </a>
-
+                    <div
+                        class="mega-menu-columna"
+                        id="navbar-categorias-hombre"
+                    >
+                        <h5>Ropa</h5>
                     </div>
 
 
@@ -140,17 +110,15 @@
                             Colecciones
                         </h5>
 
-
                         <a href="catalogo.html?filtro=hombre-destacados">
-    Destacados
-</a>
+                            Destacados
+                        </a>
 
-<a href="catalogo.html?filtro=hombre-ofertas">
-    Ofertas
-</a>
+                        <a href="catalogo.html?filtro=hombre-ofertas">
+                            Ofertas
+                        </a>
 
                     </div>
-
 
                 </div>
 
@@ -165,41 +133,13 @@
                     Mujer
                 </a>
 
-
                 <div class="mega-menu">
 
-
-                    <div class="mega-menu-columna">
-
-                        <h5>
-                            Ropa
-                        </h5>
-
-
-                        <a href="catalogo.html?filtro=mujer-camisetas">
-                            Camisetas
-                        </a>
-
-
-                        <a href="catalogo.html?filtro=mujer-pantalones">
-                            Pantalones
-                        </a>
-
-
-                        <a href="catalogo.html?filtro=mujer-chaquetas">
-                            Chaquetas
-                        </a>
-
-
-                        <a href="catalogo.html?filtro=mujer-vestidos">
-                            Vestidos
-                        </a>
-
-
-                        <a href="catalogo.html?filtro=mujer-shorts">
-                            Shorts
-                        </a>
-
+                    <div
+                        class="mega-menu-columna"
+                        id="navbar-categorias-mujer"
+                    >
+                        <h5>Ropa</h5>
                     </div>
 
 
@@ -209,53 +149,45 @@
                             Colecciones
                         </h5>
 
-
                         <a href="catalogo.html?filtro=mujer-destacados">
-    Destacados
-</a>
+                            Destacados
+                        </a>
 
-<a href="catalogo.html?filtro=mujer-ofertas">
-    Ofertas
-</a>
+                        <a href="catalogo.html?filtro=mujer-ofertas">
+                            Ofertas
+                        </a>
 
                     </div>
-
 
                 </div>
 
             </div>
 
 
-            <!-- LINKS PRINCIPALES -->
-
             <a href="catalogo.html?filtro=destacados">
-                            Destacados
-                        </a>
-
+                Destacados
+            </a>
 
             <a href="catalogo.html?filtro=ofertas">
                 Ofertas
             </a>
 
-
         </nav>
 
 
-        <!-- ACCIONES -->
-
         <div class="acciones">
 
-
-            <button onclick="toggleBuscador()">
+            <button
+                type="button"
+                onclick="toggleBuscador()"
+            >
                 Buscar
             </button>
-
 
             <a
                 href="carrito.html"
                 class="btn-carrito"
             >
-
                 Carrito
 
                 <span
@@ -264,40 +196,29 @@
                 >
                     0
                 </span>
-
             </a>
-
 
         </div>
 
 
-        <!-- MENÚ MÓVIL -->
-
         <button
+            type="button"
             class="menu-hamburguesa"
             onclick="toggleMenuMovil()"
             aria-label="Abrir menú"
         >
-
             <span></span>
             <span></span>
             <span></span>
-
         </button>
-
 
     </header>
 
-
-    <!-- =====================================================
-         BUSCADOR
-         ===================================================== -->
 
     <div
         class="buscador-barra"
         id="buscador-barra"
     >
-
 
         <input
             type="text"
@@ -306,27 +227,21 @@
             oninput="filtrarBusqueda()"
         >
 
-
-        <button onclick="toggleBuscador()">
+        <button
+            type="button"
+            onclick="toggleBuscador()"
+        >
             Cerrar
         </button>
-
 
     </div>
 
 
-    <!-- =====================================================
-         CONTENIDO
-         ===================================================== -->
-
     <main>
-
 
         <section class="productos">
 
-
             <section class="catalogo-seccion contenedor">
-
 
                 <h2>
                     Catálogo completo
@@ -335,13 +250,7 @@
 
                 <div class="catalogo-layout">
 
-
-                    <!-- =================================================
-                         FILTROS
-                         ================================================= -->
-
                     <aside class="filtros-lateral">
-
 
                         <h4>
                             Categorías
@@ -349,6 +258,7 @@
 
 
                         <button
+                            type="button"
                             class="filtro filtro-activo"
                             data-filtro="todos"
                         >
@@ -356,140 +266,61 @@
                         </button>
 
 
-                        <!-- HOMBRE -->
-
                         <details class="filtro-grupo">
-
 
                             <summary>
                                 Hombre
                             </summary>
 
-
-                            <div class="subfiltros">
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="hombre-camisetas"
-                                >
-                                    Camisetas
-                                </button>
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="hombre-pantalones"
-                                >
-                                    Pantalones
-                                </button>
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="hombre-chaquetas"
-                                >
-                                    Chaquetas
-                                </button>
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="hombre-buzos"
-                                >
-                                    Buzos
-                                </button>
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="hombre-shorts"
-                                >
-                                    Shorts
-                                </button>
-
-
+                            <div
+                                class="subfiltros"
+                                id="subfiltros-hombre"
+                            >
                             </div>
-
 
                         </details>
 
 
-                        <!-- MUJER -->
-
                         <details class="filtro-grupo">
-
 
                             <summary>
                                 Mujer
                             </summary>
 
-
-                            <div class="subfiltros">
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="mujer-camisetas"
-                                >
-                                    Camisetas
-                                </button>
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="mujer-pantalones"
-                                >
-                                    Pantalones
-                                </button>
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="mujer-chaquetas"
-                                >
-                                    Chaquetas
-                                </button>
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="mujer-vestidos"
-                                >
-                                    Vestidos
-                                </button>
-
-
-                                <button
-                                    class="filtro-sub"
-                                    data-filtro="mujer-shorts"
-                                >
-                                    Shorts
-                                </button>
-
-
+                            <div
+                                class="subfiltros"
+                                id="subfiltros-mujer"
+                            >
                             </div>
-
 
                         </details>
 
 
-                        <!-- OFERTAS -->
+                        <details class="filtro-grupo">
+
+                            <summary>
+                                Unisex
+                            </summary>
+
+                            <div
+                                class="subfiltros"
+                                id="subfiltros-unisex"
+                            >
+                            </div>
+
+                        </details>
+
 
                         <button
+                            type="button"
                             class="filtro"
                             data-filtro="ofertas"
                         >
                             Ofertas
                         </button>
 
-
                     </aside>
 
-
-                    <!-- =================================================
-                         PRODUCTOS DINÁMICOS
-                         ================================================= -->
 
                     <div
                         class="productos-grid"
@@ -497,32 +328,26 @@
                     >
                     </div>
 
-
                 </div>
-
 
             </section>
 
-
         </section>
-
 
     </main>
 
 
-    <!-- =====================================================
-         FOOTER
-         ===================================================== -->
-
     <footer class="footer-fondo">
-
 
         <div class="footer contenedor">
 
-
             <div class="footer-columna">
 
-                <img src="img/logo.png" alt="Cotton Blue Shop" class="footer-logo">
+                <img
+                    src="img/logo.svg"
+                    alt="Cotton Blue Shop"
+                    class="footer-logo"
+                >
 
                 <p>
                     Ropa para quienes buscan algo diferente.
@@ -561,19 +386,10 @@
                 <a
                     href="https://wa.me/573126881081"
                     target="_blank"
-                >
-                               <!-- WHATSAPP -->
-
-                <a
-                    href="https://wa.me/573126881081"
-                    target="_blank"
                     rel="noopener noreferrer"
                 >
                     WhatsApp
                 </a>
-
-
-                <!-- INSTAGRAM -->
 
                 <a
                     href="https://www.instagram.com/cottonblue268/"
@@ -583,32 +399,23 @@
                     Instagram
                 </a>
 
-
             </div>
 
-
         </div>
-
 
     </footer>
 
 
-   <!-- Librería oficial de Supabase -->
-<script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
 
-<!-- Nuestra conexión -->
-<script
-    src="js/supabase.js"
-></script>
+    <script src="js/supabase.js"></script>
 
-<!-- Código principal de la tienda -->
-<script
-    src="js/main.js"
-    defer
-></script>
-
+    <script
+        src="js/main.js"
+        defer
+    ></script>
 
 </body>
 

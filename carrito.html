@@ -4,132 +4,298 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Carrito - Cotton Blue Shop</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <meta name="description" content="Revisa los productos que agregaste a tu carrito en Cotton Blue Shop.">
+    <title>
+        Carrito - Cotton Blue Shop
+    </title>
 
-    <meta property="og:title" content="Carrito - Cotton Blue Shop">
-    <meta property="og:description" content="Revisa los productos que agregaste a tu carrito en Cotton Blue Shop.">
-    <meta property="og:image" content="https://picsum.photos/1200/630">
-    <meta property="og:type" content="website">
+    <meta
+        name="description"
+        content="Revisa los productos que agregaste a tu carrito en Cotton Blue Shop."
+    >
 
-   <link
-    rel="icon"
-    type="image/svg+xml"
-    href="img/logo.svg"
->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta
+        property="og:title"
+        content="Carrito - Cotton Blue Shop"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <meta
+        property="og:description"
+        content="Revisa los productos que agregaste a tu carrito en Cotton Blue Shop."
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="img/logo.svg"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 
 </head>
 
+
 <body>
 
+
     <!-- =====================================================
-         BARRA DE NAVEGACIÓN
-         (Igual a la del resto de páginas, para mantener consistencia)
+         NAVBAR
          ===================================================== -->
 
     <header class="navbar">
 
-        <a href="index.html" class="logo">
-            <img src="img/logo.svg" alt="Cotton Blue Shop" class="logo-imagen">
+
+        <a
+            href="index.html"
+            class="logo"
+            aria-label="Cotton Blue Shop"
+        >
+
+            <img
+                src="img/logo.svg"
+                alt="Cotton Blue Shop"
+                class="logo-imagen"
+            >
+
         </a>
 
-       <nav class="menu" id="menu-principal">
 
-    <!-- HOMBRE con mega-menú -->
-    <div class="menu-item">
 
-        <a href="catalogo.html">Hombre</a>
+        <nav
+            class="menu"
+            id="menu-principal"
+        >
 
-        <div class="mega-menu">
 
-            <div class="mega-menu-columna">
-                <h5>Ropa</h5>
-                <a href="#">Camisetas</a>
-                <a href="#">Pantalones</a>
-                <a href="#">Chaquetas</a>
-                <a href="#">Buzos</a>
-                <a href="#">Shorts</a>
-            </div>
+            <!-- HOMBRE -->
 
-            <div class="mega-menu-columna">
-                <h5>Colecciones</h5>
-                <a href="catalogo.html?filtro=destacados">
+            <div class="menu-item">
+
+                <a href="catalogo.html?filtro=hombre">
+                    Hombre
+                </a>
+
+
+                <div class="mega-menu">
+
+
+                    <div
+                        class="mega-menu-columna"
+                        id="navbar-categorias-hombre"
+                    >
+
+                        <h5>
+                            Ropa
+                        </h5>
+
+                    </div>
+
+
+
+                    <div class="mega-menu-columna">
+
+                        <h5>
+                            Colecciones
+                        </h5>
+
+
+                        <a href="catalogo.html?filtro=hombre-destacados">
                             Destacados
                         </a>
-                <a href="#">Más vendidos</a>
-                <a href="#">Ofertas</a>
+
+
+                        <a href="catalogo.html?filtro=hombre-ofertas">
+                            Ofertas
+                        </a>
+
+                    </div>
+
+
+                </div>
+
             </div>
 
-        </div>
 
-    </div>
 
-    <!-- MUJER con mega-menú -->
-    <div class="menu-item">
+            <!-- MUJER -->
 
-        <a href="catalogo.html">Mujer</a>
+            <div class="menu-item">
 
-        <div class="mega-menu">
+                <a href="catalogo.html?filtro=mujer">
+                    Mujer
+                </a>
 
-            <div class="mega-menu-columna">
-                <h5>Ropa</h5>
-                <a href="#">Camisetas</a>
-                <a href="#">Pantalones</a>
-                <a href="#">Chaquetas</a>
-                <a href="#">Vestidos</a>
-                <a href="#">Shorts</a>
-            </div>
 
-            <div class="mega-menu-columna">
-                <h5>Colecciones</h5>
-                <a href="catalogo.html?filtro=destacados">
+                <div class="mega-menu">
+
+
+                    <div
+                        class="mega-menu-columna"
+                        id="navbar-categorias-mujer"
+                    >
+
+                        <h5>
+                            Ropa
+                        </h5>
+
+                    </div>
+
+
+
+                    <div class="mega-menu-columna">
+
+                        <h5>
+                            Colecciones
+                        </h5>
+
+
+                        <a href="catalogo.html?filtro=mujer-destacados">
                             Destacados
                         </a>
-                <a href="#">Más vendidos</a>
-                <a href="#">Ofertas</a>
+
+
+                        <a href="catalogo.html?filtro=mujer-ofertas">
+                            Ofertas
+                        </a>
+
+                    </div>
+
+
+                </div>
+
             </div>
 
-        </div>
 
-    </div>
 
-    <a href="catalogo.html?filtro=destacados">
-                            Destacados
-                        </a>
-    <a href="catalogo.html">Ofertas</a>
+            <!-- LINKS PRINCIPALES -->
 
-</nav>
+            <a href="catalogo.html?filtro=destacados">
+                Destacados
+            </a>
+
+
+            <a href="catalogo.html?filtro=ofertas">
+                Ofertas
+            </a>
+
+
+        </nav>
+
+
+
+        <!-- ACCIONES -->
 
         <div class="acciones">
 
-            <button onclick="toggleBuscador()">Buscar</button>
-            <a href="carrito.html" class="btn-carrito">
+
+            <button
+                type="button"
+                onclick="toggleBuscador()"
+            >
+                Buscar
+            </button>
+
+
+            <a
+                href="carrito.html"
+                class="btn-carrito"
+            >
+
                 Carrito
-                <span class="carrito-contador" id="carrito-contador">0</span>
+
+
+                <span
+                    class="carrito-contador"
+                    id="carrito-contador"
+                >
+                    0
+                </span>
+
+
             </a>
+
 
         </div>
 
-        <button class="menu-hamburguesa" onclick="toggleMenuMovil()" aria-label="Abrir menú">
+
+
+        <!-- MENÚ HAMBURGUESA -->
+
+        <button
+            type="button"
+            class="menu-hamburguesa"
+            onclick="toggleMenuMovil()"
+            aria-label="Abrir menú"
+        >
+
             <span></span>
             <span></span>
             <span></span>
+
         </button>
+
 
     </header>
 
-    <div class="buscador-barra" id="buscador-barra">
-        <input type="text" id="buscador-input" placeholder="Buscar productos..." oninput="filtrarBusqueda()">
-        <button onclick="toggleBuscador()">Cerrar</button>
+
+
+    <!-- =====================================================
+         BUSCADOR
+         ===================================================== -->
+
+    <div
+        class="buscador-barra"
+        id="buscador-barra"
+    >
+
+
+        <input
+            type="text"
+            id="buscador-input"
+            placeholder="Buscar productos..."
+            oninput="filtrarBusqueda()"
+        >
+
+
+        <button
+            type="button"
+            onclick="toggleBuscador()"
+        >
+            Cerrar
+        </button>
+
+
     </div>
+
 
 
     <!-- =====================================================
@@ -138,66 +304,151 @@
 
     <main>
 
+
         <section class="carrito-seccion contenedor">
 
-            <h2>Tu carrito</h2>
 
-            <!-- Se llena dinámicamente desde js/main.js -->
-            <div id="carrito-items" class="carrito-items"></div>
+            <h2>
+                Tu carrito
+            </h2>
 
-            <!-- Estado vacío -->
-            <div id="carrito-vacio" class="carrito-vacio">
-                <p>Tu carrito está vacío.</p>
-                <a href="catalogo.html" class="ver-todo-boton">Ver catálogo</a>
+
+
+            <!-- PRODUCTOS -->
+
+            <div
+                id="carrito-items"
+                class="carrito-items"
+            >
             </div>
 
-            <!-- Resumen y checkout -->
-            <div id="carrito-resumen" class="carrito-resumen">
+
+
+            <!-- ESTADO VACÍO -->
+
+            <div
+                id="carrito-vacio"
+                class="carrito-vacio"
+            >
+
+                <p>
+                    Tu carrito está vacío.
+                </p>
+
+
+                <a
+                    href="catalogo.html"
+                    class="ver-todo-boton"
+                >
+                    Ver catálogo
+                </a>
+
+            </div>
+
+
+
+            <!-- RESUMEN -->
+
+            <div
+                id="carrito-resumen"
+                class="carrito-resumen"
+            >
+
+
                 <span class="carrito-resumen-total">
-                    Total: <span id="carrito-total">$0</span>
+
+                    Total:
+
+                    <span id="carrito-total">
+                        $0
+                    </span>
+
                 </span>
-                <button id="boton-finalizar-whatsapp" class="hero-button">
+
+
+
+                <button
+                    type="button"
+                    id="boton-finalizar-whatsapp"
+                    class="hero-button"
+                >
                     Finalizar pedido por WhatsApp
                 </button>
+
+
             </div>
 
+
         </section>
+
 
     </main>
 
 
+
     <!-- =====================================================
          FOOTER
-         (Igual al del resto de páginas)
          ===================================================== -->
 
     <footer class="footer-fondo">
 
+
         <div class="footer contenedor">
 
+
             <div class="footer-columna">
 
-                <img src="img/logo.svg" alt="Cotton Blue Shop" class="footer-logo">
 
-                <p>Ropa para quienes buscan algo diferente.</p>
+                <img
+                    src="img/logo.svg"
+                    alt="Cotton Blue Shop"
+                    class="footer-logo"
+                >
+
+
+                <p>
+                    Ropa para quienes buscan algo diferente.
+                </p>
+
 
             </div>
 
+
+
             <div class="footer-columna">
 
-                <h4>Ayuda</h4>
 
-                <a href="#">Preguntas frecuentes</a>
-                <a href="#">Envíos</a>
-                <a href="#">Cambios y devoluciones</a>
+                <h4>
+                    Ayuda
+                </h4>
+
+
+                <a href="#">
+                    Preguntas frecuentes
+                </a>
+
+
+                <a href="#">
+                    Envíos
+                </a>
+
+
+                <a href="#">
+                    Cambios y devoluciones
+                </a>
+
 
             </div>
 
+
+
             <div class="footer-columna">
 
-                <h4>Contacto</h4>
 
-                                <!-- WHATSAPP -->
+                <h4>
+                    Contacto
+                </h4>
+
 
                 <a
                     href="https://wa.me/573126881081"
@@ -208,8 +459,6 @@
                 </a>
 
 
-                <!-- INSTAGRAM -->
-
                 <a
                     href="https://www.instagram.com/cottonblue268/"
                     target="_blank"
@@ -218,13 +467,41 @@
                     Instagram
                 </a>
 
+
             </div>
+
 
         </div>
 
+
     </footer>
 
-    <script src="js/main.js" defer></script>
+
+
+    <!-- =====================================================
+         SCRIPTS
+         ===================================================== -->
+
+
+    <!-- SUPABASE -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+
+    <!-- CONEXIÓN -->
+
+    <script src="js/supabase.js"></script>
+
+
+    <!-- TIENDA -->
+
+    <script
+        src="js/main.js"
+        defer
+    ></script>
+
 
 </body>
 

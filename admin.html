@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -12,20 +14,30 @@
     <title>
         Panel administrativo - Cotton Blue Shop
     </title>
-<link
-    rel="icon"
-    type="image/svg+xml"
-    href="img/logo.svg"
->
+
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="img/logo.svg"
+    >
+
     <link
         rel="stylesheet"
         href="css/style.css"
     >
+
 </head>
+
 
 <body>
 
+
     <main class="admin-panel">
+
+
+        <!-- =====================================================
+             ENCABEZADO
+             ===================================================== -->
 
         <header class="admin-panel-header">
 
@@ -41,6 +53,7 @@
 
             </div>
 
+
             <button
                 type="button"
                 id="admin-cerrar-sesion"
@@ -51,6 +64,11 @@
 
         </header>
 
+
+
+        <!-- =====================================================
+             PRODUCTOS
+             ===================================================== -->
 
         <section class="admin-bienvenida">
 
@@ -66,6 +84,7 @@
 
             </div>
 
+
             <button
                 type="button"
                 id="admin-nuevo-producto"
@@ -77,9 +96,10 @@
         </section>
 
 
-        <!-- ================================================
-             FORMULARIO PRODUCTO
-             ================================================ -->
+
+        <!-- =====================================================
+             FORMULARIO DE PRODUCTO
+             ===================================================== -->
 
         <section
             id="admin-formulario-producto"
@@ -87,11 +107,13 @@
             hidden
         >
 
+
             <div class="admin-formulario-header">
 
                 <h2 id="admin-formulario-titulo">
                     Nuevo producto
                 </h2>
+
 
                 <button
                     type="button"
@@ -104,7 +126,9 @@
             </div>
 
 
+
             <form id="admin-form-producto">
+
 
                 <input
                     type="hidden"
@@ -112,7 +136,11 @@
                 >
 
 
+
                 <div class="admin-form-grid">
+
+
+                    <!-- NOMBRE -->
 
                     <div class="admin-campo">
 
@@ -129,6 +157,9 @@
                     </div>
 
 
+
+                    <!-- SLUG -->
+
                     <div class="admin-campo">
 
                         <label for="admin-producto-slug">
@@ -143,6 +174,9 @@
 
                     </div>
 
+
+
+                    <!-- PRECIO -->
 
                     <div class="admin-campo">
 
@@ -160,6 +194,9 @@
 
                     </div>
 
+
+
+                    <!-- GÉNERO -->
 
                     <div class="admin-campo">
 
@@ -193,76 +230,58 @@
                     </div>
 
 
+
+                    <!-- CATEGORÍA -->
+
                     <div class="admin-campo">
 
                         <label for="admin-producto-categoria">
                             Categoría
                         </label>
 
-                        <select
-                            id="admin-producto-categoria"
-                            required
+                       <select
+    id="admin-producto-categoria"
+    required
+>
+    <option value="">
+        Cargando categorías...
+    </option>
+</select>
+                    </div>
+
+
+
+                    <!-- IMAGEN -->
+
+                    <div class="admin-campo admin-campo-ancho">
+
+                        <label for="admin-producto-archivo">
+                            Imagen del producto
+                        </label>
+
+                        <input
+                            type="file"
+                            id="admin-producto-archivo"
+                            accept="image/*"
                         >
 
-                            <option value="">
-                                Seleccionar
-                            </option>
+                        <input
+                            type="hidden"
+                            id="admin-producto-imagen"
+                        >
 
-                            <option value="camisetas">
-                                Camisetas
-                            </option>
-
-                            <option value="pantalones">
-                                Pantalones
-                            </option>
-
-                            <option value="chaquetas">
-                                Chaquetas
-                            </option>
-
-                            <option value="buzos">
-                                Buzos
-                            </option>
-
-                            <option value="shorts">
-                                Shorts
-                            </option>
-
-                            <option value="vestidos">
-                                Vestidos
-                            </option>
-
-                        </select>
+                        <div
+                            id="admin-imagen-preview"
+                            class="admin-imagen-preview"
+                        >
+                            Sin imagen seleccionada
+                        </div>
 
                     </div>
 
 
-                   <div class="admin-campo admin-campo-ancho">
 
-    <label for="admin-producto-archivo">
-        Imagen del producto
-    </label>
-
-    <input
-        type="file"
-        id="admin-producto-archivo"
-        accept="image/*"
-    >
-
-    <input
-        type="hidden"
-        id="admin-producto-imagen"
-    >
-
-    <div
-        id="admin-imagen-preview"
-        class="admin-imagen-preview"
-    >
-        Sin imagen seleccionada
-    </div>
-
-</div>
-
+                    <!-- DESCRIPCIÓN -->
 
                     <div class="admin-campo admin-campo-ancho">
 
@@ -277,10 +296,15 @@
 
                     </div>
 
+
                 </div>
 
 
+
+                <!-- ESTADOS -->
+
                 <div class="admin-form-checks">
+
 
                     <label>
 
@@ -318,13 +342,16 @@
 
                     </label>
 
+
                 </div>
+
 
 
                 <p
                     id="admin-producto-mensaje"
                     class="admin-producto-mensaje"
                 ></p>
+
 
 
                 <div class="admin-form-acciones">
@@ -337,6 +364,7 @@
                         Cancelar
                     </button>
 
+
                     <button
                         type="submit"
                         id="admin-guardar-producto"
@@ -347,18 +375,21 @@
 
                 </div>
 
+
             </form>
 
 
-            <!-- ================================================
+
+            <!-- =================================================
                  VARIANTES
-                 ================================================ -->
+                 ================================================= -->
 
             <section
                 id="admin-variantes-seccion"
                 class="admin-variantes-seccion"
                 hidden
             >
+
 
                 <div class="admin-variantes-header">
 
@@ -377,10 +408,12 @@
                 </div>
 
 
+
                 <form
                     id="admin-form-variante"
                     class="admin-form-variante"
                 >
+
 
                     <input
                         type="hidden"
@@ -388,7 +421,11 @@
                     >
 
 
+
                     <div class="admin-variante-grid">
+
+
+                        <!-- COLOR -->
 
                         <div class="admin-campo">
 
@@ -406,6 +443,9 @@
                         </div>
 
 
+
+                        <!-- CÓDIGO COLOR -->
+
                         <div class="admin-campo">
 
                             <label for="admin-variante-codigo">
@@ -420,6 +460,9 @@
 
                         </div>
 
+
+
+                        <!-- TALLA -->
 
                         <div class="admin-campo">
 
@@ -436,6 +479,9 @@
 
                         </div>
 
+
+
+                        <!-- STOCK -->
 
                         <div class="admin-campo">
 
@@ -454,10 +500,13 @@
 
                         </div>
 
+
                     </div>
 
 
+
                     <div class="admin-form-acciones">
+
 
                         <button
                             type="button"
@@ -468,6 +517,7 @@
                             Cancelar edición
                         </button>
 
+
                         <button
                             type="submit"
                             id="admin-guardar-variante"
@@ -476,7 +526,9 @@
                             + Agregar variante
                         </button>
 
+
                     </div>
+
 
 
                     <p
@@ -484,7 +536,9 @@
                         class="admin-producto-mensaje"
                     ></p>
 
+
                 </form>
+
 
 
                 <div
@@ -493,10 +547,877 @@
                 >
                 </div>
 
+
             </section>
+
 
         </section>
 
+
+<!-- =====================================================
+     VENTAS
+     ===================================================== -->
+
+<section class="admin-ventas-bloque">
+
+    <!-- TARJETA DE ACCESO -->
+
+    <div class="admin-opcion">
+
+        <h3>
+            Ventas
+        </h3>
+
+        <p>
+            Registra ventas físicas y online,
+            controla el inventario y consulta el historial.
+        </p>
+
+        <button
+            type="button"
+            id="admin-abrir-ventas"
+            class="admin-boton-principal"
+        >
+            Administrar ventas
+        </button>
+
+    </div>
+
+
+    <!-- PANEL DE VENTAS -->
+
+   <section
+    id="admin-ventas-seccion"
+    class="admin-ventas-seccion"
+    style="display: none;"
+>
+
+    <!-- =====================================================
+         ENCABEZADO
+         ===================================================== -->
+
+    <div class="admin-ventas-header">
+
+        <div>
+
+            <h2>
+                Ventas
+            </h2>
+
+            <p>
+                Control de ventas, inventario y devoluciones.
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="admin-cerrar-ventas"
+            class="admin-ventas-cerrar"
+            aria-label="Cerrar"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         PESTAÑAS
+         ===================================================== -->
+
+    <div class="admin-ventas-tabs">
+
+        <button
+            type="button"
+            id="admin-tab-ventas"
+            class="admin-ventas-tab activo"
+        >
+            Ventas
+        </button>
+
+
+        <button
+            type="button"
+            id="admin-tab-devoluciones"
+            class="admin-ventas-tab"
+        >
+            Devoluciones
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         PESTAÑA VENTAS
+         ===================================================== -->
+
+    <div
+        id="admin-panel-ventas"
+        class="admin-ventas-panel"
+    >
+
+        <!-- =================================================
+             RESUMEN DEL MES
+             ================================================= -->
+
+        <section class="admin-ventas-resumen">
+
+            <div class="admin-ventas-resumen-header">
+
+                <div>
+
+                    <h3>
+                        Resumen del mes
+                    </h3>
+
+                    <p id="admin-ventas-mes-texto">
+                        Mes actual
+                    </p>
+
+                </div>
+
+
+                <input
+                    type="month"
+                    id="admin-ventas-mes"
+                >
+
+            </div>
+
+
+            <div class="admin-ventas-estadisticas">
+
+                <article class="admin-venta-estadistica">
+
+                    <span>
+                        Ingresos
+                    </span>
+
+                    <strong id="admin-ventas-ingresos">
+                        $0
+                    </strong>
+
+                </article>
+
+
+                <article class="admin-venta-estadistica">
+
+                    <span>
+                        Ventas
+                    </span>
+
+                    <strong id="admin-ventas-cantidad">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="admin-venta-estadistica">
+
+                    <span>
+                        Unidades vendidas
+                    </span>
+
+                    <strong id="admin-ventas-unidades">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="admin-venta-estadistica">
+
+                    <span>
+                        Producto más vendido
+                    </span>
+
+                    <strong id="admin-ventas-producto-top">
+                        —
+                    </strong>
+
+                </article>
+
+
+                <article class="admin-venta-estadistica">
+
+                    <span>
+                        Variante más vendida
+                    </span>
+
+                    <strong id="admin-ventas-variante-top">
+                        —
+                    </strong>
+
+                </article>
+
+            </div>
+
+
+            <div class="admin-ventas-desgloses">
+
+                <section class="admin-ventas-desglose">
+
+                    <h4>
+                        Ventas por canal
+                    </h4>
+
+                    <div id="admin-ventas-canales">
+
+                        <p>
+                            Sin datos todavía.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <section class="admin-ventas-desglose">
+
+                    <h4>
+                        Métodos de pago
+                    </h4>
+
+                    <div id="admin-ventas-metodos">
+
+                        <p>
+                            Sin datos todavía.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             REGISTRAR NUEVA VENTA
+             ================================================= -->
+
+
+        <!-- =================================================
+             NUEVA VENTA
+             ================================================= -->
+
+        <section class="admin-nueva-venta">
+
+            <div class="admin-ventas-subtitulo">
+
+                <h3>
+                    Registrar nueva venta
+                </h3>
+
+                <p>
+                    El stock se descontará al confirmar la venta.
+                </p>
+
+            </div>
+
+<!-- DATOS GENERALES -->
+
+<div class="admin-venta-datos-grid">
+
+    <!-- FECHA -->
+
+    <div class="admin-campo">
+
+        <label for="admin-venta-fecha">
+            Fecha de venta
+        </label>
+
+        <input
+    type="datetime-local"
+    id="admin-venta-fecha"
+    required
+>
+
+    </div>
+
+
+                <!-- CANAL -->
+
+                <div class="admin-campo">
+
+                    <label for="admin-venta-canal">
+                        Canal de venta
+                    </label>
+
+                    <select
+                        id="admin-venta-canal"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccionar
+                        </option>
+
+                        <option value="Tienda física">
+                            Tienda física
+                        </option>
+
+                        <option value="WhatsApp">
+                            WhatsApp
+                        </option>
+
+                        <option value="Instagram">
+                            Instagram
+                        </option>
+
+                        <option value="Web">
+                            Web
+                        </option>
+
+                        <option value="Otro">
+                            Otro
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- MÉTODO DE PAGO -->
+
+                <div class="admin-campo">
+
+                    <label for="admin-venta-metodo">
+                        Método de pago
+                    </label>
+
+                    <select
+                        id="admin-venta-metodo"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccionar
+                        </option>
+
+                        <option value="Efectivo">
+                            Efectivo
+                        </option>
+
+                        <option value="Tarjeta">
+                            Tarjeta
+                        </option>
+
+                        <option value="Transferencia">
+                            Transferencia
+                        </option>
+
+                        <option value="Nequi">
+                            Nequi
+                        </option>
+
+                        <option value="Daviplata">
+                            Daviplata
+                        </option>
+
+                        <option value="Otro">
+                            Otro
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CLIENTE -->
+
+                <div class="admin-campo">
+
+                    <label for="admin-venta-cliente">
+                        Cliente
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admin-venta-cliente"
+                        placeholder="Opcional"
+                    >
+
+                </div>
+
+
+                <!-- NOTA -->
+
+                <div class="admin-campo">
+
+                    <label for="admin-venta-nota">
+                        Nota
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admin-venta-nota"
+                        placeholder="Opcional"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 AGREGAR PRODUCTO A LA VENTA
+                 ================================================= -->
+
+            <div class="admin-venta-productos">
+
+                <h4>
+                    Productos vendidos
+                </h4>
+
+
+                <div class="admin-venta-producto-grid">
+
+                    <!-- PRODUCTO -->
+
+                    <div class="admin-campo">
+
+                        <label for="admin-venta-producto">
+                            Producto
+                        </label>
+
+                        <select id="admin-venta-producto">
+
+                            <option value="">
+                                Seleccionar producto
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- VARIANTE -->
+
+                    <div class="admin-campo">
+
+                        <label for="admin-venta-variante">
+                            Talla / Color
+                        </label>
+
+                        <select
+                            id="admin-venta-variante"
+                            disabled
+                        >
+
+                            <option value="">
+                                Seleccionar variante
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- STOCK -->
+
+                    <div class="admin-campo">
+
+                        <label>
+                            Stock disponible
+                        </label>
+
+                        <div
+                            id="admin-venta-stock"
+                            class="admin-venta-stock"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <!-- CANTIDAD -->
+
+                    <div class="admin-campo">
+
+                        <label for="admin-venta-cantidad-item">
+                            Cantidad
+                        </label>
+
+                        <input
+                            type="number"
+                            id="admin-venta-cantidad-item"
+                            min="1"
+                            value="1"
+                        >
+
+                    </div>
+
+
+                    <!-- AGREGAR -->
+
+                    <button
+                        type="button"
+                        id="admin-agregar-item-venta"
+                        class="admin-boton-secundario"
+                    >
+                        + Agregar
+                    </button>
+
+                </div>
+
+
+                <!-- PRODUCTOS AGREGADOS -->
+
+                <div
+                    id="admin-venta-items"
+                    class="admin-venta-items"
+                >
+
+                    <p class="admin-venta-items-vacio">
+                        Todavía no has agregado productos a esta venta.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="admin-venta-total">
+
+                <span>
+                    Total
+                </span>
+
+                <strong id="admin-venta-total">
+                    $0
+                </strong>
+
+            </div>
+
+
+            <!-- MENSAJE -->
+
+            <p
+                id="admin-venta-mensaje"
+                class="admin-producto-mensaje"
+            ></p>
+
+
+            <!-- GUARDAR -->
+
+            <div class="admin-form-acciones">
+
+                <button
+                    type="button"
+                    id="admin-cancelar-venta"
+                    class="admin-boton-secundario"
+                >
+                    Limpiar
+                </button>
+
+
+                <button
+                    type="button"
+                    id="admin-guardar-venta"
+                    class="admin-boton-principal"
+                >
+                    Registrar venta
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             HISTORIAL
+             ================================================= -->
+
+        <section class="admin-ventas-historial">
+
+            <div class="admin-ventas-subtitulo">
+
+                <h3>
+                    Historial de ventas
+                </h3>
+
+                <p>
+                    Consulta las ventas registradas
+                    durante el mes seleccionado.
+                </p>
+
+            </div>
+
+
+            <div
+                id="admin-ventas-lista"
+                class="admin-ventas-lista"
+            >
+
+                <p>
+                    Todavía no hay ventas registradas.
+                </p>
+
+            </div>
+
+        </section>
+    </div>
+    <!-- FIN PESTAÑA VENTAS -->
+
+
+    <!-- =====================================================
+         PESTAÑA DEVOLUCIONES
+         ===================================================== -->
+
+    <div
+        id="admin-panel-devoluciones"
+        class="admin-ventas-panel"
+        hidden
+    >
+
+        <section class="admin-ventas-resumen">
+
+            <div class="admin-ventas-resumen-header">
+
+                <div>
+
+                    <h3>
+                        Devoluciones
+                    </h3>
+
+                    <p>
+                        Registro de productos devueltos.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-ventas-estadisticas">
+
+                <article class="admin-venta-estadistica">
+
+                    <span>
+                        Dinero devuelto
+                    </span>
+
+                    <strong id="admin-devoluciones-total">
+                        $0
+                    </strong>
+
+                </article>
+
+
+                <article class="admin-venta-estadistica">
+
+                    <span>
+                        Devoluciones
+                    </span>
+
+                    <strong id="admin-devoluciones-cantidad">
+                        0
+                    </strong>
+
+                </article>
+
+
+                <article class="admin-venta-estadistica">
+
+                    <span>
+                        Unidades devueltas
+                    </span>
+
+                    <strong id="admin-devoluciones-unidades">
+                        0
+                    </strong>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <section class="admin-ventas-bloque">
+
+            <h3>
+                Historial de devoluciones
+            </h3>
+
+            <div id="admin-devoluciones-lista">
+
+                <p>
+                    No hay devoluciones registradas.
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+    <!-- FIN PESTAÑA DEVOLUCIONES -->
+
+</section>
+    </section>
+
+</section>
+        <!-- =====================================================
+             ADMINISTRACIÓN DE CATEGORÍAS
+             ===================================================== -->
+
+
+        <section class="admin-categorias-bloque">
+
+
+            <!-- TARJETA -->
+
+            <div class="admin-opcion">
+
+                <h3>
+                    Categorías
+                </h3>
+
+                <p>
+                    Crea y administra las categorías
+                    que aparecerán en la tienda.
+                </p>
+
+                <button
+                    type="button"
+                    id="admin-abrir-categorias"
+                    class="admin-boton-principal"
+                >
+                    Administrar categorías
+                </button>
+
+            </div>
+
+
+
+            <!-- PANEL DE CATEGORÍAS -->
+
+            <section
+                id="admin-categorias-seccion"
+                class="admin-categorias-seccion"
+                style="display: none;"
+            >
+
+
+                <div class="admin-categorias-header">
+
+
+                    <div>
+
+                        <h2>
+                            Categorías
+                        </h2>
+
+                        <p>
+                            Crea las categorías que utilizarán
+                            los productos de la tienda.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="admin-cerrar-categorias"
+                        class="admin-categorias-cerrar"
+                        aria-label="Cerrar categorías"
+                    >
+                        ×
+                    </button>
+
+
+                </div>
+
+
+
+                <div class="admin-categorias-formulario">
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="admin-campo">
+
+                        <label for="admin-categoria-nombre">
+                            Nombre de la categoría
+                        </label>
+
+                        <input
+                            type="text"
+                            id="admin-categoria-nombre"
+                            placeholder="Ej. Camisas"
+                        >
+
+                    </div>
+
+
+
+                    <!-- ORDEN -->
+
+                    <div class="admin-campo">
+
+                        <label for="admin-categoria-orden">
+                            Orden
+                        </label>
+
+                        <input
+                            type="number"
+                            id="admin-categoria-orden"
+                            value="0"
+                            min="0"
+                        >
+
+                    </div>
+
+
+
+                    <!-- CREAR -->
+
+                    <button
+                        type="button"
+                        id="admin-guardar-categoria"
+                        class="admin-boton-principal"
+                    >
+                        Crear categoría
+                    </button>
+
+
+                    <p
+                        id="admin-categoria-mensaje"
+                        class="admin-producto-mensaje"
+                    ></p>
+
+
+                </div>
+
+
+
+                <!-- LISTA DE CATEGORÍAS -->
+
+                <div
+                    id="admin-categorias-lista"
+                    class="admin-categorias-lista"
+                >
+                </div>
+
+
+            </section>
+
+
+        </section>
+
+
+
+        <!-- =====================================================
+             LISTA DE PRODUCTOS
+             ===================================================== -->
 
         <section
             id="admin-productos-contenedor"
@@ -509,8 +1430,14 @@
 
         </section>
 
+
     </main>
 
+
+
+    <!-- =========================================================
+         SCRIPTS
+         ========================================================= -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -520,6 +1447,86 @@
 
     <script src="js/admin.js"></script>
 
+<div
+    class="admin-modal-fondo"
+    id="admin-devolucion-modal"
+    hidden
+>
+
+    <div class="admin-modal">
+
+        <div class="admin-modal-header">
+
+            <div>
+                <h3>
+                    Gestionar devolución
+                </h3>
+
+                <p id="admin-devolucion-venta">
+                    Venta
+                </p>
+            </div>
+
+
+            <button
+                type="button"
+                id="admin-cerrar-devolucion"
+                class="admin-modal-cerrar"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div id="admin-devolucion-productos">
+        </div>
+
+
+        <div class="admin-campo">
+
+            <label for="admin-devolucion-motivo">
+                Motivo
+            </label>
+
+            <textarea
+                id="admin-devolucion-motivo"
+                rows="3"
+                placeholder="Ej. Cambio de talla, producto devuelto..."
+            ></textarea>
+
+        </div>
+
+
+        <p
+            id="admin-devolucion-mensaje"
+            class="admin-mensaje"
+        ></p>
+
+
+        <div class="admin-modal-acciones">
+
+            <button
+                type="button"
+                id="admin-cancelar-devolucion"
+            >
+                Cancelar
+            </button>
+
+
+            <button
+                type="button"
+                id="admin-confirmar-devolucion"
+                class="admin-boton-principal"
+            >
+                Confirmar devolución
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 </body>
 
 </html>
