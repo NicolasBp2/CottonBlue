@@ -2387,6 +2387,10 @@ const selectorMesVentas =
     document.getElementById(
         'admin-ventas-mes'
     );
+    const selectorMesDevoluciones =
+    document.getElementById(
+        'admin-devoluciones-mes'
+    );
 /* =========================================================
    PESTAÑAS VENTAS / DEVOLUCIONES
    ========================================================= */
@@ -2458,7 +2462,7 @@ async function mostrarPestanaDevoluciones() {
             'activo'
         );
     }
-await cargarHistorialVentas();
+await cargarHistorialDevoluciones();
 }
 
 
@@ -2480,7 +2484,35 @@ if (tabDevoluciones) {
     );
 
 }
+if (selectorMesDevoluciones) {
 
+    if (!selectorMesDevoluciones.value) {
+
+        const hoy =
+            new Date();
+
+        const anio =
+            hoy.getFullYear();
+
+        const mes =
+            String(
+                hoy.getMonth() + 1
+            ).padStart(
+                2,
+                '0'
+            );
+
+        selectorMesDevoluciones.value =
+            `${anio}-${mes}`;
+
+    }
+
+    selectorMesDevoluciones.addEventListener(
+        'change',
+        cargarHistorialDevoluciones
+    );
+
+}
 /* =========================================================
    ABRIR / CERRAR VENTAS
    ========================================================= */
@@ -3432,7 +3464,9 @@ if (selectorMesVentas) {
    ========================================================= */
 async function cargarHistorialVentas() {
 
-    if (!selectorMesVentas) return;
+    if (!selectorMesVentas) {
+        return;
+    }
 
 
     const lista =
@@ -3441,14 +3475,18 @@ async function cargarHistorialVentas() {
         );
 
 
-    if (!lista) return;
+    if (!lista) {
+        return;
+    }
 
 
     const valorMes =
         selectorMesVentas.value;
 
 
-    if (!valorMes) return;
+    if (!valorMes) {
+        return;
+    }
 
 
     const [
@@ -3480,9 +3518,9 @@ async function cargarHistorialVentas() {
         '<p>Cargando ventas...</p>';
 
 
-    /* =============================================
-       CARGAR VENTAS
-       ============================================= */
+    /* =====================================================
+       1. CARGAR VENTAS DEL MES
+       ===================================================== */
 
     const {
         data: ventas,
@@ -3549,9 +3587,231 @@ async function cargarHistorialVentas() {
     }
 
 
-    /* =============================================
-       CARGAR DEVOLUCIONES
-       ============================================= */
+    const ventasMes =
+        ventas || [];
+
+
+    /*
+        IMPORTANTE:
+
+        Las devoluciones para calcular una venta
+        NO se buscan por el mes de la devolución.
+
+        Se buscan por el ID de las ventas mostradas.
+
+        Así una venta siempre conoce TODAS
+        las devoluciones que haya tenido.
+    */
+
+    const idsVentas =
+        ventasMes.map(
+            venta => Number(venta.id)
+        );
+
+
+    let devolucionesVentas =
+        [];
+
+
+    if (
+        idsVentas.length > 0
+    ) {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+
+                .from(
+                    'devoluciones'
+                )
+
+                .select(`
+                    id,
+                    venta_id,
+                    motivo,
+                    total_devuelto,
+                    created_at,
+                    devolucion_detalles (
+                        id,
+                        venta_detalle_id,
+                        cantidad,
+                        subtotal
+                    )
+                `)
+
+                .in(
+                    'venta_id',
+                    idsVentas
+                );
+
+
+        if (error) {
+
+            console.error(
+                'Error cargando devoluciones de ventas:',
+                error
+            );
+
+        }
+
+        else {
+
+            devolucionesVentas =
+                data || [];
+
+        }
+
+    }
+
+
+    renderizarHistorialVentas(
+        ventasMes,
+        devolucionesVentas
+    );
+
+}
+/* =========================================================
+   CARGAR HISTORIAL DE DEVOLUCIONES POR MES
+   ========================================================= */
+async function cargarHistorialDevoluciones() {
+
+    if (!selectorMesDevoluciones) {
+        return;
+    }
+
+
+    const valorMes =
+        selectorMesDevoluciones.value;
+
+
+    if (!valorMes) {
+        return;
+    }
+
+
+    const [
+        anio,
+        mes
+    ] =
+        valorMes
+            .split('-')
+            .map(Number);
+
+
+    const inicioVenta =
+        new Date(
+            anio,
+            mes - 1,
+            1
+        );
+
+
+    const finVenta =
+        new Date(
+            anio,
+            mes,
+            1
+        );
+
+
+    const lista =
+        document.getElementById(
+            'admin-devoluciones-lista'
+        );
+
+
+    if (lista) {
+
+        lista.innerHTML =
+            '<p>Cargando devoluciones...</p>';
+
+    }
+
+
+    /* =====================================================
+       1. BUSCAR LAS VENTAS DEL MES SELECCIONADO
+       ===================================================== */
+
+    const {
+        data: ventasMes,
+        error: errorVentas
+    } =
+        await supabaseClient
+
+            .from(
+                'ventas'
+            )
+
+            .select(`
+                id,
+                fecha_venta
+            `)
+
+            .gte(
+                'fecha_venta',
+                inicioVenta.toISOString()
+            )
+
+            .lt(
+                'fecha_venta',
+                finVenta.toISOString()
+            );
+
+
+    if (errorVentas) {
+
+        console.error(
+            'Error buscando ventas del mes:',
+            errorVentas
+        );
+
+
+        if (lista) {
+
+            lista.innerHTML =
+                '<p>No se pudieron cargar las devoluciones.</p>';
+
+        }
+
+        return;
+
+    }
+
+
+    const idsVentas =
+        (ventasMes || [])
+            .map(
+                venta =>
+                    Number(
+                        venta.id
+                    )
+            );
+
+
+    /*
+        Si ese mes no tiene ventas,
+        tampoco puede tener devoluciones
+        asociadas a ventas de ese mes.
+    */
+
+    if (
+        idsVentas.length === 0
+    ) {
+
+        renderizarHistorialDevoluciones(
+            []
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       2. BUSCAR DEVOLUCIONES DE ESAS VENTAS
+       ===================================================== */
 
     const {
         data: devoluciones,
@@ -3577,14 +3837,9 @@ async function cargarHistorialVentas() {
                 )
             `)
 
-            .gte(
-                'created_at',
-                inicio.toISOString()
-            )
-
-            .lt(
-                'created_at',
-                fin.toISOString()
+            .in(
+                'venta_id',
+                idsVentas
             )
 
             .order(
@@ -3602,22 +3857,169 @@ async function cargarHistorialVentas() {
             errorDevoluciones
         );
 
+
+        if (lista) {
+
+            lista.innerHTML =
+                '<p>No se pudieron cargar las devoluciones.</p>';
+
+        }
+
+        return;
+
     }
 
 
-    renderizarHistorialVentas(
-        ventas || [],
-        devoluciones || []
+    const devolucionesMes =
+        devoluciones || [];
+
+
+    /* =====================================================
+       3. OBTENER LOS DETALLES DE VENTA
+       ===================================================== */
+
+    const idsDetalles =
+        [];
+
+
+    devolucionesMes.forEach(
+        devolucion => {
+
+            (
+                devolucion.devolucion_detalles ||
+                []
+            ).forEach(
+                detalle => {
+
+                    const id =
+                        Number(
+                            detalle.venta_detalle_id
+                        );
+
+
+                    if (
+                        id &&
+                        !idsDetalles.includes(id)
+                    ) {
+
+                        idsDetalles.push(
+                            id
+                        );
+
+                    }
+
+                }
+            );
+
+        }
     );
 
 
+    let detallesVenta =
+        [];
+
+
+    if (
+        idsDetalles.length > 0
+    ) {
+
+        const {
+            data,
+            error: errorDetalles
+        } =
+            await supabaseClient
+
+                .from(
+                    'venta_detalles'
+                )
+
+                .select(`
+                    id,
+                    producto_nombre,
+                    talla,
+                    color,
+                    precio_unitario
+                `)
+
+                .in(
+                    'id',
+                    idsDetalles
+                );
+
+
+        if (errorDetalles) {
+
+            console.error(
+                'Error cargando detalles de venta:',
+                errorDetalles
+            );
+
+        }
+
+        else {
+
+            detallesVenta =
+                data || [];
+
+        }
+
+    }
+
+
+    /* =====================================================
+       4. UNIR LOS DATOS DEL PRODUCTO
+       ===================================================== */
+
+    const detallesPorId =
+        {};
+
+
+    detallesVenta.forEach(
+        detalle => {
+
+            detallesPorId[
+                Number(
+                    detalle.id
+                )
+            ] =
+                detalle;
+
+        }
+    );
+
+
+    devolucionesMes.forEach(
+        devolucion => {
+
+            (
+                devolucion.devolucion_detalles ||
+                []
+            ).forEach(
+                detalle => {
+
+                    detalle.venta_detalles =
+                        detallesPorId[
+                            Number(
+                                detalle.venta_detalle_id
+                            )
+                        ] || {};
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       5. MOSTRAR DEVOLUCIONES
+       ===================================================== */
+
     renderizarHistorialDevoluciones(
-        devoluciones || []
+        devolucionesMes
     );
 
 }
-
-
 /* =========================================================
    MOSTRAR HISTORIAL Y RESUMEN
    ========================================================= */
@@ -4724,16 +5126,22 @@ async function abrirModalDevolucion(
     }
 
 
-    mensaje.textContent =
-        '';
+    if (mensaje) {
+        mensaje.textContent = '';
+    }
+
 
     contenedor.innerHTML =
         '<p>Cargando productos...</p>';
 
 
+    /* =============================================
+       CARGAR PRODUCTOS DE LA VENTA
+       ============================================= */
+
     const {
-        data,
-        error
+        data: detallesVenta,
+        error: errorVenta
     } =
         await supabaseClient
 
@@ -4756,34 +5164,185 @@ async function abrirModalDevolucion(
             );
 
 
-    if (error) {
+    if (errorVenta) {
 
         console.error(
             'Error cargando venta:',
-            error
+            errorVenta
         );
 
-        mensaje.textContent =
-            'No se pudo cargar la venta.';
+        if (mensaje) {
+            mensaje.textContent =
+                'No se pudo cargar la venta.';
+        }
 
         return;
 
     }
 
 
+    const detalles =
+        detallesVenta || [];
+
+
+    /* =============================================
+       BUSCAR DEVOLUCIONES ANTERIORES
+       ============================================= */
+
+    const idsDetalles =
+        detalles.map(
+            detalle => detalle.id
+        );
+
+
+    let devolucionesAnteriores =
+        [];
+
+
+    if (
+        idsDetalles.length > 0
+    ) {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+
+                .from(
+                    'devolucion_detalles'
+                )
+
+                .select(`
+                    venta_detalle_id,
+                    cantidad
+                `)
+
+                .in(
+                    'venta_detalle_id',
+                    idsDetalles
+                );
+
+
+        if (error) {
+
+            console.error(
+                'Error cargando devoluciones anteriores:',
+                error
+            );
+
+        } else {
+
+            devolucionesAnteriores =
+                data || [];
+
+        }
+
+    }
+
+
+    /* =============================================
+       SUMAR CUÁNTO YA SE DEVOLVIÓ
+       ============================================= */
+
+    const devueltoPorDetalle =
+        {};
+
+
+    devolucionesAnteriores.forEach(
+        devolucion => {
+
+            const detalleId =
+                Number(
+                    devolucion.venta_detalle_id
+                );
+
+
+            if (
+                !devueltoPorDetalle[
+                    detalleId
+                ]
+            ) {
+
+                devueltoPorDetalle[
+                    detalleId
+                ] = 0;
+
+            }
+
+
+            devueltoPorDetalle[
+                detalleId
+            ] +=
+                Number(
+                    devolucion.cantidad || 0
+                );
+
+        }
+    );
+
+
+    /* =============================================
+       GUARDAR VENTA ACTUAL
+       ============================================= */
+
     ventaDevolucionActual = {
+
         id: ventaId,
-        detalles: data || []
+
+        detalles:
+            detalles.map(
+                detalle => {
+
+                    const vendidas =
+                        Number(
+                            detalle.cantidad || 0
+                        );
+
+                    const devueltas =
+                        Number(
+                            devueltoPorDetalle[
+                                Number(detalle.id)
+                            ] || 0
+                        );
+
+                    const disponibles =
+                        Math.max(
+                            0,
+                            vendidas - devueltas
+                        );
+
+
+                    return {
+
+                        ...detalle,
+
+                        devueltas,
+                        disponibles
+
+                    };
+
+                }
+            )
+
     };
 
 
-    titulo.textContent =
-        `Venta #${ventaId}`;
+    if (titulo) {
+
+        titulo.textContent =
+            `Venta #${ventaId}`;
+
+    }
 
 
     contenedor.innerHTML =
         '';
 
+
+    /* =============================================
+       MOSTRAR PRODUCTOS
+       ============================================= */
 
     ventaDevolucionActual.detalles
         .forEach(
@@ -4815,6 +5374,15 @@ async function abrirModalDevolucion(
                             Vendidas: ${detalle.cantidad}
                         </span>
 
+                        <span>
+                            Ya devueltas: ${detalle.devueltas}
+                        </span>
+
+                        <span>
+                            Disponibles para devolver:
+                            ${detalle.disponibles}
+                        </span>
+
                     </div>
 
 
@@ -4827,10 +5395,15 @@ async function abrirModalDevolucion(
                         <input
                             type="number"
                             min="0"
-                            max="${detalle.cantidad}"
+                            max="${detalle.disponibles}"
                             value="0"
                             class="admin-devolucion-cantidad"
                             data-id="${detalle.id}"
+                            ${
+                                detalle.disponibles === 0
+                                    ? 'disabled'
+                                    : ''
+                            }
                         >
 
                     </div>
@@ -4850,7 +5423,6 @@ async function abrirModalDevolucion(
         false;
 
 }
-
 
 function cerrarModalDevolucion() {
 
@@ -5015,6 +5587,81 @@ function renderizarHistorialDevoluciones(
                 );
 
 
+            const detallesHTML =
+                (
+                    devolucion.devolucion_detalles ||
+                    []
+                )
+                    .map(
+                        detalle => {
+
+                            const ventaDetalle =
+                                detalle.venta_detalles || {};
+
+
+                            return `
+
+                                <li>
+
+                                    <div>
+
+                                        <strong>
+                                            ${
+                                                ventaDetalle.producto_nombre ||
+                                                'Producto'
+                                            }
+                                        </strong>
+
+                                        <span>
+                                            ${
+                                                ventaDetalle.color ||
+                                                'Sin color'
+                                            }
+                                            /
+                                            ${
+                                                ventaDetalle.talla ||
+                                                'Sin talla'
+                                            }
+                                        </span>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+                                            Cantidad devuelta:
+                                            ${detalle.cantidad}
+                                        </span>
+
+                                        <span>
+                                            ${
+                                                formatearPrecioAdmin(
+                                                    ventaDetalle.precio_unitario || 0
+                                                )
+                                            }
+                                            c/u
+                                        </span>
+
+                                        <strong>
+                                            -${
+                                                formatearPrecioAdmin(
+                                                    detalle.subtotal || 0
+                                                )
+                                            }
+                                        </strong>
+
+                                    </div>
+
+                                </li>
+
+                            `;
+
+                        }
+                    )
+                    .join('');
+
+
             tarjeta.innerHTML = `
 
                 <div class="admin-venta-historial-header">
@@ -5045,13 +5692,22 @@ function renderizarHistorialDevoluciones(
                 </div>
 
 
+                <ul class="admin-venta-historial-detalles">
+
+                    ${detallesHTML}
+
+                </ul>
+
+
                 ${
                     devolucion.motivo
+
                         ? `
                             <p class="admin-venta-historial-nota">
                                 Motivo: ${devolucion.motivo}
                             </p>
                         `
+
                         : ''
                 }
 
@@ -5064,6 +5720,7 @@ function renderizarHistorialDevoluciones(
 
         }
     );
+
 }
 /* =========================================================
    CERRAR MODAL DE DEVOLUCIÓN

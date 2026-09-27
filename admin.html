@@ -1171,94 +1171,107 @@
     <!-- =====================================================
          PESTAÑA DEVOLUCIONES
          ===================================================== -->
+<div
+    id="admin-panel-devoluciones"
+    class="admin-ventas-panel"
+    hidden
+>
 
-    <div
-        id="admin-panel-devoluciones"
-        class="admin-ventas-panel"
-        hidden
-    >
+    <section class="admin-ventas-resumen">
 
-        <section class="admin-ventas-resumen">
+        <div class="admin-ventas-resumen-header">
 
-            <div class="admin-ventas-resumen-header">
+            <div>
 
-                <div>
-
-                    <h3>
-                        Devoluciones
-                    </h3>
-
-                    <p>
-                        Registro de productos devueltos.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="admin-ventas-estadisticas">
-
-                <article class="admin-venta-estadistica">
-
-                    <span>
-                        Dinero devuelto
-                    </span>
-
-                    <strong id="admin-devoluciones-total">
-                        $0
-                    </strong>
-
-                </article>
-
-
-                <article class="admin-venta-estadistica">
-
-                    <span>
-                        Devoluciones
-                    </span>
-
-                    <strong id="admin-devoluciones-cantidad">
-                        0
-                    </strong>
-
-                </article>
-
-
-                <article class="admin-venta-estadistica">
-
-                    <span>
-                        Unidades devueltas
-                    </span>
-
-                    <strong id="admin-devoluciones-unidades">
-                        0
-                    </strong>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <section class="admin-ventas-bloque">
-
-            <h3>
-                Historial de devoluciones
-            </h3>
-
-            <div id="admin-devoluciones-lista">
+                <h3>
+                    Devoluciones
+                </h3>
 
                 <p>
-                    No hay devoluciones registradas.
+                    Registro de productos devueltos.
                 </p>
 
             </div>
 
-        </section>
 
-    </div>
+            <div>
+
+                <label for="admin-devoluciones-mes">
+                    Mes
+                </label>
+
+                <input
+                    type="month"
+                    id="admin-devoluciones-mes"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-ventas-estadisticas">
+
+            <article class="admin-venta-estadistica">
+
+                <span>
+                    Dinero devuelto
+                </span>
+
+                <strong id="admin-devoluciones-total">
+                    $0
+                </strong>
+
+            </article>
+
+
+            <article class="admin-venta-estadistica">
+
+                <span>
+                    Devoluciones
+                </span>
+
+                <strong id="admin-devoluciones-cantidad">
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="admin-venta-estadistica">
+
+                <span>
+                    Unidades devueltas
+                </span>
+
+                <strong id="admin-devoluciones-unidades">
+                    0
+                </strong>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <section class="admin-ventas-bloque">
+
+        <h3>
+            Historial de devoluciones
+        </h3>
+
+        <div id="admin-devoluciones-lista">
+
+            <p>
+                No hay devoluciones registradas.
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
     <!-- FIN PESTAÑA DEVOLUCIONES -->
 
 </section>
