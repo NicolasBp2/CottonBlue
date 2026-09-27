@@ -597,8 +597,10 @@ if (inputArchivoImagen) {
         'change',
         () => {
 
-            const archivo =
-                inputArchivoImagen.files[0];
+            const archivos =
+                Array.from(
+                    inputArchivoImagen.files
+                );
 
 
             const preview =
@@ -610,37 +612,53 @@ if (inputArchivoImagen) {
             if (!preview) return;
 
 
-            if (!archivo) {
+            if (archivos.length === 0) {
 
                 preview.textContent =
-                    'Sin imagen seleccionada';
-
+                    'Sin imágenes seleccionadas';
 
                 return;
 
             }
 
 
-            const urlTemporal =
-                URL.createObjectURL(
-                    archivo
-                );
+            preview.innerHTML = '';
 
 
-            preview.innerHTML = `
+            archivos.forEach(
+                archivo => {
 
-                <img
-                    src="${urlTemporal}"
-                    alt="Vista previa"
-                >
+                    const urlTemporal =
+                        URL.createObjectURL(
+                            archivo
+                        );
 
-            `;
+
+                    const img =
+                        document.createElement(
+                            'img'
+                        );
+
+
+                    img.src =
+                        urlTemporal;
+
+
+                    img.alt =
+                        'Vista previa';
+
+
+                    preview.appendChild(
+                        img
+                    );
+
+                }
+            );
 
         }
     );
 
 }
-
 
 /* =========================================================
    ABRIR FORMULARIO NUEVO PRODUCTO
@@ -958,13 +976,26 @@ tarjeta.innerHTML = `
         </div>
 
 
-        <button
-            type="button"
-            class="admin-editar-producto"
-            data-id="${producto.id}"
-        >
-            Editar
-        </button>
+       <div class="admin-producto-acciones">
+
+    <button
+        type="button"
+        class="admin-editar-producto"
+        data-id="${producto.id}"
+    >
+        Editar
+    </button>
+
+    <button
+        type="button"
+        class="admin-eliminar-producto"
+        data-id="${producto.id}"
+        data-imagen="${producto.imagen || ''}"
+    >
+        Eliminar
+    </button>
+
+</div>
 
     </div>
 
@@ -1000,8 +1031,343 @@ tarjeta.innerHTML = `
         );
 
 }
+/* =========================================================
+   ELIMINAR PRODUCTO
+   ========================================================= */
+
+document.addEventListener(
+    'click',
+    async evento => {
+
+        const boton =
+            evento.target.closest(
+                '.admin-eliminar-producto'
+            );
+
+        if (!boton) {
+            return;
+        }
 
 
+        const productoId =
+            Number(
+                boton.dataset.id
+            );
+
+        const imagen =
+            boton.dataset.imagen || '';
+
+
+        if (!productoId) {
+            return;
+        }
+
+/* =============================================
+   OBTENER IMÁGENES DE LA GALERÍA
+   ============================================= */
+
+const {
+    data: imagenesGaleria,
+    error: errorGaleriaProducto
+} =
+    await supabaseClient
+
+        .from(
+            'producto_imagenes'
+        )
+
+        .select(
+            'imagen'
+        )
+
+        .eq(
+            'producto_id',
+            productoId
+        );
+
+
+if (errorGaleriaProducto) {
+
+    console.error(
+        'Error buscando imágenes del producto:',
+        errorGaleriaProducto
+    );
+
+    boton.disabled =
+        false;
+
+    boton.textContent =
+        'Eliminar';
+
+    alert(
+        'No se pudieron obtener las imágenes del producto.'
+    );
+
+    return;
+
+}
+
+        const confirmar =
+            window.confirm(
+                '¿Seguro que quieres eliminar este producto?'
+            );
+
+
+        if (!confirmar) {
+            return;
+        }
+
+
+        boton.disabled =
+            true;
+
+        boton.textContent =
+            'Eliminando...';
+
+
+        /* =============================================
+           REVISAR SI EL PRODUCTO TIENE VENTAS
+           ============================================= */
+
+        const {
+            data: detallesVenta,
+            error: errorVentas
+        } =
+            await supabaseClient
+
+                .from(
+                    'venta_detalles'
+                )
+
+                .select(
+                    'id'
+                )
+
+                .eq(
+                    'producto_id',
+                    productoId
+                )
+
+                .limit(
+                    1
+                );
+
+
+        if (errorVentas) {
+
+            console.error(
+                'Error comprobando ventas del producto:',
+                errorVentas
+            );
+
+            boton.disabled =
+                false;
+
+            boton.textContent =
+                'Eliminar';
+
+            alert(
+                'No se pudo comprobar si el producto tiene ventas.'
+            );
+
+            return;
+
+        }
+
+
+        /* =============================================
+           SI YA SE VENDIÓ: SOLO DESACTIVAR
+           ============================================= */
+
+        if (
+            detallesVenta &&
+            detallesVenta.length > 0
+        ) {
+
+            const {
+                error
+            } =
+                await supabaseClient
+
+                    .from(
+                        'productos'
+                    )
+
+                    .update({
+                        activo: false
+                    })
+
+                    .eq(
+                        'id',
+                        productoId
+                    );
+
+
+            boton.disabled =
+                false;
+
+            boton.textContent =
+                'Eliminar';
+
+
+            if (error) {
+
+                console.error(
+                    'Error desactivando producto:',
+                    error
+                );
+
+                alert(
+                    'No se pudo desactivar el producto.'
+                );
+
+                return;
+
+            }
+
+
+            alert(
+                'Este producto tiene ventas registradas, así que no se eliminó. Se dejó inactivo para conservar el historial.'
+            );
+
+
+            await cargarProductosAdmin();
+
+            return;
+
+        }
+
+
+        /* =============================================
+           ELIMINAR VARIANTES
+           ============================================= */
+
+        const {
+            error: errorVariantes
+        } =
+            await supabaseClient
+
+                .from(
+                    'variantes_producto'
+                )
+
+                .delete()
+
+                .eq(
+                    'producto_id',
+                    productoId
+                );
+
+
+        if (errorVariantes) {
+
+            console.error(
+                'Error eliminando variantes:',
+                errorVariantes
+            );
+
+            boton.disabled =
+                false;
+
+            boton.textContent =
+                'Eliminar';
+
+            alert(
+                'No se pudieron eliminar las variantes del producto.'
+            );
+
+            return;
+
+        }
+
+
+        /* =============================================
+           ELIMINAR PRODUCTO
+           ============================================= */
+
+        const {
+            error: errorProducto
+        } =
+            await supabaseClient
+
+                .from(
+                    'productos'
+                )
+
+                .delete()
+
+                .eq(
+                    'id',
+                    productoId
+                );
+
+
+        boton.disabled =
+            false;
+
+        boton.textContent =
+            'Eliminar';
+
+if (errorProducto) {
+
+    console.error(
+        'Error eliminando producto:',
+        errorProducto
+    );
+
+    alert(
+        `No se pudo eliminar el producto: ${errorProducto.message}`
+    );
+
+    return;
+
+}
+
+
+/* =============================================
+   ELIMINAR TODAS LAS IMÁGENES DEL STORAGE
+   ============================================= */
+
+if (
+    imagenesGaleria &&
+    imagenesGaleria.length > 0
+) {
+
+    for (
+        const imagenGaleria
+        of imagenesGaleria
+    ) {
+
+        await eliminarImagenStorage(
+            imagenGaleria.imagen
+        );
+
+    }
+
+} else {
+
+    if (imagen) {
+
+        await eliminarImagenStorage(
+            imagen
+        );
+
+    }
+
+}
+
+
+alert(
+    'Producto eliminado correctamente.'
+);
+
+
+await cargarProductosAdmin();
+
+await cargarProductosVenta();
+
+    }
+);
 /* =========================================================
    ABRIR EDITAR PRODUCTO
    ========================================================= */
@@ -1079,12 +1445,6 @@ await cargarCategoriasEnFormulario(
     data.categoria || ''
 );
 
-
-
-  await cargarCategoriasEnFormulario(
-    data.categoria || ''
-);
-
     document.getElementById(
         'admin-producto-imagen'
     ).value =
@@ -1133,37 +1493,543 @@ await cargarCategoriasEnFormulario(
         '';
 
 
+
     const preview =
-        document.getElementById(
-            'admin-imagen-preview'
+    document.getElementById(
+        'admin-imagen-preview'
+    );
+
+
+if (preview) {
+
+    preview.innerHTML = '';
+
+
+    const {
+        data: imagenesProducto,
+        error: errorImagenes
+    } =
+        await supabaseClient
+
+            .from(
+                'producto_imagenes'
+            )
+
+            .select(
+                'id, imagen, orden, principal'
+            )
+
+            .eq(
+                'producto_id',
+                data.id
+            )
+
+            .order(
+                'orden',
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (errorImagenes) {
+
+        console.error(
+            'Error cargando imágenes del producto:',
+            errorImagenes
         );
-
-
-    if (preview) {
-
-        if (data.imagen) {
-
-            preview.innerHTML = `
-
-                <img
-                    src="${data.imagen}"
-                    alt="${data.nombre}"
-                >
-
-            `;
-
-        }
-
-        else {
-
-            preview.textContent =
-                'Sin imagen seleccionada';
-
-        }
 
     }
 
 
+    if (
+        imagenesProducto &&
+        imagenesProducto.length > 0
+    ) {
+
+        imagenesProducto.forEach(
+            imagenProducto => {
+
+                const contenedorImagen =
+                    document.createElement(
+                        'div'
+                    );
+
+
+                contenedorImagen.className =
+                    'admin-imagen-existente';
+
+
+                contenedorImagen.innerHTML = `
+                    <img
+                        src="${imagenProducto.imagen}"
+                        alt="${data.nombre}"
+                    >
+
+                    ${
+    imagenProducto.principal
+
+        ? `
+            <span class="admin-imagen-principal">
+                Principal
+            </span>
+        `
+
+        : `
+            <button
+                type="button"
+                class="admin-hacer-principal"
+                data-id="${imagenProducto.id}"
+                data-url="${imagenProducto.imagen}"
+            >
+                Hacer principal
+            </button>
+        `
+}
+
+                    <button
+                        type="button"
+                        class="admin-eliminar-imagen"
+                        data-id="${imagenProducto.id}"
+                        data-url="${imagenProducto.imagen}"
+                    >
+                        Eliminar
+                    </button>
+                `;
+
+
+                preview.appendChild(
+                    contenedorImagen
+                );
+
+            }
+        );
+
+    }
+
+    else if (data.imagen) {
+
+        preview.innerHTML = `
+            <img
+                src="${data.imagen}"
+                alt="${data.nombre}"
+            >
+        `;
+
+    }
+
+    else {
+
+        preview.textContent =
+            'Sin imágenes';
+
+    }
+
+}preview
+    ?.querySelectorAll(
+        '.admin-hacer-principal'
+    )
+    .forEach(
+        boton => {
+
+            boton.addEventListener(
+                'click',
+                async () => {
+
+                    const imagenId =
+                        Number(
+                            boton.dataset.id
+                        );
+
+                    const imagenUrl =
+                        boton.dataset.url;
+
+
+                    const {
+                        error: errorQuitar
+                    } =
+                        await supabaseClient
+
+                            .from(
+                                'producto_imagenes'
+                            )
+
+                            .update({
+                                principal: false
+                            })
+
+                            .eq(
+                                'producto_id',
+                                data.id
+                            );
+
+
+                    if (errorQuitar) {
+
+                        console.error(
+                            'Error quitando imagen principal:',
+                            errorQuitar
+                        );
+
+                        alert(
+                            'No se pudo cambiar la imagen principal.'
+                        );
+
+                        return;
+
+                    }
+
+
+                    const {
+                        error: errorPrincipal
+                    } =
+                        await supabaseClient
+
+                            .from(
+                                'producto_imagenes'
+                            )
+
+                            .update({
+                                principal: true
+                            })
+
+                            .eq(
+                                'id',
+                                imagenId
+                            );
+
+
+                    if (errorPrincipal) {
+
+                        console.error(
+                            'Error estableciendo imagen principal:',
+                            errorPrincipal
+                        );
+
+                        alert(
+                            'No se pudo cambiar la imagen principal.'
+                        );
+
+                        return;
+
+                    }
+
+
+                    const {
+                        error: errorProducto
+                    } =
+                        await supabaseClient
+
+                            .from(
+                                'productos'
+                            )
+
+                            .update({
+                                imagen: imagenUrl
+                            })
+
+                            .eq(
+                                'id',
+                                data.id
+                            );
+
+
+                    if (errorProducto) {
+
+                        console.error(
+                            'Error actualizando imagen del producto:',
+                            errorProducto
+                        );
+
+                        alert(
+                            'No se pudo actualizar la imagen principal del producto.'
+                        );
+
+                        return;
+
+                    }
+
+
+                    document.getElementById(
+                        'admin-producto-imagen'
+                    ).value =
+                        imagenUrl;
+
+
+                    await abrirFormularioEditarProducto(
+                        data.id
+                    );
+
+
+                    await cargarProductosAdmin();
+
+                }
+            );
+
+        }
+    );
+    preview
+    ?.querySelectorAll(
+        '.admin-eliminar-imagen'
+    )
+    .forEach(
+        boton => {
+
+            boton.addEventListener(
+                'click',
+                async () => {
+
+                    const confirmar =
+                        window.confirm(
+                            '¿Eliminar esta imagen del producto?'
+                        );
+
+
+                    if (!confirmar) {
+                        return;
+                    }
+
+
+                    const imagenId =
+                        Number(
+                            boton.dataset.id
+                        );
+
+
+                    const imagenUrl =
+                        boton.dataset.url;
+
+
+                    const productoId =
+                        Number(
+                            data.id
+                        );
+
+
+                    /*
+                        Revisamos si la imagen
+                        que vamos a borrar es principal.
+                    */
+                    const {
+                        data: imagenActual,
+                        error: errorBuscar
+                    } =
+                        await supabaseClient
+
+                            .from(
+                                'producto_imagenes'
+                            )
+
+                            .select(
+                                'id, principal'
+                            )
+
+                            .eq(
+                                'id',
+                                imagenId
+                            )
+
+                            .single();
+
+
+                    if (errorBuscar) {
+
+                        console.error(
+                            'Error buscando imagen:',
+                            errorBuscar
+                        );
+
+                        alert(
+                            'No se pudo eliminar la imagen.'
+                        );
+
+                        return;
+
+                    }
+
+
+                    const eraPrincipal =
+                        Boolean(
+                            imagenActual.principal
+                        );
+
+
+                    /*
+                        Eliminamos la imagen
+                        de producto_imagenes.
+                    */
+                    const {
+                        error: errorEliminar
+                    } =
+                        await supabaseClient
+
+                            .from(
+                                'producto_imagenes'
+                            )
+
+                            .delete()
+
+                            .eq(
+                                'id',
+                                imagenId
+                            );
+
+
+                    if (errorEliminar) {
+
+                        console.error(
+                            'Error eliminando imagen:',
+                            errorEliminar
+                        );
+
+                        alert(
+                            'No se pudo eliminar la imagen.'
+                        );
+
+                        return;
+
+                    }
+
+
+                    /*
+                        Eliminamos también
+                        el archivo del Storage.
+                    */
+                    await eliminarImagenStorage(
+                        imagenUrl
+                    );
+
+
+                    /*
+                        Si la que eliminamos era
+                        la principal, elegimos otra.
+                    */
+                    if (eraPrincipal) {
+
+                        const {
+                            data: restantes,
+                            error: errorRestantes
+                        } =
+                            await supabaseClient
+
+                                .from(
+                                    'producto_imagenes'
+                                )
+
+                                .select(
+                                    'id, imagen, orden'
+                                )
+
+                                .eq(
+                                    'producto_id',
+                                    productoId
+                                )
+
+                                .order(
+                                    'orden',
+                                    {
+                                        ascending: true
+                                    }
+                                )
+
+                                .limit(
+                                    1
+                                );
+
+
+                        if (errorRestantes) {
+
+                            console.error(
+                                'Error buscando nueva principal:',
+                                errorRestantes
+                            );
+
+                            return;
+
+                        }
+
+
+                        if (
+                            restantes &&
+                            restantes.length > 0
+                        ) {
+
+                            const nuevaPrincipal =
+                                restantes[0];
+
+
+                            await supabaseClient
+
+                                .from(
+                                    'producto_imagenes'
+                                )
+
+                                .update({
+                                    principal: true
+                                })
+
+                                .eq(
+                                    'id',
+                                    nuevaPrincipal.id
+                                );
+
+
+                            await supabaseClient
+
+                                .from(
+                                    'productos'
+                                )
+
+                                .update({
+                                    imagen:
+                                        nuevaPrincipal.imagen
+                                })
+
+                                .eq(
+                                    'id',
+                                    productoId
+                                );
+
+                        }
+
+                        else {
+
+                            await supabaseClient
+
+                                .from(
+                                    'productos'
+                                )
+
+                                .update({
+                                    imagen: ''
+                                })
+
+                                .eq(
+                                    'id',
+                                    productoId
+                                );
+
+                        }
+
+                    }
+
+
+                    /*
+                        Recargamos el editor para
+                        mostrar el cambio.
+                    */
+                    await abrirFormularioEditarProducto(
+                        productoId
+                    );
+
+
+                    await cargarProductosAdmin();
+
+                }
+            );
+
+        }
+    );
     const archivo =
         document.getElementById(
             'admin-producto-archivo'
@@ -1341,20 +2207,19 @@ if (formulario) {
             /* =================================================
                IMAGEN
                ================================================= */
-
-            const inputArchivo =
-                document.getElementById(
-                    'admin-producto-archivo'
-                );
-
-
-            const archivoImagen =
-                inputArchivo
-                    ? inputArchivo.files[0]
-                    : null;
+const inputArchivo =
+    document.getElementById(
+        'admin-producto-archivo'
+    );
 
 
-          const imagenAnterior =
+const archivosImagen =
+    inputArchivo
+        ? Array.from(inputArchivo.files)
+        : [];
+
+
+const imagenAnterior =
     document.getElementById(
         'admin-producto-imagen'
     ).value;
@@ -1364,36 +2229,74 @@ let imagenFinal =
     imagenAnterior;
 
 
-            if (archivoImagen) {
-
-                try {
-
-                    imagenFinal =
-                        await subirImagenProducto(
-                            archivoImagen
-                        );
-
-                }
-
-                catch (error) {
-
-                    mensaje.textContent =
-                        'No se pudo subir la imagen.';
+let imagenesSubidas = [];
 
 
-                    botonGuardar.disabled =
-                        false;
+/*
+    Si seleccionó nuevas imágenes,
+    las subimos todas.
+*/
+if (archivosImagen.length > 0) {
+
+    try {
+
+        for (const archivo of archivosImagen) {
+
+            const url =
+                await subirImagenProducto(
+                    archivo
+                );
+
+            imagenesSubidas.push(
+                url
+            );
+
+        }
 
 
-                    botonGuardar.textContent =
-                        'Guardar producto';
+        /*
+            La primera imagen seleccionada
+            será la principal.
+        */
+        imagenFinal =
+            imagenesSubidas[0];
+
+    }
+
+    catch (error) {
+
+        console.error(
+            'Error subiendo imágenes:',
+            error
+        );
 
 
-                    return;
+        for (const url of imagenesSubidas) {
 
-                }
+            await eliminarImagenStorage(
+                url
+            );
 
-            }
+        }
+
+
+        mensaje.textContent =
+            'No se pudieron subir las imágenes.';
+
+
+        botonGuardar.disabled =
+            false;
+
+
+        botonGuardar.textContent =
+            'Guardar producto';
+
+
+        return;
+
+    }
+
+}
 
 
             const producto = {
@@ -1514,10 +2417,10 @@ let imagenFinal =
     */
 
     if (
-        archivoImagen &&
-        imagenFinal &&
-        imagenFinal !== imagenAnterior
-    ) {
+    archivosImagen.length > 0 &&
+    imagenFinal &&
+    imagenFinal !== imagenAnterior
+){
 
         await eliminarImagenStorage(
             imagenFinal
@@ -1532,15 +2435,164 @@ let imagenFinal =
 
             const productoGuardado =
                 resultado.data;
+               /* =====================================================
+   GUARDAR / REEMPLAZAR GALERÍA DE IMÁGENES
+   ===================================================== */
+
+if (imagenesSubidas.length > 0) {
+
+    /*
+        Primero obtenemos las imágenes anteriores
+        de este producto.
+    */
+    const {
+        data: imagenesAnteriores,
+        error: errorBuscarGaleria
+    } =
+        await supabaseClient
+
+            .from(
+                'producto_imagenes'
+            )
+
+            .select(
+                'id, imagen'
+            )
+
+            .eq(
+                'producto_id',
+                productoGuardado.id
+            );
+
+
+    if (errorBuscarGaleria) {
+
+        console.error(
+            'Error buscando galería anterior:',
+            errorBuscarGaleria
+        );
+
+    }
+
+
+    /*
+        Eliminamos los registros anteriores
+        de la tabla.
+    */
+    const {
+        error: errorEliminarGaleria
+    } =
+        await supabaseClient
+
+            .from(
+                'producto_imagenes'
+            )
+
+            .delete()
+
+            .eq(
+                'producto_id',
+                productoGuardado.id
+            );
+
+
+    if (errorEliminarGaleria) {
+
+        console.error(
+            'Error eliminando galería anterior:',
+            errorEliminarGaleria
+        );
+
+        mensaje.textContent =
+            'El producto se guardó, pero no se pudo reemplazar la galería.';
+
+        return;
+
+    }
+
+
+    /*
+        Eliminamos también las imágenes antiguas
+        del Storage.
+    */
+    if (
+        imagenesAnteriores &&
+        imagenesAnteriores.length > 0
+    ) {
+
+        for (
+            const imagenAnteriorGaleria
+            of imagenesAnteriores
+        ) {
+
+            await eliminarImagenStorage(
+                imagenAnteriorGaleria.imagen
+            );
+
+        }
+
+    }
+
+
+    /*
+        Ahora guardamos la nueva galería.
+    */
+    const registrosImagenes =
+        imagenesSubidas.map(
+            (url, indice) => ({
+
+                producto_id:
+                    productoGuardado.id,
+
+                imagen:
+                    url,
+
+                orden:
+                    indice,
+
+                principal:
+                    indice === 0
+
+            })
+        );
+
+
+    const {
+        error: errorGaleria
+    } =
+        await supabaseClient
+
+            .from(
+                'producto_imagenes'
+            )
+
+            .insert(
+                registrosImagenes
+            );
+
+
+    if (errorGaleria) {
+
+        console.error(
+            'Error guardando nueva galería:',
+            errorGaleria
+        );
+
+        mensaje.textContent =
+            'El producto se guardó, pero hubo un error guardando la nueva galería.';
+
+    }
+
+}
 /* =====================================================
    ELIMINAR IMAGEN ANTERIOR SI FUE REEMPLAZADA
    ===================================================== */
 
 if (
-    archivoImagen &&
+    archivosImagen.length > 0 &&
     imagenAnterior &&
     imagenFinal !== imagenAnterior
-) {
+){
 
     await eliminarImagenStorage(
         imagenAnterior
@@ -6195,29 +7247,27 @@ function renderizarCategoriasAdmin(
                     </span>
 
 
-                    <button
-                        type="button"
-                        class="admin-categoria-editar"
-                        data-id="${categoria.id}"
-                        data-nombre="${categoria.nombre}"
-                        data-orden="${categoria.orden}"
-                    >
-                        Editar
-                    </button>
+               <button
+    type="button"
+    class="admin-categoria-editar"
+    data-id="${categoria.id}"
+    data-nombre="${categoria.nombre}"
+    data-orden="${categoria.orden}"
+    data-genero="${categoria.genero || 'ambos'}"
+>
+    Editar
+</button>
 
 
-                    <button
-                        type="button"
-                        class="admin-categoria-toggle"
-                        data-id="${categoria.id}"
-                        data-activo="${categoria.activo}"
-                    >
-                        ${
-                            categoria.activo
-                                ? 'Desactivar'
-                                : 'Activar'
-                        }
-                    </button>
+               <button
+    type="button"
+    class="admin-categoria-eliminar"
+    data-id="${categoria.id}"
+    data-slug="${categoria.slug}"
+    data-nombre="${categoria.nombre}"
+>
+    Eliminar
+</button>
 
                 </div>
 
@@ -6280,17 +7330,172 @@ function renderizarCategoriasAdmin(
                 () => {
 
                     abrirEdicionCategoria(
-                        boton.dataset.id,
-                        boton.dataset.nombre,
-                        boton.dataset.orden
-                    );
+    boton.dataset.id,
+    boton.dataset.nombre,
+    boton.dataset.orden,
+    boton.dataset.genero
+);
 
                 }
             );
 
         }
     );
+const botonesEliminar =
+    lista.querySelectorAll(
+        '.admin-categoria-eliminar'
+    );
 
+
+botonesEliminar.forEach(
+    boton => {
+
+        boton.addEventListener(
+            'click',
+            async () => {
+
+                const id =
+                    boton.dataset.id;
+
+                const slug =
+                    boton.dataset.slug;
+
+                const nombre =
+                    boton.dataset.nombre;
+
+
+                const confirmar =
+                    window.confirm(
+                        `¿Seguro que quieres eliminar la categoría "${nombre}"?`
+                    );
+
+
+                if (!confirmar) {
+                    return;
+                }
+
+
+                boton.disabled =
+                    true;
+
+                boton.textContent =
+                    'Eliminando...';
+
+
+                const {
+                    data: productosRelacionados,
+                    error: errorProductos
+                } =
+                    await supabaseClient
+
+                        .from(
+                            'productos'
+                        )
+
+                        .select(
+                            'id'
+                        )
+
+                        .eq(
+                            'categoria',
+                            slug
+                        )
+
+                        .limit(
+                            1
+                        );
+
+
+                if (errorProductos) {
+
+                    console.error(
+                        'Error revisando productos de la categoría:',
+                        errorProductos
+                    );
+
+                    boton.disabled =
+                        false;
+
+                    boton.textContent =
+                        'Eliminar';
+
+                    alert(
+                        'No se pudo comprobar si la categoría está en uso.'
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    productosRelacionados &&
+                    productosRelacionados.length > 0
+                ) {
+
+                    boton.disabled =
+                        false;
+
+                    boton.textContent =
+                        'Eliminar';
+
+                    alert(
+                        'No puedes eliminar esta categoría porque hay productos que la están usando.'
+                    );
+
+                    return;
+
+                }
+
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+
+                        .from(
+                            'categorias'
+                        )
+
+                        .delete()
+
+                        .eq(
+                            'id',
+                            id
+                        );
+
+
+                if (error) {
+
+                    console.error(
+                        'Error eliminando categoría:',
+                        error
+                    );
+
+                    boton.disabled =
+                        false;
+
+                    boton.textContent =
+                        'Eliminar';
+
+                    alert(
+                        `No se pudo eliminar la categoría: ${error.message}`
+                    );
+
+                    return;
+
+                }
+
+
+                await cargarCategoriasAdmin();
+
+                await cargarCategoriasEnFormulario();
+
+            }
+        );
+
+    }
+);
 }
 
 
@@ -6301,7 +7506,8 @@ function renderizarCategoriasAdmin(
 function abrirEdicionCategoria(
     id,
     nombre,
-    orden
+    orden,
+    genero
 ) {
 
     const inputNombreCategoria =
@@ -6313,18 +7519,23 @@ function abrirEdicionCategoria(
         document.getElementById(
             'admin-categoria-orden'
         );
-
+       
+const inputGeneroCategoria =
+    document.getElementById(
+        'admin-categoria-genero'
+    );
     const mensaje =
         document.getElementById(
             'admin-categoria-mensaje'
         );
 
 
-    if (
-        !inputNombreCategoria ||
-        !inputOrdenCategoria ||
-        !botonGuardarCategoria
-    ) {
+ if (
+    !inputNombreCategoria ||
+    !inputOrdenCategoria ||
+    !inputGeneroCategoria ||
+    !botonGuardarCategoria
+) {
 
         return;
 
@@ -6344,7 +7555,8 @@ function abrirEdicionCategoria(
             orden || 0
         );
 
-
+inputGeneroCategoria.value =
+    genero || 'ambos';
     botonGuardarCategoria.textContent =
         'Guardar cambios';
 
@@ -6449,18 +7661,22 @@ if (botonGuardarCategoria) {
                 document.getElementById(
                     'admin-categoria-orden'
                 );
-
+const inputGeneroCategoria =
+    document.getElementById(
+        'admin-categoria-genero'
+    );
             const mensaje =
                 document.getElementById(
                     'admin-categoria-mensaje'
                 );
 
 
-            if (
-                !inputNombreCategoria ||
-                !inputOrdenCategoria ||
-                !mensaje
-            ) {
+           if (
+    !inputNombreCategoria ||
+    !inputOrdenCategoria ||
+    !inputGeneroCategoria ||
+    !mensaje
+) {
 
                 return;
 
@@ -6475,7 +7691,8 @@ if (botonGuardarCategoria) {
                 Number(
                     inputOrdenCategoria.value || 0
                 );
-
+const genero =
+    inputGeneroCategoria.value;
 
             if (!nombre) {
 
@@ -6530,9 +7747,10 @@ if (botonGuardarCategoria) {
                         )
 
                         .update({
-                            nombre,
-                            orden
-                        })
+    nombre,
+    orden,
+    genero
+})
 
                         .eq(
                             'id',
@@ -6627,14 +7845,15 @@ if (botonGuardarCategoria) {
                         'categorias'
                     )
 
-                    .insert([
-                        {
-                            nombre,
-                            slug,
-                            orden,
-                            activo: true
-                        }
-                    ]);
+                   .insert([
+    {
+        nombre,
+        slug,
+        orden,
+        genero,
+        activo: true
+    }
+]);
 
 
             botonGuardarCategoria.disabled =
@@ -6682,7 +7901,8 @@ if (botonGuardarCategoria) {
 
             inputOrdenCategoria.value =
                 '0';
-
+inputGeneroCategoria.value =
+    'ambos';
 
             mensaje.textContent =
                 'Categoría creada correctamente.';
@@ -6739,7 +7959,7 @@ async function cargarCategoriasEnFormulario(
             )
 
             .select(
-                'id, nombre, slug, activo, orden'
+                 'id, nombre, slug, genero, activo, orden'
             )
 
             .order(
@@ -6781,11 +8001,31 @@ async function cargarCategoriasEnFormulario(
         data || [];
 
 
-    const activas =
-        categorias.filter(
-            categoria =>
-                categoria.activo
-        );
+   const generoProducto =
+    document.getElementById(
+        'admin-producto-genero'
+    )?.value || '';
+
+
+const activas =
+    categorias.filter(
+        categoria => {
+
+            if (!categoria.activo) {
+                return false;
+            }
+
+            if (!generoProducto) {
+                return true;
+            }
+
+            return (
+                categoria.genero === 'ambos' ||
+                categoria.genero === generoProducto
+            );
+
+        }
+    );
 
 
     selectCategoria.innerHTML = `
@@ -6874,3 +8114,516 @@ async function cargarCategoriasEnFormulario(
     }
 
 }
+const selectGeneroProducto =
+    document.getElementById(
+        'admin-producto-genero'
+    );
+
+
+if (selectGeneroProducto) {
+
+    selectGeneroProducto.addEventListener(
+        'change',
+        async () => {
+
+            const selectCategoria =
+                document.getElementById(
+                    'admin-producto-categoria'
+                );
+
+            if (selectCategoria) {
+                selectCategoria.value = '';
+            }
+
+            await cargarCategoriasEnFormulario();
+
+        }
+    );
+
+}
+/* =========================================================
+   IMÁGENES DE PORTADA
+   ========================================================= */
+
+const inputPortadaCaballero =
+    document.getElementById(
+        'admin-portada-caballero'
+    );
+
+const inputPortadaDama =
+    document.getElementById(
+        'admin-portada-dama'
+    );
+
+const previewPortadaCaballero =
+    document.getElementById(
+        'admin-portada-preview-caballero'
+    );
+
+const previewPortadaDama =
+    document.getElementById(
+        'admin-portada-preview-dama'
+    );
+
+const botonGuardarPortada =
+    document.getElementById(
+        'admin-guardar-portada'
+    );
+
+const mensajePortada =
+    document.getElementById(
+        'admin-portada-mensaje'
+    );
+
+
+/* =========================================================
+   VISTA PREVIA
+   ========================================================= */
+
+function prepararPreviewPortada(
+    input,
+    preview
+) {
+
+    if (
+        !input ||
+        !preview
+    ) {
+        return;
+    }
+
+
+    input.addEventListener(
+        'change',
+        () => {
+
+            const archivo =
+                input.files[0];
+
+
+            if (!archivo) {
+                return;
+            }
+
+
+            const urlTemporal =
+                URL.createObjectURL(
+                    archivo
+                );
+
+
+            preview.style.backgroundImage =
+                `url('${urlTemporal}')`;
+
+            preview.textContent =
+                '';
+
+        }
+    );
+
+}
+
+
+prepararPreviewPortada(
+    inputPortadaCaballero,
+    previewPortadaCaballero
+);
+
+prepararPreviewPortada(
+    inputPortadaDama,
+    previewPortadaDama
+);
+
+
+/* =========================================================
+   SUBIR IMAGEN DE PORTADA
+   ========================================================= */
+
+async function subirImagenPortada(
+    archivo,
+    clave
+) {
+
+    if (!archivo) {
+        return null;
+    }
+
+
+    const partesNombre =
+        archivo.name.split('.');
+
+
+    const extension =
+        partesNombre.length > 1
+            ? partesNombre
+                .pop()
+                .toLowerCase()
+            : 'jpg';
+
+
+    const nombreArchivo =
+        `${clave}-${Date.now()}-${Math.random()
+            .toString(36)
+            .substring(2)}.${extension}`;
+
+
+    const ruta =
+        `portada/${nombreArchivo}`;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+
+            .storage
+
+            .from(
+                'productos'
+            )
+
+            .upload(
+                ruta,
+                archivo,
+                {
+                    cacheControl:
+                        '3600',
+
+                    upsert:
+                        false
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            'Error subiendo imagen de portada:',
+            error
+        );
+
+        throw error;
+
+    }
+
+
+    const {
+        data
+    } =
+        supabaseClient
+
+            .storage
+
+            .from(
+                'productos'
+            )
+
+            .getPublicUrl(
+                ruta
+            );
+
+
+    return data.publicUrl;
+
+}
+
+
+/* =========================================================
+   CARGAR IMÁGENES ACTUALES
+   ========================================================= */
+
+async function cargarPortadaAdmin() {
+
+    if (
+        !previewPortadaCaballero ||
+        !previewPortadaDama
+    ) {
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                'configuracion_portada'
+            )
+
+            .select(
+                'clave, imagen'
+            );
+
+
+    if (error) {
+
+        console.error(
+            'Error cargando portada:',
+            error
+        );
+
+        return;
+
+    }
+
+
+    const caballero =
+        data?.find(
+            item =>
+                item.clave ===
+                'caballero'
+        );
+
+
+    const dama =
+        data?.find(
+            item =>
+                item.clave ===
+                'dama'
+        );
+
+
+    if (
+        caballero &&
+        caballero.imagen
+    ) {
+
+        previewPortadaCaballero
+            .style
+            .backgroundImage =
+                `url('${caballero.imagen}')`;
+
+        previewPortadaCaballero
+            .textContent =
+                '';
+
+    }
+
+
+    if (
+        dama &&
+        dama.imagen
+    ) {
+
+        previewPortadaDama
+            .style
+            .backgroundImage =
+                `url('${dama.imagen}')`;
+
+        previewPortadaDama
+            .textContent =
+                '';
+
+    }
+
+}
+
+
+/* =========================================================
+   GUARDAR PORTADA
+   ========================================================= */
+
+if (botonGuardarPortada) {
+
+    botonGuardarPortada.addEventListener(
+        'click',
+        async () => {
+
+            const archivoCaballero =
+                inputPortadaCaballero
+                    ?.files[0] ||
+                null;
+
+
+            const archivoDama =
+                inputPortadaDama
+                    ?.files[0] ||
+                null;
+
+
+            if (
+                !archivoCaballero &&
+                !archivoDama
+            ) {
+
+                if (mensajePortada) {
+
+                    mensajePortada.textContent =
+                        'Selecciona al menos una imagen.';
+
+                }
+
+                return;
+
+            }
+
+
+            botonGuardarPortada.disabled =
+                true;
+
+            botonGuardarPortada.textContent =
+                'Guardando...';
+
+
+            if (mensajePortada) {
+
+                mensajePortada.textContent =
+                    '';
+
+            }
+
+
+            try {
+
+                if (archivoCaballero) {
+
+                    const urlCaballero =
+                        await subirImagenPortada(
+                            archivoCaballero,
+                            'caballero'
+                        );
+
+
+                    const {
+                        error
+                    } =
+                        await supabaseClient
+
+                            .from(
+                                'configuracion_portada'
+                            )
+
+                            .update({
+                                imagen:
+                                    urlCaballero,
+
+                                updated_at:
+                                    new Date()
+                                        .toISOString()
+                            })
+
+                            .eq(
+                                'clave',
+                                'caballero'
+                            );
+
+
+                    if (error) {
+                        throw error;
+                    }
+
+                }
+
+
+                if (archivoDama) {
+
+                    const urlDama =
+                        await subirImagenPortada(
+                            archivoDama,
+                            'dama'
+                        );
+
+
+                    const {
+                        error
+                    } =
+                        await supabaseClient
+
+                            .from(
+                                'configuracion_portada'
+                            )
+
+                            .update({
+                                imagen:
+                                    urlDama,
+
+                                updated_at:
+                                    new Date()
+                                        .toISOString()
+                            })
+
+                            .eq(
+                                'clave',
+                                'dama'
+                            );
+
+
+                    if (error) {
+                        throw error;
+                    }
+
+                }
+
+
+                if (mensajePortada) {
+
+                    mensajePortada.textContent =
+                        'Imágenes actualizadas correctamente.';
+
+                }
+
+
+                if (inputPortadaCaballero) {
+
+                    inputPortadaCaballero.value =
+                        '';
+
+                }
+
+
+                if (inputPortadaDama) {
+
+                    inputPortadaDama.value =
+                        '';
+
+                }
+
+
+                await cargarPortadaAdmin();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    'Error guardando imágenes de portada:',
+                    error
+                );
+
+
+                if (mensajePortada) {
+
+                    mensajePortada.textContent =
+                        `No se pudieron guardar las imágenes: ${error.message}`;
+
+                }
+
+            }
+
+
+            botonGuardarPortada.disabled =
+                false;
+
+            botonGuardarPortada.textContent =
+                'Guardar imágenes';
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CARGAR PORTADA AL ABRIR EL ADMIN
+   ========================================================= */
+
+document.addEventListener(
+    'DOMContentLoaded',
+    async () => {
+
+        await cargarPortadaAdmin();
+
+    }
+);

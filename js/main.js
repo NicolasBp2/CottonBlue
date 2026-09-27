@@ -33,267 +33,7 @@
 const NUMERO_WHATSAPP = '573126881081';
 
 const CLAVE_CARRITO = 'cottonCarrito';
-
-
-/* =========================================================
-   2. PRODUCTOS LOCALES DE RESPALDO
-   ========================================================= */
-
-const PRODUCTOS = [
-
-    {
-        id: 'camiseta-oversize',
-
-        nombre: 'Camiseta Oversize',
-
-        precio: 89900,
-
-        descripcion:
-            'Camiseta oversize de algodón 100%, corte relajado y tela suave.',
-
-        imagen:
-            'https://picsum.photos/id/10/800/1000',
-
-        categoria:
-            'hombre-camisetas',
-
-        oferta: false,
-
-        tallas: [
-            'XS',
-            'S',
-            'M',
-            'L',
-            'XL'
-        ],
-
-        colores: [
-
-            {
-                nombre: 'Negro',
-                codigo: '#111111'
-            },
-
-            {
-                nombre: 'Blanco',
-                codigo: '#ffffff'
-            },
-
-            {
-                nombre: 'Gris',
-                codigo: '#888888'
-            }
-
-        ]
-    },
-
-
-    {
-        id: 'pantalon-cargo',
-
-        nombre: 'Pantalón Cargo',
-
-        precio: 129900,
-
-        descripcion:
-            'Pantalón cargo de corte cómodo con bolsillos laterales.',
-
-        imagen:
-            'https://picsum.photos/id/20/800/1000',
-
-        categoria:
-            'hombre-pantalones',
-
-        oferta: false,
-
-        tallas: [
-            'S',
-            'M',
-            'L',
-            'XL'
-        ],
-
-        colores: [
-
-            {
-                nombre: 'Negro',
-                codigo: '#111111'
-            },
-
-            {
-                nombre: 'Beige',
-                codigo: '#c9b18c'
-            }
-
-        ]
-    },
-
-
-    {
-        id: 'chaqueta-essential',
-
-        nombre: 'Chaqueta Essential',
-
-        precio: 179900,
-
-        descripcion:
-            'Chaqueta de estilo urbano para diferentes ocasiones.',
-
-        imagen:
-            'https://picsum.photos/id/30/800/1000',
-
-        categoria:
-            'hombre-chaquetas',
-
-        oferta: false,
-
-        tallas: [
-            'S',
-            'M',
-            'L',
-            'XL'
-        ],
-
-        colores: [
-
-            {
-                nombre: 'Negro',
-                codigo: '#111111'
-            },
-
-            {
-                nombre: 'Gris',
-                codigo: '#777777'
-            }
-
-        ]
-    },
-
-
-    {
-        id: 'sudadera-classic',
-
-        nombre: 'Sudadera Classic',
-
-        precio: 99900,
-
-        descripcion:
-            'Sudadera cómoda de estilo clásico.',
-
-        imagen:
-            'https://picsum.photos/id/60/800/1000',
-
-        categoria:
-            'hombre-buzos',
-
-        oferta: true,
-
-        tallas: [
-            'S',
-            'M',
-            'L',
-            'XL'
-        ],
-
-        colores: [
-
-            {
-                nombre: 'Negro',
-                codigo: '#111111'
-            },
-
-            {
-                nombre: 'Gris',
-                codigo: '#777777'
-            }
-
-        ]
-    },
-
-
-    {
-        id: 'short-deportivo',
-
-        nombre: 'Short Deportivo',
-
-        precio: 69900,
-
-        descripcion:
-            'Short ligero y cómodo para uso deportivo o casual.',
-
-        imagen:
-            'https://picsum.photos/id/70/800/1000',
-
-        categoria:
-            'hombre-shorts',
-
-        oferta: true,
-
-        tallas: [
-            'S',
-            'M',
-            'L',
-            'XL'
-        ],
-
-        colores: [
-
-            {
-                nombre: 'Negro',
-                codigo: '#111111'
-            },
-
-            {
-                nombre: 'Azul',
-                codigo: '#294a7a'
-            }
-
-        ]
-    },
-
-
-    {
-        id: 'buzo-cerrado',
-
-        nombre: 'Buzo Cerrado',
-
-        precio: 119900,
-
-        descripcion:
-            'Buzo cerrado de tela suave y diseño cómodo.',
-
-        imagen:
-            'https://picsum.photos/id/80/800/1000',
-
-        categoria:
-            'mujer-chaquetas',
-
-        oferta: false,
-
-        tallas: [
-            'XS',
-            'S',
-            'M',
-            'L'
-        ],
-
-        colores: [
-
-            {
-                nombre: 'Negro',
-                codigo: '#111111'
-            },
-
-            {
-                nombre: 'Blanco',
-                codigo: '#ffffff'
-            }
-
-        ]
-    }
-
-];
-
+const PRODUCTOS = [];
 
 /* =========================================================
    3. MENÚ MÓVIL
@@ -2171,17 +1911,186 @@ async function inicializarProducto() {
 
 
     const imagen =
-        document.getElementById(
-            'producto-imagen'
+    document.getElementById(
+        'producto-imagen'
+    );
+
+
+const miniaturas =
+    document.getElementById(
+        'producto-miniaturas'
+    );
+
+
+let imagenesProducto = [];
+
+
+if (
+    producto.idSupabase &&
+    typeof window.obtenerImagenesProductoSupabase ===
+    'function'
+) {
+
+    imagenesProducto =
+        await window
+            .obtenerImagenesProductoSupabase(
+                producto.idSupabase
+            );
+
+}
+
+
+/*
+    Si no hay galería todavía,
+    usamos la imagen principal antigua.
+*/
+if (
+    imagenesProducto.length === 0 &&
+    producto.imagen
+) {
+
+    imagenesProducto = [
+        {
+            imagen:
+                producto.imagen,
+
+            principal:
+                true,
+
+            orden:
+                0
+        }
+    ];
+
+}
+
+/*
+    Imagen principal
+*/
+let principal = null;
+
+
+if (
+    imagenesProducto.length > 0
+) {
+
+    principal =
+        imagenesProducto.find(
+            item =>
+                item.principal
+        ) ||
+        imagenesProducto[0];
+
+}
+
+
+if (
+    imagen &&
+    principal
+) {
+
+    imagen.style.backgroundImage =
+        `url('${principal.imagen}')`;
+
+}
+
+
+/*
+    Miniaturas
+*/
+if (miniaturas) {
+
+    miniaturas.innerHTML = '';
+
+imagenesProducto.forEach(
+    (item, indice) => {
+
+        const boton =
+            document.createElement(
+                'button'
+            );
+
+
+        boton.type =
+            'button';
+
+
+        boton.className =
+            'producto-miniatura';
+
+
+     if (
+    principal &&
+    item.imagen ===
+    principal.imagen
+) {
+
+    boton.classList.add(
+        'activa'
+    );
+
+}
+        boton.innerHTML = `
+            <img
+                src="${item.imagen}"
+                alt="${producto.nombre}"
+            >
+        `;
+
+
+        const cambiarImagen =
+            () => {
+
+                if (imagen) {
+
+                    imagen.style.backgroundImage =
+                        `url('${item.imagen}')`;
+
+                }
+
+
+                miniaturas
+                    .querySelectorAll(
+                        '.producto-miniatura'
+                    )
+                    .forEach(
+                        miniatura => {
+
+                            miniatura.classList.remove(
+                                'activa'
+                            );
+
+                        }
+                    );
+
+
+                boton.classList.add(
+                    'activa'
+                );
+
+            };
+
+
+        boton.addEventListener(
+            'click',
+            cambiarImagen
         );
 
 
-    if (imagen) {
+        boton.addEventListener(
+            'mouseenter',
+            cambiarImagen
+        );
 
-        imagen.style.backgroundImage =
-            `url('${producto.imagen}')`;
+
+        miniaturas.appendChild(
+            boton
+        );
 
     }
+);
+
+}
 
 
     document.title =
@@ -3835,7 +3744,96 @@ async function finalizarPedidoPorWhatsapp() {
     );
 
 }
+/* =========================================================
+   IMÁGENES DE PORTADA
+   ========================================================= */
 
+async function cargarImagenesPortada() {
+
+    const caballero =
+        document.getElementById(
+            'portada-caballero'
+        );
+
+    const dama =
+        document.getElementById(
+            'portada-dama'
+        );
+
+
+    if (
+        !caballero &&
+        !dama
+    ) {
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                'configuracion_portada'
+            )
+
+            .select(
+                'clave, imagen'
+            );
+
+
+    if (error) {
+
+        console.error(
+            'Error cargando imágenes de portada:',
+            error
+        );
+
+        return;
+
+    }
+
+
+    const imagenCaballero =
+        data?.find(
+            item =>
+                item.clave ===
+                'caballero'
+        );
+
+
+    const imagenDama =
+        data?.find(
+            item =>
+                item.clave ===
+                'dama'
+        );
+
+
+    if (
+        caballero &&
+        imagenCaballero?.imagen
+    ) {
+
+        caballero.style.backgroundImage =
+            `url('${imagenCaballero.imagen}')`;
+
+    }
+
+
+    if (
+        dama &&
+        imagenDama?.imagen
+    ) {
+
+        dama.style.backgroundImage =
+            `url('${imagenDama.imagen}')`;
+
+    }
+
+}
 /* =========================================================
    13. INICIALIZACIÓN GENERAL
    ========================================================= */
@@ -3857,7 +3855,7 @@ document.addEventListener(
         /* DESTACADOS */
 
         await generarProductosDestacados();
-
+await cargarImagenesPortada();
 await generarFiltrosCategorias();
 await generarCategoriasNavbar();
 
@@ -3894,16 +3892,13 @@ await generarCategoriasNavbar();
         }
 
     }
-);
-async function generarFiltrosCategorias() {
+);async function generarFiltrosCategorias() {
 
     if (
         typeof window.obtenerCategoriasSupabase !==
         'function'
     ) {
-
         return;
-
     }
 
 
@@ -3915,9 +3910,7 @@ async function generarFiltrosCategorias() {
         !categorias ||
         categorias.length === 0
     ) {
-
         return;
-
     }
 
 
@@ -3933,37 +3926,34 @@ async function generarFiltrosCategorias() {
         );
 
 
-    const unisex =
-        document.getElementById(
-            'subfiltros-unisex'
-        );
-
-
     if (hombre) {
-
         hombre.innerHTML = '';
-
     }
 
 
     if (mujer) {
-
         mujer.innerHTML = '';
-
-    }
-
-
-    if (unisex) {
-
-        unisex.innerHTML = '';
-
     }
 
 
     categorias.forEach(
         categoria => {
 
-            if (hombre) {
+            const genero =
+                categoria.genero || 'ambos';
+
+
+            /* =====================================
+               HOMBRE
+               ===================================== */
+
+            if (
+                hombre &&
+                (
+                    genero === 'hombre' ||
+                    genero === 'ambos'
+                )
+            ) {
 
                 const boton =
                     document.createElement(
@@ -3994,7 +3984,17 @@ async function generarFiltrosCategorias() {
             }
 
 
-            if (mujer) {
+            /* =====================================
+               MUJER
+               ===================================== */
+
+            if (
+                mujer &&
+                (
+                    genero === 'mujer' ||
+                    genero === 'ambos'
+                )
+            ) {
 
                 const boton =
                     document.createElement(
@@ -4024,37 +4024,6 @@ async function generarFiltrosCategorias() {
 
             }
 
-
-            if (unisex) {
-
-                const boton =
-                    document.createElement(
-                        'button'
-                    );
-
-
-                boton.type =
-                    'button';
-
-
-                boton.className =
-                    'filtro-sub';
-
-
-                boton.dataset.filtro =
-                    `unisex-${categoria.slug}`;
-
-
-                boton.textContent =
-                    categoria.nombre;
-
-
-                unisex.appendChild(
-                    boton
-                );
-
-            }
-
         }
     );
 
@@ -4068,9 +4037,7 @@ async function generarCategoriasNavbar() {
         typeof window.obtenerCategoriasSupabase !==
         'function'
     ) {
-
         return;
-
     }
 
 
@@ -4082,22 +4049,8 @@ async function generarCategoriasNavbar() {
         !categorias ||
         categorias.length === 0
     ) {
-
         return;
-
     }
-
-
-    /*
-        Solo mostramos las primeras 5
-        según el orden de Supabase.
-    */
-
-    const categoriasNavbar =
-        categorias.slice(
-            0,
-            5
-        );
 
 
     const contenedorHombre =
@@ -4112,58 +4065,105 @@ async function generarCategoriasNavbar() {
         );
 
 
-    categoriasNavbar.forEach(
+    if (contenedorHombre) {
+        contenedorHombre.innerHTML = '';
+    }
+
+
+    if (contenedorMujer) {
+        contenedorMujer.innerHTML = '';
+    }
+
+
+    const categoriasHombre =
+        categorias
+            .filter(
+                categoria =>
+                    categoria.genero === 'hombre' ||
+                    categoria.genero === 'ambos'
+            )
+            .slice(
+                0,
+                5
+            );
+
+
+    const categoriasMujer =
+        categorias
+            .filter(
+                categoria =>
+                    categoria.genero === 'mujer' ||
+                    categoria.genero === 'ambos'
+            )
+            .slice(
+                0,
+                5
+            );
+
+
+    /* =====================================
+       HOMBRE
+       ===================================== */
+
+    categoriasHombre.forEach(
         categoria => {
 
-
-            /* HOMBRE */
-
-            if (contenedorHombre) {
-
-                const enlace =
-                    document.createElement(
-                        'a'
-                    );
-
-
-                enlace.href =
-                    `catalogo.html?filtro=hombre-${categoria.slug}`;
-
-
-                enlace.textContent =
-                    categoria.nombre;
-
-
-                contenedorHombre.appendChild(
-                    enlace
-                );
-
+            if (!contenedorHombre) {
+                return;
             }
 
 
-            /* MUJER */
-
-            if (contenedorMujer) {
-
-                const enlace =
-                    document.createElement(
-                        'a'
-                    );
-
-
-                enlace.href =
-                    `catalogo.html?filtro=mujer-${categoria.slug}`;
-
-
-                enlace.textContent =
-                    categoria.nombre;
-
-
-                contenedorMujer.appendChild(
-                    enlace
+            const enlace =
+                document.createElement(
+                    'a'
                 );
 
+
+            enlace.href =
+                `catalogo.html?filtro=hombre-${categoria.slug}`;
+
+
+            enlace.textContent =
+                categoria.nombre;
+
+
+            contenedorHombre.appendChild(
+                enlace
+            );
+
+        }
+    );
+
+
+    /* =====================================
+       MUJER
+       ===================================== */
+
+    categoriasMujer.forEach(
+        categoria => {
+
+            if (!contenedorMujer) {
+                return;
             }
+
+
+            const enlace =
+                document.createElement(
+                    'a'
+                );
+
+
+            enlace.href =
+                `catalogo.html?filtro=mujer-${categoria.slug}`;
+
+
+            enlace.textContent =
+                categoria.nombre;
+
+
+            contenedorMujer.appendChild(
+                enlace
+            );
 
         }
     );

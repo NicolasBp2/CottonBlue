@@ -78,6 +78,9 @@
                 alt="Cotton Blue Shop"
                 class="logo-imagen"
             >
+             <span class="logo-texto">
+        Cotton Blue PR
+    </span>
         </a>
 
 
@@ -91,7 +94,7 @@
             <div class="menu-item">
 
                 <a href="catalogo.html?filtro=hombre">
-                    Hombre
+                    Caballero
                 </a>
 
                 <div class="mega-menu">
@@ -130,7 +133,7 @@
             <div class="menu-item">
 
                 <a href="catalogo.html?filtro=mujer">
-                    Mujer
+                    Dama
                 </a>
 
                 <div class="mega-menu">
@@ -250,76 +253,65 @@
 
                 <div class="catalogo-layout">
 
-                    <aside class="filtros-lateral">
+                  <aside class="catalogo-sidebar">
 
-                        <h4>
-                            Categorías
-                        </h4>
+    <div class="catalogo-filtros-card">
 
+        <h3 class="catalogo-filtros-titulo">
+            Filtrar por
+        </h3>
 
-                        <button
-                            type="button"
-                            class="filtro filtro-activo"
-                            data-filtro="todos"
-                        >
-                            Todos
-                        </button>
+        <div class="catalogo-filtros-top">
 
+            <button
+                class="filtro filtro-chip filtro-activo"
+                data-filtro="todos"
+            >
+                Todos
+            </button>
 
-                        <details class="filtro-grupo">
+            <button
+                class="filtro filtro-chip"
+                data-filtro="ofertas"
+            >
+                Ofertas
+            </button>
 
-                            <summary>
-                                Hombre
-                            </summary>
-
-                            <div
-                                class="subfiltros"
-                                id="subfiltros-hombre"
-                            >
-                            </div>
-
-                        </details>
+        </div>
 
 
-                        <details class="filtro-grupo">
+        <details class="filtro-grupo">
 
-                            <summary>
-                                Mujer
-                            </summary>
+            <summary>
+                Caballero
+            </summary>
 
-                            <div
-                                class="subfiltros"
-                                id="subfiltros-mujer"
-                            >
-                            </div>
+            <div
+                class="subfiltros"
+                id="subfiltros-hombre"
+            >
+            </div>
 
-                        </details>
-
-
-                        <details class="filtro-grupo">
-
-                            <summary>
-                                Unisex
-                            </summary>
-
-                            <div
-                                class="subfiltros"
-                                id="subfiltros-unisex"
-                            >
-                            </div>
-
-                        </details>
+        </details>
 
 
-                        <button
-                            type="button"
-                            class="filtro"
-                            data-filtro="ofertas"
-                        >
-                            Ofertas
-                        </button>
+        <details class="filtro-grupo">
 
-                    </aside>
+            <summary>
+                Dama
+            </summary>
+
+            <div
+                class="subfiltros"
+                id="subfiltros-mujer"
+            >
+            </div>
+
+        </details>
+
+    </div>
+
+</aside>
 
 
                     <div
@@ -337,24 +329,28 @@
     </main>
 
 
-    <footer class="footer-fondo">
+  <footer class="footer-fondo">
+
 
         <div class="footer contenedor">
 
+
+            <!-- MARCA -->
+
             <div class="footer-columna">
+    <img
+        src="img/logo.svg"
+        alt="Cotton Blue Shop"
+        class="footer-logo"
+    >
 
-                <img
-                    src="img/logo.svg"
-                    alt="Cotton Blue Shop"
-                    class="footer-logo"
-                >
+    <p>
+        Ropa para quienes buscan algo diferente.
+    </p>
+</div>
 
-                <p>
-                    Ropa para quienes buscan algo diferente.
-                </p>
 
-            </div>
-
+            <!-- AYUDA -->
 
             <div class="footer-columna">
 
@@ -362,20 +358,23 @@
                     Ayuda
                 </h4>
 
+
                 <a href="#">
                     Preguntas frecuentes
                 </a>
 
-                <a href="#">
-                    Envíos
-                </a>
+<a href="envios.html">
+    Envíos
+</a>
 
-                <a href="#">
-                    Cambios y devoluciones
-                </a>
+<a href="cambios-devoluciones.html">
+    Cambios y devoluciones
+</a>
 
             </div>
 
+
+            <!-- CONTACTO -->
 
             <div class="footer-columna">
 
@@ -383,28 +382,38 @@
                     Contacto
                 </h4>
 
-                <a
-                    href="https://wa.me/573126881081"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    WhatsApp
-                </a>
+<p>
+        CLL 10 #20-35, Local 268, Puerto Príncipe
+    </p>
+                    <a href="https://api.whatsapp.com/send/?phone=573126881081&text&type=phone_number&app_absent=0" target="_blank">
+    <img
+        src="img/whatsapp.svg"
+        alt=""
+        class="footer-icono"
+    >
+    WhatsApp
+</a>
 
-                <a
-                    href="https://www.instagram.com/cottonblue268/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Instagram
-                </a>
+
+                <!-- INSTAGRAM -->
+
+             <a href="https://www.instagram.com/cottonblue268/" target="_blank">
+    <img
+        src="img/instagram.svg"
+        alt=""
+        class="footer-icono"
+    >
+    Instagram
+</a>
+
 
             </div>
 
+
         </div>
 
-    </footer>
 
+    </footer>
 
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"

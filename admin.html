@@ -214,15 +214,11 @@
                             </option>
 
                             <option value="hombre">
-                                Hombre
+                                Caballero
                             </option>
 
                             <option value="mujer">
-                                Mujer
-                            </option>
-
-                            <option value="unisex">
-                                Unisex
+                                Dama
                             </option>
 
                         </select>
@@ -260,9 +256,12 @@
                         </label>
 
                         <input
-                            type="file"
-                            id="admin-producto-archivo"
-                            accept="image/*"
+                         
+    type="file"
+    id="admin-producto-archivo"
+    accept="image/*"
+    multiple
+>
                         >
 
                         <input
@@ -1388,7 +1387,32 @@
                         >
 
                     </div>
+<div class="admin-campo">
 
+    <label for="admin-categoria-genero">
+        Mostrar categoría en
+    </label>
+
+    <select
+        id="admin-categoria-genero"
+        required
+    >
+
+        <option value="ambos">
+            Dama y Caballero
+        </option>
+
+        <option value="hombre">
+            Solo Caballero
+        </option>
+
+        <option value="mujer">
+            Solo Dama
+        </option>
+
+    </select>
+
+</div>
 
 
                     <!-- CREAR -->
@@ -1443,7 +1467,84 @@
 
         </section>
 
+<section class="admin-portada">
 
+    <div class="admin-portada-header">
+        <div>
+            <h2>
+                Imágenes de portada
+            </h2>
+
+            <p>
+                Cambia las imágenes principales de Caballero y Dama.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="admin-portada-grid">
+
+        <div class="admin-portada-card">
+
+            <h3>
+                Caballero
+            </h3>
+
+            <div
+                id="admin-portada-preview-caballero"
+                class="admin-portada-preview"
+            >
+                Sin imagen
+            </div>
+
+            <input
+                type="file"
+                id="admin-portada-caballero"
+                accept="image/*"
+            >
+
+        </div>
+
+
+        <div class="admin-portada-card">
+
+            <h3>
+                Dama
+            </h3>
+
+            <div
+                id="admin-portada-preview-dama"
+                class="admin-portada-preview"
+            >
+                Sin imagen
+            </div>
+
+            <input
+                type="file"
+                id="admin-portada-dama"
+                accept="image/*"
+            >
+
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        id="admin-guardar-portada"
+        class="admin-boton-principal"
+    >
+        Guardar imágenes
+    </button>
+
+
+    <p
+        id="admin-portada-mensaje"
+        class="admin-producto-mensaje"
+    ></p>
+
+</section>
     </main>
 
 

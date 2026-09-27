@@ -277,7 +277,8 @@ window.obtenerVariantesProductoSupabase =
             )
 
             .select(
-                'id, nombre, slug, activo, orden'
+               'id, nombre, slug, genero, activo, orden'
+
             )
 
             .eq(
@@ -319,3 +320,114 @@ window.obtenerVariantesProductoSupabase =
 
 window.obtenerCategoriasSupabase =
     obtenerCategoriasSupabase;
+    /* =========================================================
+   OBTENER CATEGORÍAS ACTIVAS
+   ========================================================= */
+
+async function obtenerCategoriasSupabase() {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                'categorias'
+            )
+
+            .select(
+                'id, nombre, slug, genero, activo, orden'
+            )
+
+            .eq(
+                'activo',
+                true
+            )
+
+            .order(
+                'orden',
+                {
+                    ascending: true
+                }
+            )
+
+            .order(
+                'nombre',
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            'Error al obtener categorías:',
+            error
+        );
+
+        return [];
+
+    }
+
+
+    return data || [];
+
+}
+
+
+/* Disponible para main.js */
+
+window.obtenerCategoriasSupabase =
+    obtenerCategoriasSupabase;
+    async function obtenerImagenesProductoSupabase(
+    productoId
+) {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                'producto_imagenes'
+            )
+
+            .select(
+                'id, imagen, orden, principal'
+            )
+
+            .eq(
+                'producto_id',
+                productoId
+            )
+
+            .order(
+                'orden',
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            'Error obteniendo imágenes del producto:',
+            error
+        );
+
+        return [];
+
+    }
+
+
+    return data || [];
+
+}
+
+
+window.obtenerImagenesProductoSupabase =
+    obtenerImagenesProductoSupabase;
