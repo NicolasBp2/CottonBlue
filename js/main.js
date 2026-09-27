@@ -2310,7 +2310,65 @@ imagenesProducto.forEach(
 /* =========================================================
    10. VARIANTES — COLORES Y TALLAS
    ========================================================= */
+function actualizarStockProducto(variantes) {
 
+    const stockElemento =
+        document.getElementById('producto-stock');
+
+    if (!stockElemento) return;
+
+    const color =
+        document.querySelector(
+            'input[name="color"]:checked'
+        )?.value;
+
+    const talla =
+        document.querySelector(
+            'input[name="talla"]:checked'
+        )?.value;
+
+    if (!color || !talla) {
+
+        const stockTotal =
+            variantes.reduce(
+                (suma, variante) =>
+                    suma + Number(variante.stock || 0),
+                0
+            );
+
+        stockElemento.textContent =
+            stockTotal > 0
+                ? `Stock disponible: ${stockTotal}`
+                : 'Agotado';
+
+        stockElemento.classList.toggle(
+            'sin-stock',
+            stockTotal <= 0
+        );
+
+        return;
+    }
+
+    const variante =
+        variantes.find(
+            item =>
+                item.color_nombre === color &&
+                item.talla === talla
+        );
+
+    const stock =
+        Number(variante?.stock || 0);
+
+    stockElemento.textContent =
+        stock > 0
+            ? `Stock disponible: ${stock}`
+            : 'Agotado';
+
+    stockElemento.classList.toggle(
+        'sin-stock',
+        stock <= 0
+    );
+}
 function generarOpcionesVariantes(
     variantes
 ) {
@@ -2510,16 +2568,20 @@ function generarOpcionesVariantes(
 
 
             input.addEventListener(
-                'change',
-                () => {
+    'change',
+    () => {
 
-                    generarTallasPorColor(
-                        variantes,
-                        color.nombre
-                    );
+        generarTallasPorColor(
+            variantes,
+            color.nombre
+        );
 
-                }
-            );
+        actualizarStockProducto(
+            variantes
+        );
+
+    }
+);
 
 
             contenedorColores.appendChild(
@@ -2629,7 +2691,14 @@ function generarTallasPorColor(
 
             input.value =
                 variante.talla;
-
+input.addEventListener(
+    'change',
+    () => {
+        actualizarStockProducto(
+            variantes
+        );
+    }
+);
 
             if (
                 stock <= 0
@@ -2711,6 +2780,9 @@ function generarTallasPorColor(
 
     }
 
+actualizarStockProducto(
+    variantes
+);
 }
 
 

@@ -3757,3 +3757,14 @@ body {
     }
 
 }
+.producto-stock {
+    margin-top: -14px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cb-azul-oscuro);
+}
+
+.producto-stock.sin-stock {
+    color: #b42318;
+}
