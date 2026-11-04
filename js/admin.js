@@ -148,9 +148,7 @@ async function protegerPanelAdmin() {
 
 
     if (!panel) {
-
         return false;
-
     }
 
 
@@ -159,8 +157,8 @@ async function protegerPanelAdmin() {
 
 
     const {
-        data,
-        error
+        data: sesion,
+        error: errorSesion
     } =
         await supabaseClient
             .auth
@@ -168,13 +166,49 @@ async function protegerPanelAdmin() {
 
 
     if (
-        error ||
-        !data.session
+        errorSesion ||
+        !sesion.session
     ) {
 
         window.location.href =
             'admin-login.html';
 
+        return false;
+
+    }
+
+
+    /* =============================================
+       COMPROBAR QUE REALMENTE SEA ADMIN
+       ============================================= */
+
+    const {
+        data: esAdmin,
+        error: errorAdmin
+    } =
+        await supabaseClient
+            .rpc(
+                'is_admin'
+            );
+
+
+    if (
+        errorAdmin ||
+        esAdmin !== true
+    ) {
+
+        console.warn(
+            'Usuario autenticado sin permisos de administrador.'
+        );
+
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+
+        window.location.href =
+            'admin-login.html';
 
         return false;
 
@@ -832,7 +866,10 @@ async function cargarProductosAdmin() {
             .select(
                 '*'
             )
-
+.eq(
+    'activo',
+    true
+)
             .order(
                 'created_at',
                 {
@@ -1035,14 +1072,22 @@ tarjeta.innerHTML = `
    ELIMINAR PRODUCTO
    ========================================================= */
 
+let productoEliminarActual = null;
+
+
+/* =========================================================
+   ABRIR MODAL ELIMINAR PRODUCTO
+   ========================================================= */
+
 document.addEventListener(
     'click',
-    async evento => {
+    evento => {
 
         const boton =
             evento.target.closest(
                 '.admin-eliminar-producto'
             );
+
 
         if (!boton) {
             return;
@@ -1054,138 +1099,497 @@ document.addEventListener(
                 boton.dataset.id
             );
 
-        const imagen =
-            boton.dataset.imagen || '';
-
 
         if (!productoId) {
             return;
         }
 
-/* =============================================
-   OBTENER IMÁGENES DE LA GALERÍA
-   ============================================= */
 
-const {
-    data: imagenesGaleria,
-    error: errorGaleriaProducto
-} =
-    await supabaseClient
-
-        .from(
-            'producto_imagenes'
-        )
-
-        .select(
-            'imagen'
-        )
-
-        .eq(
-            'producto_id',
-            productoId
-        );
-
-
-if (errorGaleriaProducto) {
-
-    console.error(
-        'Error buscando imágenes del producto:',
-        errorGaleriaProducto
-    );
-
-    boton.disabled =
-        false;
-
-    boton.textContent =
-        'Eliminar';
-
-    alert(
-        'No se pudieron obtener las imágenes del producto.'
-    );
-
-    return;
-
-}
-
-        const confirmar =
-            window.confirm(
-                '¿Seguro que quieres eliminar este producto?'
+        const tarjeta =
+            boton.closest(
+                '.admin-producto-card'
             );
 
 
-        if (!confirmar) {
+        const nombre =
+            tarjeta
+                ?.querySelector('h3')
+                ?.textContent
+                ?.trim() ||
+            'Producto';
+
+
+        productoEliminarActual = {
+
+            id:
+                productoId,
+
+            imagen:
+                boton.dataset.imagen || '',
+
+            nombre:
+                nombre
+
+        };
+
+
+        const modal =
+            document.getElementById(
+                'admin-eliminar-producto-modal'
+            );
+
+
+        const titulo =
+            document.getElementById(
+                'admin-eliminar-producto-nombre'
+            );
+
+
+        const input =
+            document.getElementById(
+                'admin-confirmacion-eliminar-producto'
+            );
+
+
+        const mensaje =
+            document.getElementById(
+                'admin-eliminar-producto-mensaje'
+            );
+
+
+        if (titulo) {
+
+            titulo.textContent =
+                nombre;
+
+        }
+
+
+        if (input) {
+
+            input.value =
+                '';
+
+        }
+
+
+        if (mensaje) {
+
+            mensaje.textContent =
+                '';
+
+        }
+
+
+        if (modal) {
+
+            modal.hidden =
+                false;
+
+        }
+
+
+        setTimeout(
+            () => {
+
+                input?.focus();
+
+            },
+            100
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CERRAR MODAL
+   ========================================================= */
+
+function cerrarModalEliminarProducto() {
+
+    const modal =
+        document.getElementById(
+            'admin-eliminar-producto-modal'
+        );
+
+
+    const input =
+        document.getElementById(
+            'admin-confirmacion-eliminar-producto'
+        );
+
+
+    const mensaje =
+        document.getElementById(
+            'admin-eliminar-producto-mensaje'
+        );
+
+
+    if (modal) {
+
+        modal.hidden =
+            true;
+
+    }
+
+
+    if (input) {
+
+        input.value =
+            '';
+
+    }
+
+
+    if (mensaje) {
+
+        mensaje.textContent =
+            '';
+
+    }
+
+
+    productoEliminarActual =
+        null;
+
+}
+
+
+/* =========================================================
+   CANCELAR / CERRAR
+   ========================================================= */
+
+document.addEventListener(
+    'click',
+    evento => {
+
+        const cerrar =
+            evento.target.closest(
+                '#admin-cerrar-eliminar-producto'
+            );
+
+
+        const cancelar =
+            evento.target.closest(
+                '#admin-cancelar-eliminar-producto'
+            );
+
+
+        if (
+            cerrar ||
+            cancelar
+        ) {
+
+            cerrarModalEliminarProducto();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CONFIRMAR ELIMINACIÓN
+   ========================================================= */
+
+document.addEventListener(
+    'click',
+    async evento => {
+
+        const boton =
+            evento.target.closest(
+                '#admin-confirmar-eliminar-producto'
+            );
+
+
+        if (!boton) {
             return;
+        }
+
+
+        if (!productoEliminarActual) {
+            return;
+        }
+
+
+        const input =
+            document.getElementById(
+                'admin-confirmacion-eliminar-producto'
+            );
+
+
+        const mensaje =
+            document.getElementById(
+                'admin-eliminar-producto-mensaje'
+            );
+
+
+        const confirmacion =
+            input
+                ? input.value
+                    .trim()
+                    .toUpperCase()
+                : '';
+
+
+        /*
+            SEGUNDA CONFIRMACIÓN:
+
+            El usuario debe escribir
+            exactamente ELIMINAR.
+        */
+
+        if (
+            confirmacion !==
+            'ELIMINAR'
+        ) {
+
+            if (mensaje) {
+
+                mensaje.textContent =
+                    'Escribe ELIMINAR para confirmar.';
+
+            }
+
+            return;
+
         }
 
 
         boton.disabled =
             true;
 
+
         boton.textContent =
             'Eliminando...';
 
 
-        /* =============================================
-           REVISAR SI EL PRODUCTO TIENE VENTAS
-           ============================================= */
+        if (mensaje) {
 
-        const {
-            data: detallesVenta,
-            error: errorVentas
-        } =
-            await supabaseClient
-
-                .from(
-                    'venta_detalles'
-                )
-
-                .select(
-                    'id'
-                )
-
-                .eq(
-                    'producto_id',
-                    productoId
-                )
-
-                .limit(
-                    1
-                );
-
-
-        if (errorVentas) {
-
-            console.error(
-                'Error comprobando ventas del producto:',
-                errorVentas
-            );
-
-            boton.disabled =
-                false;
-
-            boton.textContent =
-                'Eliminar';
-
-            alert(
-                'No se pudo comprobar si el producto tiene ventas.'
-            );
-
-            return;
+            mensaje.textContent =
+                '';
 
         }
 
 
-        /* =============================================
-           SI YA SE VENDIÓ: SOLO DESACTIVAR
-           ============================================= */
+        const productoId =
+            Number(
+                productoEliminarActual.id
+            );
 
-        if (
-            detallesVenta &&
-            detallesVenta.length > 0
-        ) {
+
+        const imagen =
+            productoEliminarActual.imagen ||
+            '';
+
+
+        try {
+
+            /* =============================================
+               OBTENER IMÁGENES
+               ============================================= */
 
             const {
-                error
+                data: imagenesGaleria,
+                error: errorGaleria
+            } =
+                await supabaseClient
+
+                    .from(
+                        'producto_imagenes'
+                    )
+
+                    .select(
+                        'imagen'
+                    )
+
+                    .eq(
+                        'producto_id',
+                        productoId
+                    );
+
+
+            if (errorGaleria) {
+
+                throw errorGaleria;
+
+            }
+
+
+            /* =============================================
+               COMPROBAR SI TIENE VENTAS
+               ============================================= */
+
+            const {
+                data: detallesVenta,
+                error: errorVentas
+            } =
+                await supabaseClient
+
+                    .from(
+                        'venta_detalles'
+                    )
+
+                    .select(
+                        'id'
+                    )
+
+                    .eq(
+                        'producto_id',
+                        productoId
+                    )
+
+                    .limit(
+                        1
+                    );
+
+
+            if (errorVentas) {
+
+                throw errorVentas;
+
+            }
+
+
+            const tieneVentas =
+                Boolean(
+                    detallesVenta &&
+                    detallesVenta.length > 0
+                );
+
+
+            /* =============================================
+               PRODUCTO CON HISTORIAL DE VENTAS
+               ============================================= */
+
+            if (tieneVentas) {
+
+                /*
+                    NO destruimos la fila porque puede
+                    ser necesaria para mantener la
+                    integridad de ventas y variantes.
+
+                    Para la tienda y el administrador
+                    queda eliminado al ponerse inactivo.
+                */
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+
+                        .from(
+                            'productos'
+                        )
+
+                        .update({
+
+                            activo:
+                                false,
+
+                            oferta:
+                                false,
+
+                            destacado:
+                                false
+
+                        })
+
+                        .eq(
+                            'id',
+                            productoId
+                        );
+
+
+                if (error) {
+
+                    throw error;
+
+                }
+
+
+                cerrarModalEliminarProducto();
+
+
+                await cargarProductosAdmin();
+
+                await cargarProductosVenta();
+
+
+                return;
+
+            }
+
+
+            /* =============================================
+               PRODUCTO SIN VENTAS:
+               ELIMINACIÓN FÍSICA
+               ============================================= */
+
+
+            /* =============================================
+               ELIMINAR VARIANTES
+               ============================================= */
+
+            const {
+                error: errorVariantes
+            } =
+                await supabaseClient
+
+                    .from(
+                        'variantes_producto'
+                    )
+
+                    .delete()
+
+                    .eq(
+                        'producto_id',
+                        productoId
+                    );
+
+
+            if (errorVariantes) {
+
+                throw errorVariantes;
+
+            }
+
+
+            /* =============================================
+               ELIMINAR REGISTROS DE GALERÍA
+               ============================================= */
+
+            const {
+                error: errorRegistrosImagenes
+            } =
+                await supabaseClient
+
+                    .from(
+                        'producto_imagenes'
+                    )
+
+                    .delete()
+
+                    .eq(
+                        'producto_id',
+                        productoId
+                    );
+
+
+            if (errorRegistrosImagenes) {
+
+                throw errorRegistrosImagenes;
+
+            }
+
+
+            /* =============================================
+               ELIMINAR PRODUCTO
+               ============================================= */
+
+            const {
+                error: errorProducto
             } =
                 await supabaseClient
 
@@ -1193,9 +1597,7 @@ if (errorGaleriaProducto) {
                         'productos'
                     )
 
-                    .update({
-                        activo: false
-                    })
+                    .delete()
 
                     .eq(
                         'id',
@@ -1203,168 +1605,82 @@ if (errorGaleriaProducto) {
                     );
 
 
-            boton.disabled =
-                false;
+            if (errorProducto) {
 
-            boton.textContent =
-                'Eliminar';
-
-
-            if (error) {
-
-                console.error(
-                    'Error desactivando producto:',
-                    error
-                );
-
-                alert(
-                    'No se pudo desactivar el producto.'
-                );
-
-                return;
+                throw errorProducto;
 
             }
 
 
-            alert(
-                'Este producto tiene ventas registradas, así que no se eliminó. Se dejó inactivo para conservar el historial.'
-            );
+            /* =============================================
+               BORRAR IMÁGENES DEL STORAGE
+               ============================================= */
+
+            if (
+                imagenesGaleria &&
+                imagenesGaleria.length > 0
+            ) {
+
+                for (
+                    const imagenGaleria
+                    of imagenesGaleria
+                ) {
+
+                    await eliminarImagenStorage(
+                        imagenGaleria.imagen
+                    );
+
+                }
+
+            }
+
+            else if (imagen) {
+
+                await eliminarImagenStorage(
+                    imagen
+                );
+
+            }
+
+
+            cerrarModalEliminarProducto();
 
 
             await cargarProductosAdmin();
 
-            return;
+            await cargarProductosVenta();
 
         }
 
 
-        /* =============================================
-           ELIMINAR VARIANTES
-           ============================================= */
-
-        const {
-            error: errorVariantes
-        } =
-            await supabaseClient
-
-                .from(
-                    'variantes_producto'
-                )
-
-                .delete()
-
-                .eq(
-                    'producto_id',
-                    productoId
-                );
-
-
-        if (errorVariantes) {
+        catch (error) {
 
             console.error(
-                'Error eliminando variantes:',
-                errorVariantes
+                'Error eliminando producto:',
+                error
             );
+
+
+            if (mensaje) {
+
+                mensaje.textContent =
+                    `No se pudo eliminar el producto: ${error.message}`;
+
+            }
+
+        }
+
+
+        finally {
 
             boton.disabled =
                 false;
 
+
             boton.textContent =
-                'Eliminar';
-
-            alert(
-                'No se pudieron eliminar las variantes del producto.'
-            );
-
-            return;
+                'Eliminar definitivamente';
 
         }
-
-
-        /* =============================================
-           ELIMINAR PRODUCTO
-           ============================================= */
-
-        const {
-            error: errorProducto
-        } =
-            await supabaseClient
-
-                .from(
-                    'productos'
-                )
-
-                .delete()
-
-                .eq(
-                    'id',
-                    productoId
-                );
-
-
-        boton.disabled =
-            false;
-
-        boton.textContent =
-            'Eliminar';
-
-if (errorProducto) {
-
-    console.error(
-        'Error eliminando producto:',
-        errorProducto
-    );
-
-    alert(
-        `No se pudo eliminar el producto: ${errorProducto.message}`
-    );
-
-    return;
-
-}
-
-
-/* =============================================
-   ELIMINAR TODAS LAS IMÁGENES DEL STORAGE
-   ============================================= */
-
-if (
-    imagenesGaleria &&
-    imagenesGaleria.length > 0
-) {
-
-    for (
-        const imagenGaleria
-        of imagenesGaleria
-    ) {
-
-        await eliminarImagenStorage(
-            imagenGaleria.imagen
-        );
-
-    }
-
-} else {
-
-    if (imagen) {
-
-        await eliminarImagenStorage(
-            imagen
-        );
-
-    }
-
-}
-
-
-alert(
-    'Producto eliminado correctamente.'
-);
-
-
-await cargarProductosAdmin();
-
-await cargarProductosVenta();
 
     }
 );
@@ -5183,8 +5499,8 @@ function renderizarHistorialVentas(
         venta => {
 
             /*
-                Las anuladas pueden permanecer
-                en el historial, pero no cuentan.
+                Las ventas eliminadas/anuladas
+                ya no cuentan en estadísticas.
             */
 
             if (venta.anulada) {
@@ -5224,11 +5540,6 @@ function renderizarHistorialVentas(
                             cantidadDevuelta
                         );
 
-
-                    /*
-                        Si este producto fue devuelto
-                        completamente, ya no cuenta.
-                    */
 
                     if (
                         cantidadNeta <= 0
@@ -5324,8 +5635,10 @@ function renderizarHistorialVentas(
 
             cantidadVentasActivas += 1;
 
+
             totalIngresos +=
                 totalVentaNeto;
+
 
             totalUnidades +=
                 unidadesVentaNetas;
@@ -5545,6 +5858,17 @@ function renderizarHistorialVentas(
     ventas.forEach(
         venta => {
 
+            /*
+                Una venta eliminada queda guardada
+                internamente como anulada, pero ya
+                no aparece en el historial activo.
+            */
+
+            if (venta.anulada) {
+                return;
+            }
+
+
             const detalles =
                 venta.venta_detalles || [];
 
@@ -5619,13 +5943,10 @@ function renderizarHistorialVentas(
 
             /*
                 Venta totalmente devuelta:
-                NO aparece en historial de ventas.
-
-                Las anuladas sí pueden seguir apareciendo.
+                tampoco aparece en historial activo.
             */
 
             if (
-                !venta.anulada &&
                 detallesNetos.length === 0
             ) {
 
@@ -5647,88 +5968,45 @@ function renderizarHistorialVentas(
                 'admin-venta-historial-card';
 
 
-            if (venta.anulada) {
-
-                tarjeta.classList.add(
-                    'admin-venta-historial-card-anulada'
-                );
-
-            }
-
-
             const fecha =
                 new Date(
                     venta.fecha_venta
                 );
 
 
-            const detallesParaMostrar =
-                venta.anulada
-                    ? detalles
-                    : detallesNetos;
-
-
             const detallesHTML =
-                detallesParaMostrar
+                detallesNetos
                     .map(
-                        detalle => {
+                        detalle => `
 
-                            const cantidadMostrar =
-                                venta.anulada
-                                    ? Number(
-                                        detalle.cantidad || 0
-                                    )
-                                    : detalle.cantidadNeta;
+                            <li>
 
+                                <span>
+                                    ${detalle.producto_nombre}
+                                    —
+                                    ${detalle.color} /
+                                    ${detalle.talla}
+                                </span>
 
-                            const subtotalMostrar =
-                                venta.anulada
-                                    ? Number(
-                                        detalle.subtotal || 0
-                                    )
-                                    : detalle.subtotalNeto;
+                                <span>
+                                    ${detalle.cantidadNeta}
+                                    ×
+                                    ${formatearPrecioAdmin(
+                                        detalle.precio_unitario
+                                    )}
+                                </span>
 
+                                <strong>
+                                    ${formatearPrecioAdmin(
+                                        detalle.subtotalNeto
+                                    )}
+                                </strong>
 
-                            return `
+                            </li>
 
-                                <li>
-
-                                    <span>
-                                        ${detalle.producto_nombre}
-                                        —
-                                        ${detalle.color} /
-                                        ${detalle.talla}
-                                    </span>
-
-                                    <span>
-                                        ${cantidadMostrar}
-                                        ×
-                                        ${formatearPrecioAdmin(
-                                            detalle.precio_unitario
-                                        )}
-                                    </span>
-
-                                    <strong>
-                                        ${formatearPrecioAdmin(
-                                            subtotalMostrar
-                                        )}
-                                    </strong>
-
-                                </li>
-
-                            `;
-
-                        }
+                        `
                     )
                     .join('');
-
-
-            const totalMostrar =
-                venta.anulada
-                    ? Number(
-                        venta.total || 0
-                    )
-                    : totalVentaNeto;
 
 
             tarjeta.innerHTML = `
@@ -5750,7 +6028,7 @@ function renderizarHistorialVentas(
 
                     <strong>
                         ${formatearPrecioAdmin(
-                            totalMostrar
+                            totalVentaNeto
                         )}
                     </strong>
 
@@ -5797,55 +6075,26 @@ function renderizarHistorialVentas(
                 }
 
 
-                ${
-                    venta.anulada
+                <div class="admin-venta-acciones">
 
-                        ? `
-                            <div class="admin-venta-anulada">
+                    <button
+                        type="button"
+                        class="admin-abrir-devolucion"
+                        data-id="${venta.id}"
+                    >
+                        Gestionar devolución
+                    </button>
 
-                                <strong>
-                                    Venta anulada
-                                </strong>
 
-                                ${
-                                    venta.motivo_anulacion
+                    <button
+                        type="button"
+                        class="admin-anular-venta"
+                        data-id="${venta.id}"
+                    >
+                        Eliminar venta
+                    </button>
 
-                                        ? `
-                                            <span>
-                                                Motivo: ${venta.motivo_anulacion}
-                                            </span>
-                                        `
-
-                                        : ''
-                                }
-
-                                ${
-                                    venta.fecha_anulacion
-
-                                        ? `
-                                            <span>
-                                                ${new Date(
-                                                    venta.fecha_anulacion
-                                                ).toLocaleString('es-CO')}
-                                            </span>
-                                        `
-
-                                        : ''
-                                }
-
-                            </div>
-                        `
-
-                        : `
-                            <button
-                                type="button"
-                                class="admin-abrir-devolucion"
-                                data-id="${venta.id}"
-                            >
-                                Gestionar devolución
-                            </button>
-                        `
-                }
+                </div>
 
             `;
 
@@ -5868,6 +6117,8 @@ function renderizarHistorialVentas(
     }
 
 }
+
+
 /* =========================================================
    MOSTRAR DESGLOSE DE VENTAS
    ========================================================= */
@@ -5959,6 +6210,12 @@ function renderizarDesgloseVentas(
     );
 
 }
+
+
+/* =========================================================
+   OBTENER ELEMENTO MÁS VENDIDO
+   ========================================================= */
+
 function obtenerElementoMasVendido(
     datos
 ) {
@@ -6010,20 +6267,32 @@ function obtenerElementoMasVendido(
     };
 
 }
+
+
 /* =========================================================
-   ANULAR VENTA
+   ELIMINAR VENTA
+   ========================================================= */
+
+let ventaEliminarActual = null;
+
+
+/* =========================================================
+   ABRIR MODAL
    ========================================================= */
 
 document.addEventListener(
     'click',
-    async evento => {
+    evento => {
 
         const boton =
             evento.target.closest(
                 '.admin-anular-venta'
             );
 
-        if (!boton) return;
+
+        if (!boton) {
+            return;
+        }
 
 
         const ventaId =
@@ -6032,33 +6301,231 @@ document.addEventListener(
             );
 
 
-        const confirmar =
-            window.confirm(
-                `¿Seguro que quieres anular la venta #${ventaId}?`
-            );
-
-
-        if (!confirmar) {
+        if (!ventaId) {
             return;
         }
 
 
-        const motivo =
-            window.prompt(
-                'Escribe el motivo de la anulación:'
+        ventaEliminarActual =
+            ventaId;
+
+
+        const modal =
+            document.getElementById(
+                'admin-eliminar-venta-modal'
             );
 
 
-        if (motivo === null) {
+        const titulo =
+            document.getElementById(
+                'admin-eliminar-venta-titulo'
+            );
+
+
+        const motivo =
+            document.getElementById(
+                'admin-eliminar-venta-motivo'
+            );
+
+
+        const mensaje =
+            document.getElementById(
+                'admin-eliminar-venta-mensaje'
+            );
+
+
+        if (titulo) {
+
+            titulo.textContent =
+                `Venta #${ventaId}`;
+
+        }
+
+
+        if (motivo) {
+
+            motivo.value =
+                '';
+
+        }
+
+
+        if (mensaje) {
+
+            mensaje.textContent =
+                '';
+
+        }
+
+
+        if (modal) {
+
+            modal.hidden =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CERRAR MODAL
+   ========================================================= */
+
+function cerrarModalEliminarVenta() {
+
+    const modal =
+        document.getElementById(
+            'admin-eliminar-venta-modal'
+        );
+
+
+    const motivo =
+        document.getElementById(
+            'admin-eliminar-venta-motivo'
+        );
+
+
+    const mensaje =
+        document.getElementById(
+            'admin-eliminar-venta-mensaje'
+        );
+
+
+    if (modal) {
+
+        modal.hidden =
+            true;
+
+    }
+
+
+    if (motivo) {
+
+        motivo.value =
+            '';
+
+    }
+
+
+    if (mensaje) {
+
+        mensaje.textContent =
+            '';
+
+    }
+
+
+    ventaEliminarActual =
+        null;
+
+}
+
+
+/* =========================================================
+   BOTONES CERRAR / CANCELAR
+   ========================================================= */
+
+document.addEventListener(
+    'click',
+    evento => {
+
+        const cerrar =
+            evento.target.closest(
+                '#admin-cerrar-eliminar-venta'
+            );
+
+
+        const cancelar =
+            evento.target.closest(
+                '#admin-cancelar-eliminar-venta'
+            );
+
+
+        if (
+            cerrar ||
+            cancelar
+        ) {
+
+            cerrarModalEliminarVenta();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CONFIRMAR ELIMINACIÓN
+   ========================================================= */
+
+document.addEventListener(
+    'click',
+    async evento => {
+
+        const boton =
+            evento.target.closest(
+                '#admin-confirmar-eliminar-venta'
+            );
+
+
+        if (!boton) {
             return;
+        }
+
+
+        if (!ventaEliminarActual) {
+            return;
+        }
+
+
+        const motivoInput =
+            document.getElementById(
+                'admin-eliminar-venta-motivo'
+            );
+
+
+        const mensaje =
+            document.getElementById(
+                'admin-eliminar-venta-mensaje'
+            );
+
+
+        const motivo =
+            motivoInput
+                ? motivoInput.value.trim()
+                : '';
+
+
+        if (!motivo) {
+
+            if (mensaje) {
+
+                mensaje.textContent =
+                    'Escribe el motivo de la eliminación.';
+
+            }
+
+            return;
+
         }
 
 
         boton.disabled =
             true;
 
+
         boton.textContent =
-            'Anulando...';
+            'Eliminando...';
+
+
+        if (mensaje) {
+
+            mensaje.textContent =
+                '';
+
+        }
 
 
         const {
@@ -6068,35 +6535,51 @@ document.addEventListener(
                 .rpc(
                     'anular_venta',
                     {
+
                         p_venta_id:
-                            ventaId,
+                            ventaEliminarActual,
 
                         p_motivo:
-                            motivo.trim() || null
+                            motivo
+
                     }
                 );
+
+
+        boton.disabled =
+            false;
+
+
+        boton.textContent =
+            'Eliminar venta';
 
 
         if (error) {
 
             console.error(
-                'Error anulando venta:',
+                'Error eliminando venta:',
                 error
             );
 
-            window.alert(
-                `No se pudo anular la venta: ${error.message}`
-            );
 
-            boton.disabled =
-                false;
+            if (mensaje) {
 
-            boton.textContent =
-                'Anular venta';
+                mensaje.textContent =
+                    `No se pudo eliminar la venta: ${error.message}`;
+
+            }
+
 
             return;
 
         }
+
+
+        const ventaId =
+            ventaEliminarActual;
+
+
+        cerrarModalEliminarVenta();
 
 
         await cargarHistorialVentas();
@@ -6106,8 +6589,8 @@ document.addEventListener(
         await cargarProductosAdmin();
 
 
-        window.alert(
-            `Venta #${ventaId} anulada correctamente. El stock fue repuesto.`
+        alert(
+            `Venta #${ventaId} eliminada correctamente. El stock fue repuesto.`
         );
 
     }
@@ -8627,3 +9110,682 @@ document.addEventListener(
 
     }
 );
+/* =========================================================
+   EXPORTAR VENTAS DEL MES A EXCEL
+   ========================================================= */
+
+const botonDescargarExcel =
+    document.getElementById(
+        'admin-descargar-excel'
+    );
+
+
+if (botonDescargarExcel) {
+
+    botonDescargarExcel.addEventListener(
+        'click',
+        exportarVentasMesExcel
+    );
+
+}
+
+
+/* =========================================================
+   GENERAR EXCEL
+   ========================================================= */
+
+async function exportarVentasMesExcel() {
+
+    if (!selectorMesVentas) {
+
+        return;
+
+    }
+
+
+    const valorMes =
+        selectorMesVentas.value;
+
+
+    if (!valorMes) {
+
+        alert(
+            'Selecciona un mes primero.'
+        );
+
+        return;
+
+    }
+
+
+    if (
+        typeof XLSX ===
+        'undefined'
+    ) {
+
+        alert(
+            'No se pudo cargar el generador de Excel.'
+        );
+
+        return;
+
+    }
+
+
+    botonDescargarExcel.disabled =
+        true;
+
+
+    botonDescargarExcel.textContent =
+        'Generando...';
+
+
+    try {
+
+        const [
+            anio,
+            mes
+        ] =
+            valorMes
+                .split('-')
+                .map(Number);
+
+
+        /* =================================================
+           FECHA INICIAL
+           ================================================= */
+
+        const inicio =
+            `${anio}-${String(mes).padStart(2, '0')}-01T00:00:00-05:00`;
+
+
+        /* =================================================
+           PRIMER DÍA DEL SIGUIENTE MES
+           ================================================= */
+
+        let mesSiguiente =
+            mes + 1;
+
+        let anioSiguiente =
+            anio;
+
+
+        if (
+            mesSiguiente === 13
+        ) {
+
+            mesSiguiente =
+                1;
+
+            anioSiguiente +=
+                1;
+
+        }
+
+
+        const fin =
+            `${anioSiguiente}-${String(mesSiguiente).padStart(2, '0')}-01T00:00:00-05:00`;
+
+
+        /* =================================================
+           OBTENER VENTAS
+           ================================================= */
+
+        const {
+            data: ventas,
+            error: errorVentas
+        } =
+            await supabaseClient
+
+                .from(
+                    'ventas'
+                )
+
+                .select(`
+                    id,
+                    fecha_venta,
+                    canal_venta,
+                    metodo_pago,
+                    cliente,
+                    nota,
+                    total,
+                    anulada,
+                    venta_detalles (
+                        id,
+                        producto_nombre,
+                        talla,
+                        color,
+                        cantidad,
+                        precio_unitario,
+                        subtotal
+                    )
+                `)
+
+                .gte(
+                    'fecha_venta',
+                    inicio
+                )
+
+                .lt(
+                    'fecha_venta',
+                    fin
+                )
+
+                .order(
+                    'fecha_venta',
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (errorVentas) {
+
+            throw errorVentas;
+
+        }
+
+
+        const ventasMes =
+            (ventas || [])
+                .filter(
+                    venta =>
+                        !venta.anulada
+                );
+
+
+        if (
+            ventasMes.length === 0
+        ) {
+
+            alert(
+                'No hay ventas activas en el mes seleccionado.'
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           BUSCAR DEVOLUCIONES DE ESAS VENTAS
+           ================================================= */
+
+        const idsVentas =
+            ventasMes.map(
+                venta =>
+                    Number(
+                        venta.id
+                    )
+            );
+
+
+        let devoluciones =
+            [];
+
+
+        if (
+            idsVentas.length > 0
+        ) {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+
+                    .from(
+                        'devoluciones'
+                    )
+
+                    .select(`
+                        id,
+                        venta_id,
+                        total_devuelto,
+                        devolucion_detalles (
+                            venta_detalle_id,
+                            cantidad,
+                            subtotal
+                        )
+                    `)
+
+                    .in(
+                        'venta_id',
+                        idsVentas
+                    );
+
+
+            if (error) {
+
+                throw error;
+
+            }
+
+
+            devoluciones =
+                data || [];
+
+        }
+
+
+        /* =================================================
+           CANTIDADES DEVUELTAS POR DETALLE
+           ================================================= */
+
+        const devueltoPorDetalle =
+            {};
+
+
+        devoluciones.forEach(
+            devolucion => {
+
+                (
+                    devolucion.devolucion_detalles ||
+                    []
+                ).forEach(
+                    detalle => {
+
+                        const detalleId =
+                            Number(
+                                detalle.venta_detalle_id
+                            );
+
+
+                        if (
+                            !devueltoPorDetalle[
+                                detalleId
+                            ]
+                        ) {
+
+                            devueltoPorDetalle[
+                                detalleId
+                            ] = 0;
+
+                        }
+
+
+                        devueltoPorDetalle[
+                            detalleId
+                        ] +=
+                            Number(
+                                detalle.cantidad || 0
+                            );
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =================================================
+           FILAS DEL EXCEL
+           ================================================= */
+
+        const filasVentas =
+            [];
+
+
+        const ventasActivas =
+            new Set();
+
+
+        let totalIngresos =
+            0;
+
+
+        let totalUnidades =
+            0;
+
+
+        ventasMes.forEach(
+            venta => {
+
+                const fechaVenta =
+                    new Date(
+                        venta.fecha_venta
+                    );
+
+
+                (
+                    venta.venta_detalles ||
+                    []
+                ).forEach(
+                    detalle => {
+
+                        const cantidadVendida =
+                            Number(
+                                detalle.cantidad || 0
+                            );
+
+
+                        const cantidadDevuelta =
+                            Number(
+                                devueltoPorDetalle[
+                                    Number(
+                                        detalle.id
+                                    )
+                                ] || 0
+                            );
+
+
+                        const cantidadNeta =
+                            Math.max(
+                                0,
+                                cantidadVendida -
+                                cantidadDevuelta
+                            );
+
+
+                        /*
+                            Si este producto fue
+                            devuelto completamente,
+                            no se exporta.
+                        */
+
+                        if (
+                            cantidadNeta <= 0
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const precioUnitario =
+                            Number(
+                                detalle.precio_unitario || 0
+                            );
+
+
+                        const subtotalNeto =
+                            precioUnitario *
+                            cantidadNeta;
+
+
+                        ventasActivas.add(
+                            Number(
+                                venta.id
+                            )
+                        );
+
+
+                        totalIngresos +=
+                            subtotalNeto;
+
+
+                        totalUnidades +=
+                            cantidadNeta;
+
+
+                        filasVentas.push({
+
+                            'Venta':
+                                venta.id,
+
+                            'Fecha':
+                                fechaVenta
+                                    .toLocaleDateString(
+                                        'es-CO'
+                                    ),
+
+                            'Hora':
+                                fechaVenta
+                                    .toLocaleTimeString(
+                                        'es-CO',
+                                        {
+                                            hour:
+                                                '2-digit',
+
+                                            minute:
+                                                '2-digit'
+                                        }
+                                    ),
+
+                            'Cliente':
+                                venta.cliente ||
+                                '',
+
+                            'Producto':
+                                detalle.producto_nombre ||
+                                '',
+
+                            'Color':
+                                detalle.color ||
+                                '',
+
+                            'Talla':
+                                detalle.talla ||
+                                '',
+
+                            'Cantidad vendida':
+                                cantidadVendida,
+
+                            'Cantidad devuelta':
+                                cantidadDevuelta,
+
+                            'Cantidad neta':
+                                cantidadNeta,
+
+                            'Precio unitario':
+                                precioUnitario,
+
+                            'Subtotal neto':
+                                subtotalNeto,
+
+                            'Método de pago':
+                                venta.metodo_pago ||
+                                '',
+
+                            'Canal':
+                                venta.canal_venta ||
+                                '',
+
+                            'Nota':
+                                venta.nota ||
+                                ''
+
+                        });
+
+                    }
+                );
+
+            }
+        );
+
+
+        if (
+            filasVentas.length === 0
+        ) {
+
+            alert(
+                'No hay ventas netas para exportar. Las ventas del mes fueron eliminadas o devueltas completamente.'
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           NOMBRE DEL MES
+           ================================================= */
+
+        const fechaMes =
+            new Date(
+                anio,
+                mes - 1,
+                1
+            );
+
+
+        const nombreMes =
+            fechaMes
+                .toLocaleDateString(
+                    'es-CO',
+                    {
+                        month:
+                            'long',
+
+                        year:
+                            'numeric'
+                    }
+                );
+
+
+        /* =================================================
+           HOJA 1 — VENTAS
+           ================================================= */
+
+        const hojaVentas =
+            XLSX.utils.json_to_sheet(
+                filasVentas
+            );
+
+
+        /*
+            Ancho de columnas.
+        */
+
+        hojaVentas['!cols'] = [
+
+            { wch: 10 },  // Venta
+            { wch: 14 },  // Fecha
+            { wch: 10 },  // Hora
+            { wch: 24 },  // Cliente
+            { wch: 30 },  // Producto
+            { wch: 18 },  // Color
+            { wch: 10 },  // Talla
+            { wch: 18 },  // Vendida
+            { wch: 20 },  // Devuelta
+            { wch: 16 },  // Neta
+            { wch: 18 },  // Precio
+            { wch: 18 },  // Subtotal
+            { wch: 20 },  // Pago
+            { wch: 18 },  // Canal
+            { wch: 35 }   // Nota
+
+        ];
+
+
+        /* =================================================
+           HOJA 2 — RESUMEN
+           ================================================= */
+
+        const resumen =
+            [
+
+                {
+                    'Concepto':
+                        'Mes',
+
+                    'Valor':
+                        nombreMes
+                },
+
+                {
+                    'Concepto':
+                        'Ventas activas',
+
+                    'Valor':
+                        ventasActivas.size
+                },
+
+                {
+                    'Concepto':
+                        'Unidades vendidas netas',
+
+                    'Valor':
+                        totalUnidades
+                },
+
+                {
+                    'Concepto':
+                        'Ingresos netos',
+
+                    'Valor':
+                        totalIngresos
+                }
+
+            ];
+
+
+        const hojaResumen =
+            XLSX.utils.json_to_sheet(
+                resumen
+            );
+
+
+        hojaResumen['!cols'] = [
+
+            { wch: 28 },
+            { wch: 25 }
+
+        ];
+
+
+        /* =================================================
+           CREAR LIBRO
+           ================================================= */
+
+        const libro =
+            XLSX.utils.book_new();
+
+
+        XLSX.utils.book_append_sheet(
+            libro,
+            hojaVentas,
+            'Ventas'
+        );
+
+
+        XLSX.utils.book_append_sheet(
+            libro,
+            hojaResumen,
+            'Resumen'
+        );
+
+
+        /* =================================================
+           DESCARGAR
+           ================================================= */
+
+        const nombreArchivo =
+            `ventas-${valorMes}.xlsx`;
+
+
+        XLSX.writeFile(
+            libro,
+            nombreArchivo
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            'Error generando Excel:',
+            error
+        );
+
+
+        alert(
+            `No se pudo generar el Excel: ${error.message}`
+        );
+
+    }
+
+
+    finally {
+
+        botonDescargarExcel.disabled =
+            false;
+
+
+        botonDescargarExcel.textContent =
+            'Descargar Excel';
+
+    }
+
+}

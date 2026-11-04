@@ -178,30 +178,84 @@
         </nav>
 
 
-        <div class="acciones">
+       <div class="acciones">
+
+    <button
+        type="button"
+        onclick="toggleBuscador()"
+    >
+        Buscar
+    </button>
+
+
+    <!-- CUENTA CLIENTE -->
+
+    <div
+        class="cliente-navbar"
+        id="cliente-navbar"
+    >
+
+        <a
+            href="cliente-login.html"
+            id="cliente-navbar-login"
+            class="cliente-navbar-link"
+        >
+            Mi cuenta
+        </a>
+
+
+        <div
+            id="cliente-navbar-sesion"
+            class="cliente-navbar-sesion"
+            hidden
+        >
 
             <button
                 type="button"
-                onclick="toggleBuscador()"
+                id="cliente-navbar-nombre"
+                class="cliente-navbar-nombre"
             >
-                Buscar
+                Mi cuenta
             </button>
 
-            <a
-                href="carrito.html"
-                class="btn-carrito"
-            >
-                Carrito
 
-                <span
-                    class="carrito-contador"
-                    id="carrito-contador"
+            <div
+                class="cliente-navbar-menu"
+                id="cliente-navbar-menu"
+            >
+
+                <span id="cliente-navbar-email"></span>
+
+                <button
+                    type="button"
+                    id="cliente-cerrar-sesion"
                 >
-                    0
-                </span>
-            </a>
+                    Cerrar sesión
+                </button>
+
+            </div>
 
         </div>
+
+    </div>
+
+
+    <a
+        href="carrito.html"
+        class="btn-carrito"
+    >
+        Carrito
+
+        <span
+            class="carrito-contador"
+            id="carrito-contador"
+        >
+            0
+        </span>
+
+    </a>
+
+</div>
 
 
         <button

@@ -27,7 +27,152 @@
 
 
 <body>
+<header class="navbar">
 
+    <a
+        href="index.html"
+        class="logo"
+    >
+        <img
+            src="img/logo.svg"
+            alt="Cotton Blue Shop"
+            class="logo-imagen"
+        >
+    </a>
+
+
+    <nav
+        class="menu"
+        id="menu-principal"
+    >
+
+        <a href="catalogo.html?filtro=hombre">
+            Caballero
+        </a>
+
+        <a href="catalogo.html?filtro=mujer">
+            Dama
+        </a>
+
+        <a href="catalogo.html?filtro=destacados">
+            Destacados
+        </a>
+
+        <a href="catalogo.html?filtro=ofertas">
+            Ofertas
+        </a>
+
+    </nav>
+
+
+    <div class="acciones">
+
+        <button
+            type="button"
+            onclick="toggleBuscador()"
+        >
+            Buscar
+        </button>
+
+
+        <div class="cliente-navbar">
+
+            <a
+                href="cliente-login.html"
+                id="cliente-navbar-login"
+                class="cliente-navbar-link"
+            >
+                Mi cuenta
+            </a>
+
+
+            <div
+                id="cliente-navbar-sesion"
+                class="cliente-navbar-sesion"
+                hidden
+            >
+
+                <button
+                    type="button"
+                    id="cliente-navbar-nombre"
+                    class="cliente-navbar-nombre"
+                >
+                    Mi cuenta
+                </button>
+
+
+                <div
+                    class="cliente-navbar-menu"
+                    id="cliente-navbar-menu"
+                >
+
+                    <span id="cliente-navbar-email"></span>
+
+                    <button
+                        type="button"
+                        id="cliente-cerrar-sesion"
+                    >
+                        Cerrar sesión
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="carrito.html"
+            class="btn-carrito"
+        >
+            Carrito
+
+            <span
+                class="carrito-contador"
+                id="carrito-contador"
+            >
+                0
+            </span>
+        </a>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="menu-hamburguesa"
+        onclick="toggleMenuMovil()"
+        aria-label="Abrir menú"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</header>
+
+
+<div
+    class="buscador-barra"
+    id="buscador-barra"
+>
+
+    <input
+        type="text"
+        id="buscador-input"
+        placeholder="Buscar productos..."
+        oninput="filtrarBusqueda()"
+    >
+
+    <button
+        type="button"
+        onclick="toggleBuscador()"
+    >
+        Cerrar
+    </button>
+
+</div>
 
     <main class="politicas-pagina contenedor">
 
@@ -259,7 +404,11 @@
 
     </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script src="js/supabase.js"></script>
+
+<script src="js/main.js" defer></script>
 </body>
 
 </html>

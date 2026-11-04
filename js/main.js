@@ -3907,6 +3907,274 @@ async function cargarImagenesPortada() {
 
 }
 /* =========================================================
+   CUENTA DEL CLIENTE EN NAVBAR
+   ========================================================= */
+
+async function inicializarCuentaCliente() {
+
+    const login =
+        document.getElementById(
+            'cliente-navbar-login'
+        );
+
+
+    const sesionContenedor =
+        document.getElementById(
+            'cliente-navbar-sesion'
+        );
+
+
+    const botonNombre =
+        document.getElementById(
+            'cliente-navbar-nombre'
+        );
+
+
+    const emailElemento =
+        document.getElementById(
+            'cliente-navbar-email'
+        );
+
+
+    const menu =
+        document.getElementById(
+            'cliente-navbar-menu'
+        );
+
+
+    const botonCerrar =
+        document.getElementById(
+            'cliente-cerrar-sesion'
+        );
+
+
+    if (
+        !login ||
+        !sesionContenedor
+    ) {
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .auth
+            .getSession();
+
+
+    if (
+        error ||
+        !data.session
+    ) {
+
+        login.hidden =
+            false;
+
+        sesionContenedor.hidden =
+            true;
+
+        return;
+
+    }
+
+
+    const usuario =
+        data.session.user;
+
+
+    /* =====================================================
+       BUSCAR PERFIL
+       ===================================================== */
+
+    const {
+        data: perfil,
+        error: errorPerfil
+    } =
+        await supabaseClient
+
+            .from(
+                'perfiles_clientes'
+            )
+
+            .select(
+                'nombre'
+            )
+
+            .eq(
+                'id',
+                usuario.id
+            )
+
+            .maybeSingle();
+
+
+    if (errorPerfil) {
+
+        console.error(
+            'Error cargando perfil del cliente:',
+            errorPerfil
+        );
+
+    }
+
+
+  const nombrePerfil =
+    perfil?.nombre?.trim();
+
+
+const nombreMetadata =
+    usuario.user_metadata?.nombre?.trim();
+
+
+const nombreEmail =
+    usuario.email
+        ? usuario.email.split('@')[0]
+        : 'Cuenta';
+
+
+const nombre =
+    nombrePerfil ||
+    nombreMetadata ||
+    nombreEmail ||
+    'Cuenta';
+
+
+const primerNombre =
+    nombre
+        .split(' ')[0];
+
+    login.hidden =
+        true;
+
+
+    sesionContenedor.hidden =
+        false;
+
+
+    if (botonNombre) {
+
+        botonNombre.textContent =
+            primerNombre;
+
+    }
+
+
+    if (emailElemento) {
+
+        emailElemento.textContent =
+            usuario.email || '';
+
+    }
+
+
+    /* =====================================================
+       ABRIR / CERRAR MENÚ
+       ===================================================== */
+
+    if (
+        botonNombre &&
+        menu
+    ) {
+
+        botonNombre.addEventListener(
+            'click',
+            evento => {
+
+                evento.stopPropagation();
+
+
+                menu.classList.toggle(
+                    'activo'
+                );
+
+            }
+        );
+
+
+        document.addEventListener(
+            'click',
+            evento => {
+
+                if (
+                    !sesionContenedor.contains(
+                        evento.target
+                    )
+                ) {
+
+                    menu.classList.remove(
+                        'activo'
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       CERRAR SESIÓN
+       ===================================================== */
+
+    if (botonCerrar) {
+
+        botonCerrar.addEventListener(
+            'click',
+            async () => {
+
+                botonCerrar.disabled =
+                    true;
+
+
+                botonCerrar.textContent =
+                    'Cerrando...';
+
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .auth
+                        .signOut();
+
+
+                if (error) {
+
+                    console.error(
+                        'Error cerrando sesión:',
+                        error
+                    );
+
+
+                    botonCerrar.disabled =
+                        false;
+
+
+                    botonCerrar.textContent =
+                        'Cerrar sesión';
+
+
+                    return;
+
+                }
+
+
+                window.location.href =
+                    'index.html';
+
+            }
+        );
+
+    }
+
+}
+/* =========================================================
    13. INICIALIZACIÓN GENERAL
    ========================================================= */
 
@@ -3917,7 +4185,7 @@ document.addEventListener(
         /* CONTADOR */
 
         actualizarContadorCarrito();
-
+await inicializarCuentaCliente();
 
         /* CATÁLOGO */
 

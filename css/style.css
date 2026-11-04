@@ -3768,3 +3768,416 @@ body {
 .producto-stock.sin-stock {
     color: #b42318;
 }
+.admin-boton-eliminar {
+    background: #b42318;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.admin-boton-eliminar:hover {
+    background: #8f1c14;
+}
+
+.admin-boton-eliminar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.admin-eliminar-aviso {
+    background: #fff4f2;
+    color: #8f1c14;
+    border: 1px solid #f2c7c2;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.admin-exportar-ventas {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+#admin-descargar-excel {
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+
+    .admin-exportar-ventas {
+        width: 100%;
+    }
+
+    .admin-exportar-ventas input,
+    #admin-descargar-excel {
+        width: 100%;
+    }
+
+}
+/* =========================================================
+   CUENTA DE CLIENTE
+   ========================================================= */
+
+.cliente-auth-body {
+    min-height: 100vh;
+    background: var(--cb-crema);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+.cliente-auth-contenedor {
+    width: 100%;
+    max-width: 520px;
+}
+
+.cliente-auth-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.cliente-auth-logo img {
+    width: 150px;
+    max-height: 80px;
+    object-fit: contain;
+}
+
+.cliente-auth-card {
+    background: #ffffff;
+    border: 1px solid var(--cb-borde);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 18px 45px rgba(14, 42, 66, 0.08);
+}
+
+.cliente-auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--cb-crema);
+    border-radius: 12px;
+    padding: 5px;
+    margin-bottom: 30px;
+}
+
+.cliente-auth-tab {
+    border: none;
+    background: transparent;
+    padding: 12px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    color: var(--cb-texto-suave);
+}
+
+.cliente-auth-tab.activo {
+    background: #ffffff;
+    color: var(--cb-azul);
+    box-shadow: 0 3px 10px rgba(14, 42, 66, 0.08);
+}
+
+.cliente-auth-form h1 {
+    margin: 0 0 8px;
+    color: var(--cb-azul-oscuro);
+}
+
+.cliente-auth-form > p {
+    color: var(--cb-texto-suave);
+    margin-bottom: 25px;
+}
+
+.cliente-auth-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 18px;
+}
+
+.cliente-auth-campo label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--cb-texto);
+}
+
+.cliente-auth-campo input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid var(--cb-borde);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+}
+
+.cliente-auth-campo input:focus {
+    border-color: var(--cb-azul-medio);
+}
+
+.cliente-promociones-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 5px 0 22px;
+    color: var(--cb-texto-suave);
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.cliente-promociones-check input {
+    margin-top: 3px;
+}
+
+.cliente-auth-principal {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 18px;
+    background: var(--cb-azul);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cliente-auth-principal:hover {
+    background: var(--cb-azul-oscuro);
+}
+
+.cliente-auth-principal:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cliente-auth-mensaje {
+    margin-top: 15px !important;
+    margin-bottom: 0 !important;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+
+    .cliente-auth-card {
+        padding: 24px 18px;
+    }
+
+}
+/* =========================================================
+   CUENTA CLIENTE - NAVBAR
+   ========================================================= */
+
+.cliente-navbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cliente-navbar-link,
+.cliente-navbar-nombre {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.cliente-navbar-nombre::after {
+    content: "⌄";
+    margin-left: 5px;
+    font-size: 11px;
+}
+
+.cliente-navbar-sesion {
+    position: relative;
+}
+
+.cliente-navbar-menu {
+    position: absolute;
+    top: calc(100% + 14px);
+    right: 0;
+
+    width: 220px;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        var(--cb-borde);
+
+    border-radius: 12px;
+
+    padding: 14px;
+
+    box-shadow:
+        0 15px 35px
+        rgba(14, 42, 66, 0.12);
+
+    z-index: 1000;
+
+    display: none;
+}
+
+.cliente-navbar-menu.activo {
+    display: block;
+}
+
+.cliente-navbar-menu span {
+    display: block;
+
+    font-size: 12px;
+
+    color:
+        var(--cb-texto-suave);
+
+    word-break: break-word;
+
+    padding-bottom: 12px;
+
+    margin-bottom: 10px;
+
+    border-bottom:
+        1px solid
+        var(--cb-borde);
+}
+
+.cliente-navbar-menu button {
+    width: 100%;
+
+    border: none;
+
+    background: transparent;
+
+    padding: 8px 0;
+
+    text-align: left;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    color: var(--cb-texto);
+
+    cursor: pointer;
+}
+
+.cliente-navbar-menu button:hover {
+    color: var(--cb-azul);
+}
+
+
+/* =========================================================
+   CUENTA CLIENTE - MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .cliente-navbar-link,
+    .cliente-navbar-nombre {
+        font-size: 9px;
+    }
+
+    .cliente-navbar-menu {
+        width: 190px;
+        right: -50px;
+    }
+
+}
+/* =========================================================
+   ARREGLO DEFINITIVO CUENTA NAVBAR
+   ========================================================= */
+
+#cliente-navbar-nombre {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+
+    background: transparent !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    width: auto !important;
+    min-width: 0 !important;
+    height: auto !important;
+
+    font-family: "Poppins", sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+
+    color: #111 !important;
+
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+
+    white-space: nowrap !important;
+
+    cursor: pointer;
+}
+
+
+#cliente-navbar-nombre::after {
+    content: "" !important;
+}
+
+
+/* =========================
+   MÓVIL
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .acciones {
+        display: flex;
+        align-items: center;
+        gap: 8px !important;
+        margin-left: auto;
+    }
+
+    .acciones > button,
+    .cliente-navbar,
+    .btn-carrito {
+        flex: 0 0 auto !important;
+    }
+
+    #cliente-navbar-nombre {
+        font-size: 0 !important;
+    }
+
+    #cliente-navbar-nombre::before {
+        content: "CUENTA";
+        font-size: 9px;
+        letter-spacing: 0.3px;
+    }
+
+    .cliente-navbar-link {
+        font-size: 9px !important;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .btn-carrito {
+        gap: 4px !important;
+        white-space: nowrap;
+    }
+
+    .menu-hamburguesa {
+        margin-left: 8px !important;
+    }
+
+}

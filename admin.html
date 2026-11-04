@@ -678,10 +678,22 @@
                 </div>
 
 
-                <input
-                    type="month"
-                    id="admin-ventas-mes"
-                >
+                <div class="admin-exportar-ventas">
+
+    <input
+        type="month"
+        id="admin-ventas-mes"
+    >
+
+    <button
+        type="button"
+        id="admin-descargar-excel"
+        class="admin-boton-principal"
+    >
+        Descargar Excel
+    </button>
+
+</div>
 
             </div>
 
@@ -1556,10 +1568,13 @@
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
     ></script>
+<script src="js/supabase.js"></script>
 
-    <script src="js/supabase.js"></script>
+<script
+    src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
+></script>
 
-    <script src="js/admin.js"></script>
+<script src="js/admin.js"></script>
 
 <div
     class="admin-modal-fondo"
@@ -1640,6 +1655,173 @@
 
     </div>
 
+</div>
+<div
+    class="admin-modal-fondo"
+    id="admin-eliminar-venta-modal"
+    hidden
+>
+    <div class="admin-modal">
+
+        <div class="admin-modal-header">
+
+            <div>
+                <h3>Eliminar venta</h3>
+
+                <p id="admin-eliminar-venta-titulo">
+                    Venta
+                </p>
+            </div>
+
+            <button
+                type="button"
+                id="admin-cerrar-eliminar-venta"
+                class="admin-modal-cerrar"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <p class="admin-eliminar-aviso">
+            Esta acción quitará la venta del historial activo
+            y devolverá automáticamente el stock.
+        </p>
+
+
+        <div class="admin-campo">
+
+            <label for="admin-eliminar-venta-motivo">
+                Motivo
+            </label>
+
+            <textarea
+                id="admin-eliminar-venta-motivo"
+                rows="3"
+                placeholder="Ej. Venta registrada por error..."
+            ></textarea>
+
+        </div>
+
+
+        <p
+            id="admin-eliminar-venta-mensaje"
+            class="admin-mensaje"
+        ></p>
+
+
+        <div class="admin-modal-acciones">
+
+            <button
+                type="button"
+                id="admin-cancelar-eliminar-venta"
+            >
+                Cancelar
+            </button>
+
+            <button
+                type="button"
+                id="admin-confirmar-eliminar-venta"
+                class="admin-boton-eliminar"
+            >
+                Eliminar venta
+            </button>
+
+        </div>
+
+    </div>
+</div>
+<div
+    class="admin-modal-fondo"
+    id="admin-eliminar-producto-modal"
+    hidden
+>
+    <div class="admin-modal">
+
+        <div class="admin-modal-header">
+
+            <div>
+                <h3>Eliminar producto</h3>
+
+                <p id="admin-eliminar-producto-nombre">
+                    Producto
+                </p>
+            </div>
+
+            <button
+                type="button"
+                id="admin-cerrar-eliminar-producto"
+                class="admin-modal-cerrar"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="admin-eliminar-aviso">
+
+            <strong>
+                ¿Estás segura?
+            </strong>
+
+            <p>
+                El producto desaparecerá del catálogo
+                y del panel administrativo.
+            </p>
+
+            <p>
+                Si ya tiene ventas, su información histórica
+                se conservará para no dañar ventas,
+                devoluciones ni reportes.
+            </p>
+
+        </div>
+
+
+        <div class="admin-campo">
+
+            <label for="admin-confirmacion-eliminar-producto">
+                Para confirmar escribe ELIMINAR
+            </label>
+
+            <input
+                type="text"
+                id="admin-confirmacion-eliminar-producto"
+                placeholder="ELIMINAR"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <p
+            id="admin-eliminar-producto-mensaje"
+            class="admin-mensaje"
+        ></p>
+
+
+        <div class="admin-modal-acciones">
+
+            <button
+                type="button"
+                id="admin-cancelar-eliminar-producto"
+            >
+                Cancelar
+            </button>
+
+            <button
+                type="button"
+                id="admin-confirmar-eliminar-producto"
+                class="admin-boton-eliminar"
+            >
+                Eliminar definitivamente
+            </button>
+
+        </div>
+
+    </div>
 </div>
 </body>
 

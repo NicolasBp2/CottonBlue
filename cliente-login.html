@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Mi cuenta - Cotton Blue PR
+    </title>
+
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="img/logo.svg"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body class="cliente-auth-body">
+
+
+    <main class="cliente-auth-contenedor">
+
+        <a
+            href="index.html"
+            class="cliente-auth-logo"
+        >
+
+            <img
+                src="img/logo.svg"
+                alt="Cotton Blue PR"
+            >
+
+        </a>
+
+
+        <div class="cliente-auth-card">
+
+
+            <div class="cliente-auth-tabs">
+
+                <button
+                    type="button"
+                    id="cliente-tab-login"
+                    class="cliente-auth-tab activo"
+                >
+                    Iniciar sesión
+                </button>
+
+
+                <button
+                    type="button"
+                    id="cliente-tab-registro"
+                    class="cliente-auth-tab"
+                >
+                    Crear cuenta
+                </button>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <form
+                id="cliente-form-login"
+                class="cliente-auth-form"
+            >
+
+                <h1>
+                    Bienvenido
+                </h1>
+
+                <p>
+                    Ingresa a tu cuenta de Cotton Blue.
+                </p>
+
+
+                <div class="cliente-auth-campo">
+
+                    <label for="cliente-login-email">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="cliente-login-email"
+                        required
+                        autocomplete="email"
+                    >
+
+                </div>
+
+
+                <div class="cliente-auth-campo">
+
+                    <label for="cliente-login-password">
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        id="cliente-login-password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="cliente-auth-principal"
+                >
+                    Iniciar sesión
+                </button>
+
+
+                <p
+                    id="cliente-login-mensaje"
+                    class="cliente-auth-mensaje"
+                ></p>
+
+            </form>
+
+
+            <!-- REGISTRO -->
+
+            <form
+                id="cliente-form-registro"
+                class="cliente-auth-form"
+                hidden
+            >
+
+                <h1>
+                    Crear cuenta
+                </h1>
+
+                <p>
+                    Regístrate para disfrutar beneficios
+                    y promociones de Cotton Blue.
+                </p>
+
+
+                <div class="cliente-auth-campo">
+
+                    <label for="cliente-registro-nombre">
+                        Nombre
+                    </label>
+
+                    <input
+                        type="text"
+                        id="cliente-registro-nombre"
+                        required
+                        autocomplete="name"
+                    >
+
+                </div>
+
+
+                <div class="cliente-auth-campo">
+
+                    <label for="cliente-registro-email">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="cliente-registro-email"
+                        required
+                        autocomplete="email"
+                    >
+
+                </div>
+
+
+                <div class="cliente-auth-campo">
+
+                    <label for="cliente-registro-telefono">
+                        Teléfono
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="cliente-registro-telefono"
+                        autocomplete="tel"
+                    >
+
+                </div>
+
+
+                <div class="cliente-auth-campo">
+
+                    <label for="cliente-registro-password">
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        id="cliente-registro-password"
+                        minlength="6"
+                        required
+                        autocomplete="new-password"
+                    >
+
+                </div>
+
+
+                <label class="cliente-promociones-check">
+
+                    <input
+                        type="checkbox"
+                        id="cliente-registro-promociones"
+                    >
+
+                    <span>
+                        Quiero recibir novedades,
+                        promociones y descuentos
+                        de Cotton Blue por correo.
+                    </span>
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="cliente-auth-principal"
+                >
+                    Crear mi cuenta
+                </button>
+
+
+                <p
+                    id="cliente-registro-mensaje"
+                    class="cliente-auth-mensaje"
+                ></p>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+    <script src="js/supabase.js"></script>
+
+    <script src="js/cliente.js"></script>
+
+</body>
+
+</html>
